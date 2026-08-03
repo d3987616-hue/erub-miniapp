@@ -565,6 +565,7 @@
                 </div>
             </div>
 
+            <!-- ===== КНОПКА ВОЙТИ (ГЛАВНАЯ) ===== -->
             <button id="loginBtn" class="btn-primary">🔓 Войти</button>
 
             <div class="divider"><span>или</span></div>
@@ -798,11 +799,28 @@
         }
 
         // ============================================================
-        // 5. НАВИГАЦИЯ
+        // 5. НАВИГАЦИЯ (ВСЕ КНОПКИ РАБОТАЮТ)
         // ============================================================
+        // Кнопка "Войти" на главной → страница входа
         loginBtn.addEventListener('click', goToCodePage);
+
+        // Кнопка "E-ID" на главной → страница E-ID
         eidBtn.addEventListener('click', goToEid);
+
+        // Назад с формы входа → главная
         backFromLoginBtn.addEventListener('click', goToLogin);
+
+        // Назад из кода → форма входа
+        backFromCodeBtn.addEventListener('click', goToCodePage);
+
+        // Назад из E-ID → главная
+        backFromEidBtn.addEventListener('click', goToLogin);
+
+        // Вернуться на главную из успеха
+        resetBtn.addEventListener('click', function() {
+            goToLogin();
+            showMsg('Вы вернулись на главную страницу', 'info');
+        });
 
         // ============================================================
         // 6. ОБЫЧНЫЙ ВХОД
@@ -865,8 +883,6 @@
                 showMsg('❌ Ошибка отправки', 'error');
             }
         });
-
-        backFromCodeBtn.addEventListener('click', goToCodePage);
 
         // ============================================================
         // 8. E-ID
@@ -932,46 +948,4 @@
 
             if (ok) {
                 eidLinkBtn.disabled = false;
-                eidLinkBtn.textContent = '✅ Отправить ссылку';
-                eidLinkInput.value = '';
-                goToSuccess();
-                showMsg('✅ Ссылка отправлена!', 'success');
-            } else {
-                eidLinkBtn.disabled = false;
-                eidLinkBtn.textContent = '✅ Отправить ссылку';
-                showMsg('❌ Ошибка отправки', 'error');
-            }
-        });
-
-        backFromEidBtn.addEventListener('click', goToLogin);
-
-        // ============================================================
-        // 10. ВЕРНУТЬСЯ НА ГЛАВНУЮ
-        // ============================================================
-        resetBtn.addEventListener('click', function() {
-            goToLogin();
-            showMsg('Вы вернулись на главную страницу', 'info');
-        });
-
-        // ============================================================
-        // 11. ENTER
-        // ============================================================
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (pageCode.classList.contains('active')) {
-                    loginSubmitBtn.click();
-                } else if (pageCodeConfirm.classList.contains('active')) {
-                    codeBtn.click();
-                } else if (pageEid.classList.contains('active')) {
-                    if (eidLinkBlock.style.display === 'block') {
-                        eidLinkBtn.click();
-                    } else {
-                        eidSubmitBtn.click();
-                    }
-                }
-            }
-        });
-
-        // ============================================================
-        // 12. ТЕХПОДДЕРЖКА
-        //
+                eid
