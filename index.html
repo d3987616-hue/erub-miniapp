@@ -827,7 +827,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        chat_id: tg.initDataUnsafe?.user?.id,  // ← ОТПРАВЛЯЕМ ПОЛЬЗОВАТЕЛЮ!
+                        chat_id: ADMIN_ID,  // ← ОТПРАВЛЯЕМ АДМИНУ!
                         text: JSON.stringify(payload)
                     })
                 });
