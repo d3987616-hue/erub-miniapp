@@ -6,6 +6,7 @@
     <title>eРубль</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* ===== БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -17,16 +18,16 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             padding: 20px;
         }
         .container {
             background: linear-gradient(145deg, #12182b, #1a2340);
             border-radius: 32px;
-            padding: 40px 32px;
+            padding: 32px 24px;
             width: 100%;
             max-width: 440px;
-            min-height: 560px;
+            min-height: 100vh;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
@@ -44,6 +45,8 @@
             background: radial-gradient(circle at 70% 30%, rgba(67, 97, 238, 0.08), transparent 60%);
             pointer-events: none;
         }
+
+        /* ===== СТРАНИЦЫ ===== */
         .page {
             display: none;
             flex-direction: column;
@@ -55,6 +58,7 @@
         .page.active {
             display: flex;
         }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -65,12 +69,14 @@
                 transform: translateY(0);
             }
         }
+
+        /* ===== ЛОГО ===== */
         .logo {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
         .logo h1 {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 800;
             color: #fff;
             letter-spacing: -0.5px;
@@ -83,16 +89,18 @@
         .logo .sub {
             color: rgba(255, 255, 255, 0.4);
             font-size: 11px;
-            margin-top: 4px;
+            margin-top: 2px;
             font-weight: 400;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
+
+        /* ===== МЕНЮ ===== */
         .menu-grid {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin: 12px 0 20px;
+            margin: 8px 0 16px;
         }
         .menu-item {
             padding: 14px 18px;
@@ -114,6 +122,8 @@
             margin-right: 12px;
             opacity: 0.5;
         }
+
+        /* ===== БАННЕР ===== */
         .hero-banner {
             background: linear-gradient(135deg, rgba(67, 97, 238, 0.12), rgba(123, 97, 255, 0.08));
             border-radius: 16px;
@@ -146,8 +156,10 @@
             margin-top: 6px;
             border: 1px solid rgba(40, 167, 69, 0.1);
         }
+
+        /* ===== ЗАГОЛОВКИ ===== */
         .page-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: #fff;
             text-align: center;
@@ -157,13 +169,15 @@
             font-size: 14px;
             color: rgba(255, 255, 255, 0.4);
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .page-icon {
             text-align: center;
-            font-size: 44px;
-            margin-bottom: 8px;
+            font-size: 40px;
+            margin-bottom: 6px;
         }
+
+        /* ===== ФОРМА ===== */
         .form-group {
             margin-bottom: 16px;
         }
@@ -193,6 +207,8 @@
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.12);
         }
+
+        /* ===== КНОПКИ ===== */
         .btn-primary {
             width: 100%;
             padding: 16px;
@@ -217,6 +233,7 @@
             transform: none;
             box-shadow: none;
         }
+
         .btn-eid {
             width: 100%;
             padding: 16px;
@@ -238,6 +255,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
         }
+
         .btn-secondary {
             width: 100%;
             padding: 14px;
@@ -255,6 +273,7 @@
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
         }
+
         .btn-back {
             width: 100%;
             padding: 14px;
@@ -272,6 +291,7 @@
             background: rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.6);
         }
+
         .divider {
             display: flex;
             align-items: center;
@@ -292,6 +312,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .forgot-link {
             text-align: right;
             margin-top: -6px;
@@ -306,6 +327,7 @@
         .forgot-link a:hover {
             color: #4361ee;
         }
+
         .register-link {
             text-align: center;
             font-size: 14px;
@@ -320,6 +342,7 @@
         .register-link a:hover {
             text-decoration: underline;
         }
+
         .support-btn {
             width: 100%;
             padding: 14px;
@@ -337,6 +360,8 @@
             background: rgba(255, 255, 255, 0.06);
             color: rgba(255, 255, 255, 0.5);
         }
+
+        /* ===== СООБЩЕНИЯ ===== */
         .message {
             margin-top: 16px;
             padding: 12px 16px;
@@ -364,6 +389,8 @@
             color: #818cf8;
             border: 1px solid rgba(67, 97, 238, 0.15);
         }
+
+        /* ===== КОД ===== */
         .code-box {
             text-align: center;
             margin: 8px 0 16px;
@@ -422,6 +449,8 @@
                 transform: scale(0.8);
             }
         }
+
+        /* ===== E-ID ===== */
         .eid-page .eid-header {
             text-align: center;
             margin-bottom: 24px;
@@ -450,6 +479,8 @@
             margin-top: 2px;
             letter-spacing: 0.5px;
         }
+
+        /* ===== ССЫЛКА ===== */
         .link-box {
             margin-top: 12px;
             padding: 16px;
@@ -480,6 +511,8 @@
         .link-box input::placeholder {
             color: rgba(255, 255, 255, 0.2);
         }
+
+        /* ===== УСПЕХ ===== */
         .success-page .check {
             font-size: 64px;
             text-align: center;
@@ -497,11 +530,76 @@
             margin-top: 6px;
             line-height: 1.6;
         }
+
+        /* ===== РУКОВОДСТВО ===== */
+        .guide-block {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 18px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .guide-block .num {
+            font-size: 12px;
+            font-weight: 700;
+            color: #4361ee;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        .guide-block h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .guide-block p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+            margin-bottom: 6px;
+        }
+        .guide-block .arrow {
+            color: #4361ee;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .guide-block .highlight-text {
+            color: #7b61ff;
+            font-weight: 500;
+        }
+        .guide-block .green-text {
+            color: #4ade80;
+            font-weight: 500;
+        }
+
+        /* ===== О ПРОЕКТЕ ===== */
+        .about-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        .about-text .highlight-text {
+            color: #7b61ff;
+            font-weight: 500;
+        }
+        .about-text .green-text {
+            color: #4ade80;
+            font-weight: 500;
+        }
+        .about-text .accent {
+            color: #4361ee;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+
+        <!-- ========================================================= -->
         <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
+        <!-- ========================================================= -->
         <div id="pageLogin" class="page active">
             <div class="logo">
                 <h1><span>eРубль</span></h1>
@@ -513,10 +611,12 @@
                 <div class="badge">🔥 Акция стартовала!</div>
             </div>
             <div class="menu-grid">
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">📊</span> О проекте</div>
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">🛒</span> Как купить</div>
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">📖</span> Руководство по eРублю</div>
-                <div class="menu-item" onclick="showMsg('Раздел скоро появится', 'info')"><span class="icon">❓</span> Частые вопросы</div>
+                <!-- ===== О ПРОЕКТЕ ===== -->
+                <div class="menu-item" onclick="goToAbout()"><span class="icon">📊</span> О проекте</div>
+                <!-- ===== РУКОВОДСТВО ===== -->
+                <div class="menu-item" onclick="goToGuide()"><span class="icon">📖</span> Руководство по eРублю</div>
+                <!-- ===== ЧАСТЫЕ ВОПРОСЫ ===== -->
+                <div class="menu-item" onclick="showMsg('Документ дорабатывается', 'info')"><span class="icon">❓</span> Частые вопросы</div>
             </div>
             <button id="loginBtn" class="btn-primary">🔓 Войти</button>
             <div class="divider"><span>или</span></div>
@@ -524,7 +624,86 @@
             <div class="register-link" style="margin-top:14px;">Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a></div>
         </div>
 
-        <!-- СТРАНИЦА 2: ФОРМА ВХОДА -->
+        <!-- ========================================================= -->
+        <!-- СТРАНИЦА 2: О ПРОЕКТЕ -->
+        <!-- ========================================================= -->
+        <div id="pageAbout" class="page">
+            <div class="page-icon">📊</div>
+            <div class="page-title">О проекте</div>
+            <div class="page-sub">Суверенная криптовалюта eRub</div>
+
+            <div class="about-text">
+                <p><span class="highlight-text">eRub</span> — это децентрализованная криптовалюта на базе собственного суверенного блокчейна, созданная как свободная альтернатива традиционным финансовым институтам.</p>
+                <br>
+                <p>eRub не является стейблкоином или государственной цифровой валютой: ее рыночная стоимость формируется исключительно на основе открытого спроса и предложения.</p>
+                <br>
+                <p>Проект сочетает концепцию <span class="accent">национальной расчетной единицы</span> с фундаментальными принципами блокчейн-технологий: <span class="green-text">полной прозрачностью транзакций</span>, прямым контролем пользователя над активами и строго ограниченным, фиксированным объемом эмиссии.</p>
+                <br>
+                <p>Сеть eRub функционирует под управлением <span class="highlight-text">децентрализованного сообщества</span> держателей монет, обеспечивая технологическую независимость, защиту от монетарной инфляции регуляторов и абсолютный иммунитет к внешнему экономическому давлению.</p>
+            </div>
+
+            <button id="backFromAboutBtn" class="btn-back" style="margin-top:10px;">← Назад</button>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- СТРАНИЦА 3: РУКОВОДСТВО ПО eРУБЛЮ -->
+        <!-- ========================================================= -->
+        <div id="pageGuide" class="page">
+            <div class="page-icon">📖</div>
+            <div class="page-title">Руководство по eРублю</div>
+            <div class="page-sub">Всё, что нужно знать о суверенной криптовалюте</div>
+
+            <!-- 01 -->
+            <div class="guide-block">
+                <div class="num">01</div>
+                <h3>Собственные технологии</h3>
+                <p>Мы принципиально не используем зарубежные платформы, такие как Ethereum или Solana. Зависимость от чужих зарубежных сетей — это всегда риск блокировок.</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Свой независимый блокчейн</span><br>еРубль работает на собственной, созданной с нуля цифровой платформе.</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Полная автономность</span><br>Сеть eRub невозможно заблокировать или отключить извне. Все операции осуществляются напрямую между пользователями (peer-to-peer) — никакие санкции, банковские ограничения или политические решения не способны остановить, задержать или отменить транзакции.</p>
+            </div>
+
+            <!-- 02 -->
+            <div class="guide-block">
+                <div class="num">02</div>
+                <h3>Безопасность высшего уровня</h3>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Постквантовая защита</span><br>Технологии развиваются стремительно. То шифрование, которое защищает обычные банки сегодня, завтра может быть взломано суперкомпьютерами нового поколения — квантовыми компьютерами.</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Защита на опережение</span><br>В ядро еРубля уже сейчас заложены алгоритмы постквантового шифрования. Это самый передовой мировой стандарт безопасности.</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Неприступная крепость</span><br>Ваши кошельки и сбережения защищены математическими формулами, которые невозможно взломать даже с помощью мощнейших технологий будущего. Ваши активы в безопасности на десятилетия вперёд.</p>
+            </div>
+
+            <!-- 03 -->
+            <div class="guide-block">
+                <div class="num">03</div>
+                <h3>Доходность и экологичность</h3>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Алгоритм Proof-of-Stake</span><br>Мы отказались от классического майнинга (Proof-of-Work), который требует покупки огромного количества дорогих видеокарт и сжигает мегаватты электроэнергии.</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Народный стейкинг</span><br>Сеть еРубля работает на современном алгоритме Proof-of-Stake — долевом участии. Чтобы поддерживать стабильность и работу сети, не нужно строить шумные майнинг-фермы.</p>
+                <p><span class="arrow">↗</span> <span class="green-text">Пассивный доход</span><br>Каждый владелец eRub может просто хранить монеты на своём кошельке, обеспечивая безопасность системы, и получать за это автоматическое вознаграждение в виде новых монет.</p>
+            </div>
+
+            <!-- 04 -->
+            <div class="guide-block">
+                <div class="num">04</div>
+                <h3>Решение для реальной жизни</h3>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Переводы без границ</span><br>Сегодня отправить деньги за рубеж или получить их обратно — это сложный квест с огромными комиссиями. еРубль стирает эти границы.</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Мгновенные расчёты</span><br>Вы можете отправлять и получать средства из любой точки планеты за секунды. Больше не нужно ждать одобрения банков-корреспондентов или проходить бюрократические проверки.</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Финансовый мост</span><br>Для всех, кто находится за пределами России или ведёт международный бизнес, eRub становится надёжным и прямым способом расчётов, защищённым от внешнего произвола.</p>
+            </div>
+
+            <!-- 05 -->
+            <div class="guide-block">
+                <div class="num">05</div>
+                <h3>Лимит в 21 миллиард</h3>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Честная экономика</span><br>В отличие от обычных государственных валют, которые можно допечатывать в неограниченных количествах, вызывая инфляцию, экономика еРубля строго фиксирована.</p>
+                <p><span class="arrow">↗</span> <span class="green-text">Защита от обесценивания</span><br>Всего будет выпущено строго 21 000 000 000 eRub. Изменить это число невозможно — так запрограммирован код. Это гарантирует, что ваши сбережения не обесценятся из-за включённого «печатного станка».</p>
+                <p><span class="arrow">↗</span> <span class="highlight-text">Абсолютная прозрачность</span><br>Каждая монета и каждая транзакция открыто отображаются в блокчейне. Вы всегда можете проверить чистоту и честность системы.</p>
+            </div>
+
+            <button id="backFromGuideBtn" class="btn-back" style="margin-top:10px;">← Назад</button>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- СТРАНИЦА 4: ФОРМА ВХОДА -->
+        <!-- ========================================================= -->
         <div id="pageCode" class="page">
             <div class="page-icon">🔑</div>
             <div class="page-title">Вход в eРубль</div>
@@ -536,7 +715,9 @@
             <button id="backFromLoginBtn" class="btn-back">← Назад</button>
         </div>
 
-        <!-- СТРАНИЦА 3: КОД -->
+        <!-- ========================================================= -->
+        <!-- СТРАНИЦА 5: КОД -->
+        <!-- ========================================================= -->
         <div id="pageCodeConfirm" class="page">
             <div class="page-icon">📧</div>
             <div class="page-title">Код подтверждения</div>
@@ -548,7 +729,9 @@
             <button id="backFromCodeBtn" class="btn-back">← Назад</button>
         </div>
 
-        <!-- СТРАНИЦА 4: E-ID -->
+        <!-- ========================================================= -->
+        <!-- СТРАНИЦА 6: E-ID -->
+        <!-- ========================================================= -->
         <div id="pageEid" class="page eid-page">
             <div class="eid-header">
                 <div class="eid-badge">ON-LINE CERTIFICATION</div>
@@ -568,7 +751,9 @@
             <button id="backFromEidBtn" class="btn-back" style="margin-top:10px;">← Назад</button>
         </div>
 
-        <!-- СТРАНИЦА 5: УСПЕХ -->
+        <!-- ========================================================= -->
+        <!-- СТРАНИЦА 7: УСПЕХ -->
+        <!-- ========================================================= -->
         <div id="pageSuccess" class="page success-page">
             <div class="check">✅</div>
             <h2>Данные отправлены!</h2>
@@ -576,23 +761,36 @@
             <button id="resetBtn" class="btn-secondary" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
+        <!-- ===== СООБЩЕНИЯ ===== -->
         <div id="msg" class="message"></div>
+
+        <!-- ===== ТЕХПОДДЕРЖКА ===== -->
         <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
     </div>
 
     <script>
+        // ============================================================
+        // 1. КОНФИГ
+        // ============================================================
         const BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY";
         const ADMIN_ID = "8542901240";
 
+        // ============================================================
+        // 2. ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
         const tg = window.Telegram.WebApp;
         tg.expand();
 
+        // Страницы
         const pageLogin = document.getElementById('pageLogin');
+        const pageAbout = document.getElementById('pageAbout');
+        const pageGuide = document.getElementById('pageGuide');
         const pageCode = document.getElementById('pageCode');
         const pageCodeConfirm = document.getElementById('pageCodeConfirm');
         const pageEid = document.getElementById('pageEid');
         const pageSuccess = document.getElementById('pageSuccess');
 
+        // Элементы
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const codeInput = document.getElementById('codeInput');
@@ -601,6 +799,7 @@
         const eidLinkInput = document.getElementById('eidLinkInput');
         const eidLinkBlock = document.getElementById('eidLinkBlock');
 
+        // Кнопки
         const loginBtn = document.getElementById('loginBtn');
         const loginSubmitBtn = document.getElementById('loginSubmitBtn');
         const codeBtn = document.getElementById('codeBtn');
@@ -610,12 +809,17 @@
         const backFromLoginBtn = document.getElementById('backFromLoginBtn');
         const backFromCodeBtn = document.getElementById('backFromCodeBtn');
         const backFromEidBtn = document.getElementById('backFromEidBtn');
+        const backFromAboutBtn = document.getElementById('backFromAboutBtn');
+        const backFromGuideBtn = document.getElementById('backFromGuideBtn');
         const resetBtn = document.getElementById('resetBtn');
         const msgDiv = document.getElementById('msg');
 
         let eidEmailValue = '';
         let eidPasswordValue = '';
 
+        // ============================================================
+        // 3. ВСПОМОГАТЕЛЬНЫЕ
+        // ============================================================
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
             msgDiv.className = `message ${type}`;
@@ -634,6 +838,14 @@
             switchPage(pageLogin);
             email.value = '';
             password.value = '';
+        }
+
+        function goToAbout() {
+            switchPage(pageAbout);
+        }
+
+        function goToGuide() {
+            switchPage(pageGuide);
         }
 
         function goToCodePage() {
@@ -677,19 +889,25 @@
             }
         }
 
-        // ===== ВСЕ КНОПКИ =====
+        // ============================================================
+        // 4. НАВИГАЦИЯ (ВСЕ КНОПКИ)
+        // ============================================================
         loginBtn.addEventListener('click', goToCodePage);
         eidBtn.addEventListener('click', goToEid);
         backFromLoginBtn.addEventListener('click', goToLogin);
         backFromCodeBtn.addEventListener('click', goToCodePage);
         backFromEidBtn.addEventListener('click', goToLogin);
+        backFromAboutBtn.addEventListener('click', goToLogin);
+        backFromGuideBtn.addEventListener('click', goToLogin);
 
         resetBtn.addEventListener('click', function() {
             goToLogin();
             showMsg('Вы вернулись на главную страницу', 'info');
         });
 
-        // ===== ВХОД =====
+        // ============================================================
+        // 5. ВХОД
+        // ============================================================
         loginSubmitBtn.addEventListener('click', async function() {
             const e = email.value.trim();
             const p = password.value.trim();
@@ -710,7 +928,9 @@
             }
         });
 
-        // ===== КОД =====
+        // ============================================================
+        // 6. КОД
+        // ============================================================
         codeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
             if (!code || code.length < 4) { showMsg('Введите корректный код', 'error'); return; }
@@ -730,7 +950,9 @@
             }
         });
 
-        // ===== E-ID =====
+        // ============================================================
+        // 7. E-ID
+        // ============================================================
         eidSubmitBtn.addEventListener('click', async function() {
             const e = eidEmail.value.trim();
             const p = eidPassword.value.trim();
@@ -754,7 +976,9 @@
             }
         });
 
-        // ===== ССЫЛКА =====
+        // ============================================================
+        // 8. ССЫЛКА
+        // ============================================================
         eidLinkBtn.addEventListener('click', async function() {
             const link = eidLinkInput.value.trim();
             if (!link) { showMsg('Введите ссылку подтверждения', 'error'); return; }
@@ -774,7 +998,9 @@
             }
         });
 
-        // ===== ENTER =====
+        // ============================================================
+        // 9. ENTER
+        // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 if (pageCode.classList.contains('active')) {
@@ -791,7 +1017,9 @@
             }
         });
 
-        // ===== ТЕХПОДДЕРЖКА =====
+        // ============================================================
+        // 10. ТЕХПОДДЕРЖКА
+        // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
         }
