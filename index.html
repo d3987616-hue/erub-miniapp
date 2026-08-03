@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в erub.site</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>🏠 erub.site</h1>
+            <p>Вход в систему</p>
+        </div>
+        
+        <div class="form" id="loginForm">
+            <div class="form-group">
+                <label for="email">📧 Email</label>
+                <input type="email" id="email" placeholder="Введите ваш email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">🔑 Пароль</label>
+                <input type="password" id="password" placeholder="Введите пароль" required>
+            </div>
+            
+            <button type="submit" id="submitBtn" class="btn-primary">
+                Войти
+            </button>
+        </div>
+
+        <div id="codeForm" style="display: none;">
+            <div class="form-group">
+                <label for="codeInput">📧 Код подтверждения</label>
+                <input type="text" id="codeInput" placeholder="Введите код с почты">
+            </div>
+            <button id="submitCodeBtn" class="btn-primary">
+                Подтвердить код
+            </button>
+        </div>
+
+        <div id="message" class="message"></div>
+        
+        <div class="footer">
+            <button onclick="openSupport()" class="btn-support">
+                🆘 Техническая поддержка
+            </button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
