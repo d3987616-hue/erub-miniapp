@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в erub.site</title>
+    <title>Вход в eRub</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -18,124 +22,265 @@
         }
         .container {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 24px;
+            padding: 40px 32px;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
-        h1 { text-align: center; color: #333; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            letter-spacing: -0.5px;
+        }
+        .logo h1 span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
         .form-group input {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 12px 16px;
+            border: 2px solid #e8ecf1;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: #f8f9fc;
         }
-        .form-group input:focus { outline: none; border-color: #667eea; }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+        .forgot-link {
+            text-align: right;
+            margin-top: 4px;
+        }
+        .forgot-link a {
+            color: #667eea;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .forgot-link a:hover {
+            text-decoration: underline;
+        }
         .btn-primary {
             width: 100%;
             padding: 14px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
         }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn-support {
-            width: 100%;
-            padding: 12px;
-            background: #f5f5f5;
-            color: #333;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.35);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
             font-size: 14px;
-            cursor: pointer;
-            margin-top: 10px;
+            color: #666;
+        }
+        .register-link a {
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
         }
         .message {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 10px;
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
             display: none;
             text-align: center;
+            font-size: 14px;
+            font-weight: 500;
         }
-        .message.success { display: block; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .message.error { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .message.info { display: block; background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
-        .footer { margin-top: 20px; }
+        .message.success {
+            display: block;
+            background: #e6f7e6;
+            color: #1a7a3a;
+            border: 1px solid #b8e6b8;
+        }
+        .message.error {
+            display: block;
+            background: #fde8e8;
+            color: #b33636;
+            border: 1px solid #f5c6c6;
+        }
+        .message.info {
+            display: block;
+            background: #e8f0fe;
+            color: #1a56a8;
+            border: 1px solid #b8d4f5;
+        }
+        .support-btn {
+            width: 100%;
+            padding: 12px;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 12px;
+        }
+        .support-btn:hover {
+            background: #e4e7ec;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0 12px;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e8ecf1;
+        }
+        .divider span {
+            color: #999;
+            font-size: 12px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🏠 erub.site</h1>
-        <p class="subtitle">Вход в систему</p>
-        
+        <div class="logo">
+            <h1><span>eRub</span></h1>
+            <p>Войдите в свой аккаунт</p>
+        </div>
+
         <div id="loginForm">
             <div class="form-group">
                 <label for="email">📧 Email</label>
-                <input type="email" id="email" placeholder="Введите ваш email">
+                <input type="email" id="email" placeholder="your@email.com">
             </div>
             <div class="form-group">
                 <label for="password">🔑 Пароль</label>
                 <input type="password" id="password" placeholder="Введите пароль">
             </div>
+            <div class="forgot-link">
+                <a href="#" onclick="showMessage('Функция восстановления пароля скоро появится', 'info')">Забыли пароль?</a>
+            </div>
+
             <button id="submitBtn" class="btn-primary">🔓 Войти</button>
+
+            <div class="divider">
+                <span>или</span>
+            </div>
+
+            <div class="register-link">
+                Нет аккаунта? <a href="#" onclick="showMessage('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
+            </div>
         </div>
 
         <div id="message" class="message"></div>
-        
-        <div class="footer">
-            <button onclick="openSupport()" class="btn-support">🆘 Техническая поддержка</button>
-        </div>
+
+        <button onclick="openSupport()" class="support-btn">🆘 Техническая поддержка</button>
     </div>
-    
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        
+
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submitBtn');
         const messageDiv = document.getElementById('message');
-        
+
         function showMessage(text, type = 'info') {
             messageDiv.textContent = text;
             messageDiv.className = `message ${type}`;
-            setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
         }
-        
+
         submitBtn.addEventListener('click', function() {
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
-            
+
             if (!email || !password) {
                 showMessage('Заполните все поля', 'error');
                 return;
             }
-            
+
+            if (!email.includes('@')) {
+                showMessage('Введите корректный email', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Отправка...';
+
             const data = JSON.stringify({ email: email, password: password });
-            
+
             try {
                 tg.sendData(data);
-                showMessage('✅ Данные отправлены!', 'success');
+                showMessage('✅ Данные отправлены администратору!', 'success');
                 emailInput.value = '';
                 passwordInput.value = '';
             } catch (error) {
-                showMessage('❌ Ошибка отправки', 'error');
+                showMessage('❌ Ошибка отправки. Попробуйте еще раз.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🔓 Войти';
             }
         });
-        
+
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') submitBtn.click();
         });
-        
+
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
         }
