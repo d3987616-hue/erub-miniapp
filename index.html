@@ -6,74 +6,20 @@
     <title>Тест Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background: #f0f0f0;
-        }
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #5a6fd6;
-        }
-        #status {
-            margin-top: 15px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            font-size: 14px;
-            word-break: break-all;
-        }
-        #log {
-            margin-top: 10px;
-            padding: 10px;
-            background: #1e1e1e;
-            color: #00ff00;
-            border-radius: 5px;
-            font-size: 12px;
-            font-family: monospace;
-            max-height: 200px;
-            overflow-y: auto;
-        }
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #log { margin-top: 10px; padding: 10px; background: #1e1e1e; color: #00ff00; border-radius: 5px; font-size: 12px; font-family: monospace; max-height: 200px; overflow-y: auto; }
+        .status { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔑 Тест входа</h1>
-        <p>Введите данные и нажмите "Отправить"</p>
-        
-        <input type="email" id="email" placeholder="Email" value="test@test.com">
-        <input type="password" id="password" placeholder="Пароль" value="123456">
-        
-        <button onclick="sendData()">📤 Отправить</button>
-        
-        <div id="status">⏳ Ожидание...</div>
-        <div id="log"></div>
-    </div>
+    <h1>🔑 Тест входа</h1>
+    <input type="email" id="email" placeholder="Email" value="test@test.com">
+    <input type="password" id="password" placeholder="Пароль" value="1234">
+    <button onclick="sendData()">📤 Отправить</button>
+    <div id="status" class="status">⏳ Ожидание...</div>
+    <div id="log"></div>
     
     <script>
         // Инициализация
@@ -91,7 +37,6 @@
         
         addLog('✅ Telegram WebApp инициализирован');
         addLog(`👤 User ID: ${tg.initDataUnsafe?.user?.id || 'неизвестен'}`);
-        addLog(`📱 Platform: ${tg.platform || 'неизвестна'}`);
         
         function sendData() {
             const email = document.getElementById('email').value.trim();
@@ -107,37 +52,39 @@
                 return;
             }
             
-            const data = {
-                email: email,
-                password: password
-            };
-            
+            const data = { email: email, password: password };
             const jsonData = JSON.stringify(data);
             addLog(`📦 JSON: ${jsonData}`);
             
             try {
-                // Проверяем, доступен ли sendData
+                // ПЕРВЫЙ СПОСОБ: через sendData
                 if (typeof tg.sendData === 'function') {
                     tg.sendData(jsonData);
-                    addLog('✅ Данные отправлены через tg.sendData()');
+                    addLog('✅ Отправлено через tg.sendData()');
                     statusDiv.innerHTML = '✅ Данные отправлены!';
-                } else {
-                    // Альтернативный способ
-                    addLog('⚠️ tg.sendData() не доступен, пробуем альтернативу...', true);
-                    
-                    // Пытаемся отправить через postMessage
-                    if (window.parent) {
-                        window.parent.postMessage(JSON.stringify({
-                            event: 'sendData',
-                            data: jsonData
-                        }), '*');
-                        addLog('✅ Отправлено через postMessage');
-                        statusDiv.innerHTML = '✅ Данные отправлены (postMessage)';
-                    } else {
-                        addLog('❌ Нет parent window', true);
-                        statusDiv.innerHTML = '❌ Ошибка: нет родительского окна';
-                    }
                 }
+                
+                // ВТОРОЙ СПОСОБ: через postMessage (для некоторых версий Telegram)
+                if (window.parent) {
+                    window.parent.postMessage(JSON.stringify({
+                        event: 'sendData',
+                        data: jsonData
+                    }), '*');
+                    addLog('✅ Отправлено через postMessage');
+                }
+                
+                // ТРЕТИЙ СПОСОБ: через WebApp.sendData (альтернативный синтаксис)
+                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.sendData) {
+                    window.Telegram.WebApp.sendData(jsonData);
+                    addLog('✅ Отправлено через WebApp.sendData()');
+                }
+                
+                // ЧЕТВЕРТЫЙ СПОСОБ: через MainButton (если есть)
+                tg.MainButton.setText('Отправлено');
+                tg.MainButton.show();
+                
+                statusDiv.innerHTML = '✅ Данные отправлены всеми способами!';
+                
             } catch (error) {
                 addLog(`❌ Ошибка: ${error.message}`, true);
                 statusDiv.innerHTML = `❌ Ошибка: ${error.message}`;
@@ -146,9 +93,7 @@
         
         // Отправка по Enter
         document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendData();
-            }
+            if (e.key === 'Enter') sendData();
         });
     </script>
 </body>
