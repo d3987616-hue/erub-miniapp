@@ -8,7 +8,7 @@ from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # ==================== КОНФИГ ====================
-BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY"
+BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN")  # ← ТОКЕН БЕРЁТСЯ ИЗ ПЕРЕМЕННОЙ
 GROUP_CHAT_ID = -1004457031723
 WEB_APP_URL = "https://d3987616-hue.github.io/erub-miniapp/"
 # ===============================================
