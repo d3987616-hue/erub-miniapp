@@ -3,8 +3,9 @@ import logging
 import json
 import requests
 import time
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, WebAppInfo
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
+from datetime import datetime
+from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, WebAppInfo
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # ==================== КОНФИГ ====================
 BOT_TOKEN = "8603629858:AAHoJGBCDvvImzpO3wllUriPulRvX0APozY"
